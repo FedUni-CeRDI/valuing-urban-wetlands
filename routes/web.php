@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\LandUseController;
+use App\Http\Controllers\PublicController;
+use App\Http\Controllers\SidebarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,22 +16,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [PublicController::class, 'index'])->name('home');
+
+Route::prefix('content')->group(function () {
+    Route::get('intro', [SidebarController::class, 'intro'])->name('intro');
+    Route::get('contact', [SidebarController::class, 'contact'])->name('contact');
+    Route::get('terms', [SidebarController::class, 'terms'])->name('terms');
+    Route::get('about', [SidebarController::class, 'about'])->name('about');
 });
 
-Route::get('portal', function() {
-    return view('map');
-})->name('home');
-
-Route::get('contact', function() {
-    return view('map');
-})->name('contact');
-
-Route::get('terms', function() {
-    return view('map');
-})->name('terms');
-
-Route::get('about', function() {
-    return view('map');
-})->name('about');
+Route::prefix('app')->group(function () {
+    Route::get('area/ala-birds', [PublicController::class, 'alaWaterbirdCounts']);
+    Route::get('species-info', [PublicController::class, 'speciesInfo']);
+    Route::get('config', [PublicController::class, 'config']);
+    Route::prefix('landuse')->group(function () {
+        Route::prefix('planning')->group(function () {
+            Route::get('zones', [LandUseController::class, 'getPlanningZones']);
+            Route::get('overlays', [LandUseController::class, 'getPlanningOverlays']);
+        });
+        Route::get('catchment', [LandUseController::class, 'getCatchmentLandUse']);
+        Route::prefix('vluis')->group(function() {
+            Route::get('property', [LandUseController::class, 'getVluisPropertyClassification']);
+            Route::get('alum', [LandUseController::class, 'getVluisLandUse']);
+            Route::get('landcover', [LandUseController::class, 'getVluisLandCover']);
+        });
+    });
+});
