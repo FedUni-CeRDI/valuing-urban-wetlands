@@ -1,4 +1,3 @@
-
 export function zoomToExtent(map, extent) {
 
     map.getView().fit(extent, {

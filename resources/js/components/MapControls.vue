@@ -43,14 +43,14 @@
 </template>
 
 <script>
-import WetlandSearch from "@/components/WetlandSearch.vue";
-import {zoomToExtent} from "@/components/ol-helpers";
+import WetlandSearch from './WetlandSearch.vue';
+import {zoomToExtent} from './ol-helpers';
 
 export default {
     methods: {
         zoomToFullExtent(map) {
-           return zoomToExtent(map, map.get('MAP_EXTENT'))
-        }
+            return zoomToExtent(map, map.get('MAP_EXTENT'));
+        },
     },
     components: {WetlandSearch},
     props: ['protectionStatus', 'map'],

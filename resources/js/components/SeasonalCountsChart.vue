@@ -1,5 +1,5 @@
 <script>
-import Plotly from 'plotly.js-dist-min';
+import Plotly from 'plotly.js-basic-dist-min';
 import 'bootstrap-icons/font/bootstrap-icons.scss';
 
 export default {
@@ -38,11 +38,11 @@ export default {
                     showlegend: false,
                     margin: {'t': 0, 'l': 20, 'r': 30, pad: 0},
                     autosize: true,
-                    height: 400
+                    height: 400,
                 },
                 {
                     displayModeBar: false,
-                    responsive: true
+                    responsive: true,
                 },
             );
 

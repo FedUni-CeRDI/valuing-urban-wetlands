@@ -1,17 +1,17 @@
 <script>
-import Plotly from 'plotly.js-dist-min';
+import Plotly from 'plotly.js-basic-dist-min';
 import 'bootstrap-icons/font/bootstrap-icons.scss';
-import _ from 'lodash';
+import {forEach} from 'lodash';
 
 export default {
     props: [
         'landUseData',
-        'index'
+        'index',
     ],
     data() {
         return {
-            showAllData: false
-        }
+            showAllData: false,
+        };
     },
     methods: {
         toggleTable() {
@@ -19,53 +19,52 @@ export default {
         },
         showDataRow(row) {
             return row === 0 || this.showAllData;
-        }
+        },
     },
     mounted() {
-        let data = []
+        let data = [];
         let self = this;
         let usage = self.landUseData;
 
-        _.forEach(usage.data, function (datum) {
+        forEach(usage.data, function(datum) {
             let trace = {
                 name: datum.usage,
                 hoverinfo: 'name',
                 x: [],
                 y: [usage.label],
                 type: 'bar',
-                orientation: 'h'
-            }
+                orientation: 'h',
+            };
 
             trace.x.push(datum.percentage);
-            data.push(trace)
+            data.push(trace);
         });
-
 
         let container = self.$el.getElementsByClassName('landUseChart')[0];
 
         Plotly.newPlot(container, data, {
                 showlegend: false,
-                margin: {"t": 0, "b": 0, "l": 0, "r": 0, pad: 0},
+                margin: {'t': 0, 'b': 0, 'l': 0, 'r': 0, pad: 0},
                 barmode: 'stack',
                 height: 20,
                 yaxis: {
                     zeroline: false,
                     showgrid: false,
-                    visible: false
+                    visible: false,
                 },
                 xaxis: {
                     visible: false,
-                    range: [0, 100]
-                }
+                    range: [0, 100],
+                },
             },
             {
                 displayModeBar: false,
-                responsive: true
-            }
-        )
+                responsive: true,
+            },
+        );
 
-    }
-}
+    },
+};
 </script>
 
 <template>

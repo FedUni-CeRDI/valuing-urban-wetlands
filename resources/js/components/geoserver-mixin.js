@@ -1,5 +1,3 @@
-import {mapActions} from 'vuex';
-
 export default {
     computed: {
         geoserverUrl() {
@@ -18,14 +16,5 @@ export default {
             });
             return this.geoserverUrl + '?' + params.toString();
         },
-        geoJsonCallback: function(response) {
-            let geoJsonFeature = null;
-            if (response.data.features.length) {
-                geoJsonFeature = response.data.features[0];
-            }
-            return geoJsonFeature;
-        }
     },
-
-
 };

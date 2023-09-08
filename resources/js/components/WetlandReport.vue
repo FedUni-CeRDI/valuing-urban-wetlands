@@ -131,13 +131,15 @@
 
 <script>
 import {GeoJSON, WKT} from 'ol/format';
-import LandUseChart from './LandUseChart.vue';
-import _ from 'lodash';
-import SeasonalCountsChart from '@/components/SeasonalCountsChart.vue';
+import {values, pick, filter, intersection, maxBy, forIn, sortBy} from 'lodash';
 import {buffer} from '@turf/turf';
+
+import LandUseChart from './LandUseChart.vue';
+import SeasonalCountsChart from './SeasonalCountsChart.vue';
+import {getNumericFeatureId} from './ol-helpers';
+import geoserverMixin from './geoserver-mixin';
+
 import {mapActions} from 'vuex';
-import {getNumericFeatureId} from '@/components/ol-helpers';
-import geoserverMixin from '@/components/geoserver-mixin';
 
 export default {
     name: 'WetlandReport',
@@ -197,29 +199,29 @@ export default {
             }
         },
         featureStateAbbreviations() {
-            return _.values(_.pick(this.stateAbbreviations, this.feature.get('states')));
+            return values(pick(this.stateAbbreviations, this.feature.get('states')));
         },
         threatenedAlaSpecies() {
             let self = this;
             if (self.alaSpecies) {
-                return _.filter(self.alaSpecies, function(specie) {
+                return filter(self.alaSpecies, function(specie) {
                     let targetStatuses = ['aus', ...self.featureStateAbbreviations];
                     let knownStatuses = Object.keys(specie.conservation);
 
-                    return _.intersection(targetStatuses, knownStatuses).length > 0;
+                    return intersection(targetStatuses, knownStatuses).length > 0;
                 });
             }
             return null;
         },
         maxSnipeSeasonCount() {
             if (this.snipe.seasonalCounts.length > 0) {
-                return _.maxBy(this.snipe.seasonalCounts, 'count');
+                return maxBy(this.snipe.seasonalCounts, 'count');
             }
             return null;
         },
         maxSnipeAlaSeasonCount() {
             if (this.snipe.alaSeasonalCounts.length > 0) {
-                return _.maxBy(this.snipe.alaSeasonalCounts, 'count');
+                return maxBy(this.snipe.alaSeasonalCounts, 'count');
             }
             return null;
         },
@@ -287,7 +289,7 @@ export default {
             let self = this;
             self.landuse.length = 0;
             if (feature) {
-                _.forIn(self.landuseEndpointMap, (value, key) => {
+                forIn(self.landuseEndpointMap, (value, key) => {
                     self.fetchLandUsePercentage(feature, key, value);
                 });
             }
@@ -309,7 +311,7 @@ export default {
         landUsePushAndSort(data) {
             let self = this;
             self.landuse.push(data);
-            self.landuse = _.sortBy(self.landuse, 'label');
+            self.landuse = sortBy(self.landuse, 'label');
         },
 
         async fetchLathamsSnipeSeasonalCounts(feature) {

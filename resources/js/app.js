@@ -8,8 +8,6 @@ import {register} from 'ol/proj/proj4';
 import {createRouter, createWebHashHistory} from 'vue-router';
 import {createStore} from 'vuex';
 
-import _ from 'lodash';
-
 proj4.defs('EPSG:7844', '+proj=longlat +ellps=GRS80 +no_defs +type=crs');
 register(proj4);
 

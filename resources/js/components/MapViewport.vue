@@ -1,37 +1,38 @@
 <template>
-  <div class="col-4 sidebar ">
-    <router-view name="sidebar" :key="$route.path" :feature="selectedWetland"></router-view>
-  </div>
-  <div class="col-8 viewport">
-    <div id="viewport">
-      <MapControls
-        :protectionStatus="this.viewparams.wetlands.protection"
-        @update:protectionStatus="updateProtectionStatus"
-        :map="map"
-      />
-      <div id="map"></div>
+    <div class="col-4 sidebar ">
+        <router-view name="sidebar" :key="$route.path" :feature="selectedWetland"></router-view>
     </div>
-  </div>
+    <div class="col-8 viewport">
+        <div id="viewport">
+            <MapControls
+                :protectionStatus="this.viewparams.wetlands.protection"
+                @update:protectionStatus="updateProtectionStatus"
+                :map="map"
+            />
+            <div id="map"></div>
+        </div>
+    </div>
 
 </template>
 
 <script>
 import 'ol/ol.css';
-import {Feature, Map, View} from 'ol';
-import OSM from 'ol/Source/OSM';
-import TileLayer from 'ol/layer/Tile';
-
-import {transformExtent} from 'ol/proj';
-import VectorLayer from 'ol/layer/Vector';
-import VectorSource from 'ol/source/Vector';
-import {Fill, Stroke, Style} from 'ol/style';
+import {Map, View} from 'ol';
 import {GeoJSON} from 'ol/format';
-import MapControls from '@/components/MapControls.vue';
-import {getNumericFeatureId, zoomToExtent} from '@/components/ol-helpers';
+import {transformExtent} from 'ol/proj';
+import {Fill, Stroke, Style} from 'ol/style';
+import TileLayer from 'ol/layer/Tile';
+import VectorLayer from 'ol/layer/Vector';
+import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS';
+import VectorSource from 'ol/source/Vector';
 
-import geoserverMixin from '@/components/geoserver-mixin';
-import _ from 'lodash';
+import MapControls from './MapControls.vue';
+import geoserverMixin from './geoserver-mixin';
+import {getNumericFeatureId, zoomToExtent} from './ol-helpers';
+
+import {reduce, merge} from 'lodash';
+
 import {mapActions, mapState} from 'vuex';
 
 const selectedWetlandStyle = new Style({
@@ -72,7 +73,7 @@ export default {
     mixins: [geoserverMixin],
     methods: {
         buildViewParams(viewparams) {
-            return _.reduce(viewparams, function(result, value, key) {
+            return reduce(viewparams, function(result, value, key) {
                 result = (result !== '' ? result + ',' : result) + key + ':' + value;
                 return result;
             }, '');
@@ -81,7 +82,7 @@ export default {
             this.viewparams.wetlands.protection = status;
             let source = this.layers.wetlands.getSource();
             source.updateParams(
-                _.merge(source.getParams(), {
+                merge(source.getParams(), {
                     VIEWPARAMS: this.buildViewParams(this.viewparams.wetlands),
                 }),
             );
