@@ -335,11 +335,10 @@ export default {
             }
         },
         renderWetlandInfo(feature) {
-            // TODO: restore after testing
-            // this.fetchAlaBirds(feature);
+            this.fetchAlaBirds(feature);
             this.fetchLathamsSnipeSeasonalCounts(feature);
             this.fetchSnipeAlaSeasonalCounts(feature);
-            // this.fetchLandUsage(feature);
+            this.fetchLandUsage(feature);
         },
         ...mapActions([
             'storeWetland',
