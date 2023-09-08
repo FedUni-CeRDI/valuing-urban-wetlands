@@ -4,8 +4,6 @@ namespace App\Services;
 
 use App\Traits\PrefixedLogger;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Database\Query\Builder;
 
 class LandUseService
 {
@@ -16,14 +14,6 @@ class LandUseService
         $this->setLoggerPrefix(basename(__CLASS__));
     }
 
-    /**
-     * @param string $wkt
-     * @param string $table_name
-     * @param string $description_field
-     * @param int $wkt_srid
-     * @param int $table_srid
-     * @return string
-     */
     private function buildPercentageIntersectionQuery(string $wkt, string $table_name, string $description_field, int $wkt_srid, int $table_srid): string
     {
         $query = sprintf(<<<SQL
@@ -92,7 +82,6 @@ SQL,
     {
         return $this->getIntersectingLandUsePercentages($wkt, 'aurin_vluis2017_7899', 'lu_description_a', land_use_srid: 7899);
     }
-
 
     public function getVluisLandCover(string $wkt)
     {

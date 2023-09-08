@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-
 Route::prefix('species')->group(function () {
     Route::post('search/spatial', [SpeciesController::class, 'getSpeciesCountByWkt']);
 });

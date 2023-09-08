@@ -16,7 +16,7 @@ class SnipeService
 
     public function getMaxSeasonCountsByLocation(string $wkt): array
     {
-        $sql = sprintf(<<<SQL
+        $sql = sprintf(<<<'SQL'
             WITH season_counts AS (
                 SELECT
                     MAX("count") AS "count",
@@ -48,7 +48,7 @@ class SnipeService
 
     public function getAlaMaxSeasonCountsByLocation(string $wkt): array
     {
-        $sql = sprintf(<<<SQL
+        $sql = sprintf(<<<'SQL'
             WITH season_counts AS (
                 SELECT
                     MAX("individualCount") AS "count",
@@ -77,4 +77,3 @@ class SnipeService
         return DB::select($sql, [$wkt]);
     }
 }
-

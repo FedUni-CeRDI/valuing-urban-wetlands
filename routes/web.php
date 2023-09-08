@@ -36,7 +36,7 @@ Route::prefix('app')->group(function () {
             Route::post('overlays', [LandUseController::class, 'getPlanningOverlays']);
         });
         Route::post('catchment', [LandUseController::class, 'getCatchmentLandUse']);
-        Route::prefix('vluis')->group(function() {
+        Route::prefix('vluis')->group(function () {
             Route::post('property', [LandUseController::class, 'getVluisPropertyClassification']);
             Route::post('alum', [LandUseController::class, 'getVluisLandUse']);
             Route::post('landcover', [LandUseController::class, 'getVluisLandCover']);

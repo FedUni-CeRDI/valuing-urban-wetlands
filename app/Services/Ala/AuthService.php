@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Cache;
 
 class AuthService
 {
-
     use PrefixedLogger;
 
     private Client $client;
@@ -37,6 +36,7 @@ class AuthService
         }
 
         $token = Cache::get('ala_token');
+
         return $token->access_token;
     }
 
@@ -80,7 +80,7 @@ class AuthService
             $this->cacheAccessToken($response);
         } catch (GuzzleException $e) {
             $this->log('error', $e->getMessage(), [
-                'function: ' . __FUNCTION__,
+                'function: '.__FUNCTION__,
             ]);
         }
     }
@@ -106,11 +106,10 @@ class AuthService
             $this->cacheAccessToken($response);
         } catch (GuzzleException $e) {
             $this->log('error', $e->getMessage(), [
-                'function: ' . __FUNCTION__,
+                'function: '.__FUNCTION__,
             ]);
             // Likely refresh token has expired
             $this->generateAccessToken();
         }
     }
-
 }

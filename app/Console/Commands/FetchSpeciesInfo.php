@@ -6,10 +6,8 @@ use App\Traits\PrefixedLogger;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use JsonException;
-use Monolog\Logger;
 
 class FetchSpeciesInfo extends Command
 {
@@ -21,12 +19,14 @@ class FetchSpeciesInfo extends Command
      * @var string
      */
     protected $signature = 'species:info';
+
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Fetch and cache species info';
+
     private Client $client;
 
     public function __construct()
@@ -37,14 +37,12 @@ class FetchSpeciesInfo extends Command
 
         // TODO: Move to AlaService
         $this->client = new Client([
-            'base_uri' => 'https://api.ala.org.au'
-        ]);;
+            'base_uri' => 'https://api.ala.org.au',
+        ]);
     }
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -89,8 +87,6 @@ class FetchSpeciesInfo extends Command
     }
 
     /**
-     * @param array $guids
-     *
      * @return array<array>
      */
     private function fetchSpeciesData(array $guids): array
@@ -117,13 +113,13 @@ class FetchSpeciesInfo extends Command
                 }
                 $specie['conservation'] = [];
                 if (property_exists($speciesInfo, 'conservationStatuses')) {
-                    foreach ((array)$speciesInfo->conservationStatuses as $locale => $status) {
+                    foreach ((array) $speciesInfo->conservationStatuses as $locale => $status) {
                         $specie['conservation'][strtolower($locale)] = $status->status;
                     }
                 }
 
-//                $specie['conservation_aus'] = $speciesInfo->conservationStatuses?->AUS?->status ?? null;
-//                $specie['conservation_vic'] = $speciesInfo->conservationStatuses?->VIC?->status ?? null;
+                //                $specie['conservation_aus'] = $speciesInfo->conservationStatuses?->AUS?->status ?? null;
+                //                $specie['conservation_vic'] = $speciesInfo->conservationStatuses?->VIC?->status ?? null;
 
                 $species[] = $specie;
             } catch (JsonException $e) {
@@ -138,11 +134,6 @@ class FetchSpeciesInfo extends Command
         return $species;
     }
 
-    /**
-     * @param array $speciesData
-     *
-     * @return bool
-     */
     private function writeSpeciesData(array $speciesData): bool
     {
         return Storage::put('species-info-cache.json', json_encode($speciesData));

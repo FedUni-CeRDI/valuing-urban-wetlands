@@ -16,14 +16,14 @@ class WetlandService
 
     public function getWetlandNames(): array
     {
-        $result = DB::select(<<<SQL
+        $result = DB::select(<<<'SQL'
     SELECT
         DISTINCT "name",
                  "id"
     FROM "wetlands"
     WHERE "name" != 'UNNAMED'
 SQL
-    );
+        );
 
         return $result;
     }

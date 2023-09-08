@@ -11,13 +11,13 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
-use PhpParser\Node\Expr\Cast\Object_;
 
 class OccurrenceService
 {
     use PrefixedLogger;
 
     private Client $client;
+
     private string $bearer;
 
     public function __construct(AuthService $authService)
@@ -38,7 +38,7 @@ class OccurrenceService
             $qid = $this->cacheSpatialQuery([
                 'fq' => 'taxon_name:"Gallinago (Gallinago) hardwickii"',
                 'wkt' => $wkt,
-                'q' => "occurrence_date:[$startDate TO $endDate]"
+                'q' => "occurrence_date:[$startDate TO $endDate]",
             ]);
 
             $response = $this->executeQuery('chart', [
@@ -46,13 +46,14 @@ class OccurrenceService
                     'q' => "qid:$qid",
                     'x' => $facet,
                     'qualityProfile' => 'ALA',
-                ]
+                ],
             ]);
+
             return $response->data[0]->data;
 
         } catch (GuzzleException|JsonException $e) {
             $this->log('error', $e->getMessage(), [
-                'function: ' . __FUNCTION__
+                'function: '.__FUNCTION__,
             ]);
 
             return [];
@@ -65,29 +66,27 @@ class OccurrenceService
 
     }
 
-
     public function getBirdsInArea(string $wkt): array
     {
 
         try {
             $qid = $this->cacheSpatialQuery([
                 'fq' => 'class:Aves',
-                'wkt' => $wkt
+                'wkt' => $wkt,
             ]);
 
-            $response =  $this->executeQuery('mapping/species', [
+            $response = $this->executeQuery('mapping/species', [
                 'query' => [
                     'flimit' => 1000,
-                    'q' => 'qid:' . $qid
-                ]
+                    'q' => 'qid:'.$qid,
+                ],
             ]);
 
             return $response;
 
-
         } catch (GuzzleException|JsonException $e) {
             $this->log('error', $e->getMessage(), [
-                'function: ' . __FUNCTION__
+                'function: '.__FUNCTION__,
             ]);
 
             return [];
@@ -105,9 +104,9 @@ class OccurrenceService
             'qid',
             [
                 'headers' => [
-                    'Authorization' => "Bearer $this->bearer"
+                    'Authorization' => "Bearer $this->bearer",
                 ],
-                'form_params' => $query
+                'form_params' => $query,
             ],
             'POST'
         );
@@ -129,6 +128,4 @@ class OccurrenceService
 
         return $contents;
     }
-
-
 }

@@ -20,18 +20,18 @@ class SpeciesController extends Controller
     {
         $validated = $request->validate([
             'states' => ['required', 'string'],
-            'wkt' => ['required', 'string']
+            'wkt' => ['required', 'string'],
         ]);
 
         $client = new Client([
-            'base_uri' => 'https://api.ala.org.au'
+            'base_uri' => 'https://api.ala.org.au',
         ]);
 
         $response = $client->get('/occurrences/mapping/species', [
             'params' => [
                 'fq' => 'class:Aves',
-                'wkt' => $validated['wkt']
-            ]
+                'wkt' => $validated['wkt'],
+            ],
         ]);
 
         try {
@@ -54,14 +54,11 @@ class SpeciesController extends Controller
             return response()->json([
                 'waterbirds' => $waterbirdsInGeometry,
                 'threatenedSpecies' => $threatenedSpecies,
-                'birds' => $birdsInGeometry
+                'birds' => $birdsInGeometry,
             ]);
 
-
-
-
         } catch (JsonException $e) {
-            Log::error(__FUNCTION__ . ': Unable to parse JSON response', ['message' => $e->getMessage()]);
+            Log::error(__FUNCTION__.': Unable to parse JSON response', ['message' => $e->getMessage()]);
         }
 
         return response()->json([]);

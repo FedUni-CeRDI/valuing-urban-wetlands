@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Storage;
 
 class SpeciesService
 {
-
     use PrefixedLogger;
 
     private OccurrenceService $alaOccurrence;
@@ -61,7 +60,7 @@ class SpeciesService
         $threatenedSpecies = $speciesList->filter(function ($specie) use ($states, $stateAbbreviations, $include_national) {
             $threatened = $include_national && $specie->conservation_aus;
             foreach ($states as $state) {
-                $threatened = (bool)$specie->{'conservation_' . $stateAbbreviations[$state]} ?? $threatened;
+                $threatened = (bool) $specie->{'conservation_'.$stateAbbreviations[$state]} ?? $threatened;
             }
 
             return $threatened;
@@ -71,7 +70,7 @@ class SpeciesService
     }
 
     /**
-     * @return array<Object>
+     * @return array<object>
      */
     public function getSpeciesList(): array
     {
@@ -91,10 +90,10 @@ class SpeciesService
 
         $waterbirdsInArea = $waterbirdsInArea->map(function ($bird) use ($waterbirds) {
             // Get our metadata for this waterbird
-            $waterbird = $waterbirds->first(fn($wb) => $bird->guid == $wb->guid);
-            $bird = array_merge((array)$bird, (array)$waterbird);
+            $waterbird = $waterbirds->first(fn ($wb) => $bird->guid == $wb->guid);
+            $bird = array_merge((array) $bird, (array) $waterbird);
 
-            $bird['common_names'] = array_unique(array_merge((array)$bird['common_name'], [$bird['commonName']]));
+            $bird['common_names'] = array_unique(array_merge((array) $bird['common_name'], [$bird['commonName']]));
 
             $removeKeys = ['name', 'commonName', 'common_name', 'kingdom', 'rank', 'family'];
             $bird = array_diff_key($bird, array_flip($removeKeys));
@@ -104,5 +103,4 @@ class SpeciesService
 
         return $waterbirdsInArea->values();
     }
-
 }

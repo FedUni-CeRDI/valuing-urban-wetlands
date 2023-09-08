@@ -13,9 +13,8 @@ return [
             'client_secret' => env('ALA_API_CLIENT_SECRET'),
         ],
         'taxon' => [
-            'lathams_snipe' => env('ALA_TAXON_CONCEPT_LATHAMS_SNIPE', 'https://biodiversity.org.au/afd/taxa/5c1957dc-0780-47cb-9c89-0498340c1e62')
-        ]
-    ]
-
+            'lathams_snipe' => env('ALA_TAXON_CONCEPT_LATHAMS_SNIPE', 'https://biodiversity.org.au/afd/taxa/5c1957dc-0780-47cb-9c89-0498340c1e62'),
+        ],
+    ],
 
 ];

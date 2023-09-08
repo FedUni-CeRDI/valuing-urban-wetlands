@@ -19,7 +19,7 @@ class PublicController extends Controller
     public function config(): JsonResponse
     {
         return response()->json([
-            'geoserver_base_url' => config('aurin.geoserver_base_url')
+            'geoserver_base_url' => config('aurin.geoserver_base_url'),
         ]);
     }
 
@@ -31,25 +31,28 @@ class PublicController extends Controller
     public function alaWaterbirdCounts(SpeciesService $speciesService, Request $request): JsonResponse
     {
         $waterbirds = $speciesService->getWaterbirdsInArea($request->get('wkt'));
+
         return new JsonResponse($waterbirds);
     }
 
     public function snipeSeasonalCounts(SnipeService $snipeService, Request $request): JsonResponse
     {
         $seasonalCounts = $snipeService->getMaxSeasonCountsByLocation($request->input('wkt'));
+
         return new JsonResponse($seasonalCounts);
     }
 
     public function snipeAlaSeasonalCounts(SnipeService $snipeService, Request $request): JsonResponse
     {
         $seasonalCounts = $snipeService->getAlaMaxSeasonCountsByLocation($request->input('wkt'));
+
         return new JsonResponse($seasonalCounts);
     }
-
 
     public function getWetlandNames(WetlandService $wetlandService): JsonResponse
     {
         $wetlandNames = $wetlandService->getWetlandNames();
+
         return new JsonResponse($wetlandNames);
     }
 }

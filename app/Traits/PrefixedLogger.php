@@ -21,10 +21,10 @@ trait PrefixedLogger
     {
         return $this->loggerPrefix;
     }
-    private function log(string $level, string $message, array $context = []):void
+
+    private function log(string $level, string $message, array $context = []): void
     {
         $message = sprintf('%s: %s', $this->getLoggerPrefix(), $message);
         Log::{$level}($message, $context);
     }
-
 }
