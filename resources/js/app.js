@@ -6,27 +6,26 @@ import proj4 from 'proj4';
 import {register} from 'ol/proj/proj4';
 
 import {createRouter, createWebHashHistory} from 'vue-router';
-import { createStore } from 'vuex';
+import {createStore} from 'vuex';
 
 import _ from 'lodash';
 
-proj4.defs('EPSG:4283', '+proj=longlat +ellps=GRS80 +no_defs +type=crs');
-proj4.defs("EPSG:7844", "+proj=longlat +ellps=GRS80 +no_defs +type=crs");
-proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs +type=crs");
+proj4.defs('EPSG:7844', '+proj=longlat +ellps=GRS80 +no_defs +type=crs');
 register(proj4);
 
 import MapViewport from './components/MapViewport.vue';
 import SidebarXhrContent from './components/SidebarXhrContent.vue';
 import WetlandReport from './components/WetlandReport.vue';
+import {GeoJSON} from 'ol/format';
 
 const router = createRouter({
     history: createWebHashHistory(),
     routes: [
-        { path: '/', name: 'intro', components: {sidebar: SidebarXhrContent }},
-        { path: '/about', name: 'about', components: { 'sidebar': SidebarXhrContent }},
-        { path: '/terms', name: 'terms', components: { 'sidebar': SidebarXhrContent }},
-        { path: '/contact', name: 'contact', components: { 'sidebar': SidebarXhrContent }},
-        { path: '/wetland/:id', name: 'wetland-report', components: { 'sidebar': WetlandReport }}
+        {path: '/', name: 'intro', components: {sidebar: SidebarXhrContent}},
+        {path: '/about', name: 'about', components: {'sidebar': SidebarXhrContent}},
+        {path: '/terms', name: 'terms', components: {'sidebar': SidebarXhrContent}},
+        {path: '/contact', name: 'contact', components: {'sidebar': SidebarXhrContent}},
+        {path: '/wetland/:id', name: 'wetland-report', components: {'sidebar': WetlandReport}, props: true},
     ],
 });
 
@@ -35,48 +34,60 @@ const store = createStore({
         return {
             selectedWetland: null,
             speciesInfo: null,
-            threatenedSpeciesInfo: null,
-            wetlands: null
-        }
+            wetlandNames: [],
+        };
     },
     mutations: {
-        storeWetlands(state, wetlands) {
-            state.wetlands = wetlands.getSource().getFeaturesInExtent(
-                wetlands.getSource().getTileGrid().getExtent()
-            )
+        storeWetlandNames(state, names) {
+            state.wetlandNames = names;
         },
-        selectWetland(state, feature) {
+        selectWetland(state, geoJson) {
+            let feature = null;
+
+            if (geoJson !== null) {
+                // parse stringified JSON properties
+                let jsonFields = [
+                    'protection_status',
+                    'states',
+                ];
+                jsonFields.forEach(function(field) {
+                    geoJson.properties[field] = JSON.parse(
+                        geoJson.properties[field]);
+                });
+                feature = (new GeoJSON()).readFeature(geoJson);
+            }
+
             state.selectedWetland = feature;
         },
-        deselectWetland(state) {
-            console.log('deselecte')
-            state.selectedWetland = null;
-        },
+
         updateSpeciesInfo(state, speciesInfo) {
             state.speciesInfo = speciesInfo;
-            state.nationalThreatenedSpeciesInfo = _.filter(speciesInfo, 'conservation_aus');
-            state.vicThreatenedSpeciesInfo = _.filter(speciesInfo, 'conservation_vic');
-        }
-    },
-    getters: {
-        featureProperties(state) {
-            let feature = state.selectedWetland;
-            if (feature) {
-                let properties = feature.getProperties();
-                properties.capad_status = JSON.parse(properties.capad_status);
-                properties.geojson = JSON.parse(properties.geojson);
-                return properties;
-            }
-            return null;
         },
-        wetlandFeatures(state) {
-            return state.wetlands;
-        }
-    }
+    },
+    actions: {
+        async storeWetland(state, url) {
+
+            let response = await axios.get(url).then(function(response) {
+                let geoJsonFeature = null;
+                if (response.data.features.length) {
+                    geoJsonFeature = response.data.features[0];
+                }
+                return geoJsonFeature;
+            });
+
+            state.commit('selectWetland', response);
+        },
+    },
 });
 
+axios.get('/app/wetlands').then(
+    function(response) {
+        store.commit('storeWetlandNames', response.data);
+    },
+);
+
 axios.get('/app/species-info').then(function(response) {
-    store.commit('updateSpeciesInfo', response.data)
+    store.commit('updateSpeciesInfo', response.data);
 });
 
 const app = createApp({
@@ -89,8 +100,6 @@ app.config.globalProperties.config = await axios.get('/app/config').
     then(function(response) {
         return response.data;
     });
-
-
 
 app.use(store);
 app.use(router);

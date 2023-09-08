@@ -5,7 +5,7 @@
             <tbody>
             <tr>
                 <td>Wetland name</td>
-                <td>{{ feature.wetland_name }}</td>
+                <td>{{ wetlandName }}</td>
             </tr>
             <tr>
                 <td>Protection Status</td>
@@ -79,11 +79,50 @@
         </table>
 
         <h2>Latham's snipe data</h2>
+
         <table class="table">
             <tbody>
             <tr>
                 <td>Maximum number of Latham's Snipe</td>
-                <td>[TBA]</td>
+                <td>
+                    {{ maxSnipeSeasonLabel }}
+                </td>
+                <td>
+                    <button
+                        type="button"
+                        class="btn btn-sm float-end"
+                        @click="showSeasonalCountChart = !showSeasonalCountChart"
+                        v-show="snipe.seasonalCounts.length && maxSnipeSeasonCount"
+                    >
+                        <i class="bi bi-bar-chart"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr v-if="showSeasonalCountChart">
+                <td colspan="3">
+                    <seasonal-counts-chart :seasonal-counts="snipe.seasonalCounts" :index="1"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Maximum number of Latham's Snipe (ALA)</td>
+                <td>
+                    {{ maxSnipeAlaSeasonLabel }}
+                </td>
+                <td>
+                    <button
+                        type="button"
+                        class="btn btn-sm float-end"
+                        @click="showAlaSeasonalCountChart = !showAlaSeasonalCountChart"
+                        v-show="snipe.alaSeasonalCounts.length && maxSnipeAlaSeasonCount"
+                    >
+                        <i class="bi bi-bar-chart"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr v-if="showAlaSeasonalCountChart">
+                <td colspan="3">
+                    <seasonal-counts-chart :seasonal-counts="snipe.alaSeasonalCounts" :index="2"/>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -92,12 +131,19 @@
 
 <script>
 import {GeoJSON, WKT} from 'ol/format';
-import LandUseChart from "./LandUseChart.vue";
+import LandUseChart from './LandUseChart.vue';
 import _ from 'lodash';
+import SeasonalCountsChart from '@/components/SeasonalCountsChart.vue';
+import {buffer} from '@turf/turf';
+import {mapActions} from 'vuex';
+import {getNumericFeatureId} from '@/components/ol-helpers';
+import geoserverMixin from '@/components/geoserver-mixin';
 
 export default {
     name: 'WetlandReport',
-    components: {LandUseChart},
+    components: {SeasonalCountsChart, LandUseChart},
+    props: ['feature', 'id'],
+    mixins: [geoserverMixin],
     data() {
         return {
             landuseEndpointMap: {
@@ -106,101 +152,209 @@ export default {
                 'VLUIS Property Classification': 'vluis/property',
                 'VLUIS Land Use': 'vluis/alum',
                 'VLUIS Land Cover': 'vluis/landcover',
-                'Catchment Land use': 'catchment'
+                'Catchment Land use': 'catchment',
+            },
+            stateAbbreviations: {
+                'Victoria': 'vic',
+                'Queensland': 'qld',
+                'New South Wales': 'nsw',
+                'Tasmania': 'tas',
+                'Australian Capital Territory': 'act',
+                'Northern Territory': 'nt',
+                'Western Australia': 'wa',
+                'South Australia': 'sa',
             },
             content: '',
             alaSpecies: null,
             landuse: [],
+            snipe: {
+                seasonalCounts: [],
+                alaSeasonalCounts: [],
+            },
+            showSeasonalCountChart: false,
+            showAlaSeasonalCountChart: false,
         };
     },
-    computed: {
-        feature() {
-            this.fetchAlaBirds(this.$store.getters.featureProperties)
-            this.fetchLandUsage(this.$store.getters.featureProperties)
-            return this.$store.getters.featureProperties;
-        },
-        protectionStatus() {
-            if (!this.feature.hasOwnProperty('capad_status') || this.feature.capad_status[0] === null) {
-                return 'None';
-            } else {
-                return this.feature.capad_status.join(', ');
+    watch: {
+        feature(feature) {
+            if (feature) {
+                this.renderWetlandInfo(feature);
             }
         },
+    },
+    computed: {
+        wetlandName() {
+            return this.feature.get('name');
+        },
+
+        protectionStatus() {
+            if (this.feature === null || !this.feature.get('protection_status')) {
+                return 'Unknown';
+            } else if (this.feature.get('protection_status')[0] === null) {
+                return 'None';
+            } else {
+                return this.feature.get('protection_status').join(', ');
+            }
+        },
+        featureStateAbbreviations() {
+            return _.values(_.pick(this.stateAbbreviations, this.feature.get('states')));
+        },
         threatenedAlaSpecies() {
-            if (this.alaSpecies) {
-                return _.filter(this.alaSpecies, function (specie) {
-                    // TODO: This shouldn't be hardcoded. Should be able to determine which state it is in
-                    return specie.conservation_aus || specie.conservation_vic;
+            let self = this;
+            if (self.alaSpecies) {
+                return _.filter(self.alaSpecies, function(specie) {
+                    let targetStatuses = ['aus', ...self.featureStateAbbreviations];
+                    let knownStatuses = Object.keys(specie.conservation);
+
+                    return _.intersection(targetStatuses, knownStatuses).length > 0;
                 });
             }
             return null;
         },
-
-    },
-    methods: {
-        geometryToWkt(featureProperties, newProjection) {
-            if (featureProperties) {
-                let feature = (new GeoJSON()).readFeature(featureProperties.geojson);
-                let wktOptions = {'featureProjection': 'EPSG:4283'};
-                if (typeof newProjection != 'undefined') {
-                    wktOptions['dataProjection'] = 'EPSG:' + newProjection;
-                }
-                return (new WKT()).writeFeature(feature, wktOptions);
+        maxSnipeSeasonCount() {
+            if (this.snipe.seasonalCounts.length > 0) {
+                return _.maxBy(this.snipe.seasonalCounts, 'count');
             }
             return null;
         },
+        maxSnipeAlaSeasonCount() {
+            if (this.snipe.alaSeasonalCounts.length > 0) {
+                return _.maxBy(this.snipe.alaSeasonalCounts, 'count');
+            }
+            return null;
+        },
+        maxSnipeSeasonLabel() {
+            let label = '?';
+            if (this.snipe.seasonalCounts.length > 0) {
+                label = 'No data';
+                if (this.maxSnipeSeasonCount) {
+                    label = this.maxSnipeSeasonCount.season + ': ' + this.maxSnipeSeasonCount.count;
+                }
+            }
 
+            return label;
+        },
+        maxSnipeAlaSeasonLabel() {
+            let label = '?';
+            if (this.snipe.alaSeasonalCounts.length > 0) {
+                label = 'No data';
+                if (this.maxSnipeAlaSeasonCount) {
+                    label = this.maxSnipeAlaSeasonCount.season + ': ' + this.maxSnipeAlaSeasonCount.count;
+                }
+            }
+
+            return label;
+        },
+    },
+    methods: {
+        featureToWkt(feature, newProjection) {
+            let wktOptions = {'featureProjection': 'EPSG:3857'};
+            if (typeof newProjection != 'undefined') {
+                wktOptions['dataProjection'] = 'EPSG:' + newProjection;
+            }
+            return (new WKT()).writeFeature(feature, wktOptions);
+        },
+        bufferedFeature(feature) {
+            // TODO: convert bufferDistance to /app/config
+            let bufferDistance = .350;
+            let localFeature = feature.clone();
+            localFeature.getGeometry().transform('EPSG:3857', 'EPSG:7844');
+            let geojson = (new GeoJSON()).writeFeatureObject(localFeature);
+
+            let bufferedFeature = buffer(geojson, bufferDistance, {
+                'units': 'kilometers',
+            });
+
+            bufferedFeature = (new GeoJSON()).readFeature(bufferedFeature);
+            bufferedFeature.getGeometry().transform('EPSG:7844', 'EPSG:3857');
+
+            return bufferedFeature;
+        },
         fetchAlaBirds(feature) {
+            let self = this;
             if (feature) {
-                let self = this;
-                axios.get('/app/area/ala-birds', {
-                    params: {
-                        'wkt': self.geometryToWkt(feature),
-                    },
-                }).then(function (response) {
+                axios.post('/app/area/ala-birds', {
+                    'wkt': self.featureToWkt(feature, 7844),
+                }).then(function(response) {
                     self.alaSpecies = response.data;
                 });
             } else {
-                this.alaSpecies = null;
+                self.alaSpecies = null;
             }
         },
 
         fetchLandUsage(feature) {
             let self = this;
-            this.landuse = [];
+            self.landuse.length = 0;
             if (feature) {
                 _.forIn(self.landuseEndpointMap, (value, key) => {
-                    self.fetchLandUsePercentage(feature, key, value)
+                    self.fetchLandUsePercentage(feature, key, value);
                 });
             }
         },
 
-        fetchLandUsePercentage(feature, label, endpoint) {
-
+        async fetchLandUsePercentage(feature, label, endpoint) {
             let self = this;
-            axios.get('/app/landuse/' + endpoint, {
-                params: {
-                    'wkt': self.geometryToWkt(feature),
-                },
-            }).then(function (response) {
+            await axios.post('/app/landuse/' + endpoint, {
+                'wkt': self.featureToWkt(self.bufferedFeature(feature), 7844),
+            }).then(function(response) {
                 self.landUsePushAndSort(
                     {
                         label: label,
-                        data: response.data
-                    }
+                        data: response.data,
+                    },
                 );
             });
-
         },
         landUsePushAndSort(data) {
             let self = this;
             self.landuse.push(data);
             self.landuse = _.sortBy(self.landuse, 'label');
         },
+
+        async fetchLathamsSnipeSeasonalCounts(feature) {
+            let self = this;
+            self.snipe.seasonalCounts.length = 0;
+            if (feature) {
+                self.snipe.seasonalCounts = await axios.post('/app/snipe/seasonal-counts', {
+                    'wkt': self.featureToWkt(feature, 7844),
+                }).then(function(response) {
+                    return response.data;
+                });
+            }
+        },
+        async fetchSnipeAlaSeasonalCounts(feature) {
+            let self = this;
+            self.snipe.alaSeasonalCounts.length = 0;
+            if (feature) {
+                self.snipe.alaSeasonalCounts = await axios.post('/app/snipe/ala-seasonal-counts', {
+                    'wkt': self.featureToWkt(feature, 7844),
+                }).then(function(response) {
+                    return response.data;
+                });
+            }
+        },
+        renderWetlandInfo(feature) {
+            // TODO: restore after testing
+            // this.fetchAlaBirds(feature);
+            this.fetchLathamsSnipeSeasonalCounts(feature);
+            this.fetchSnipeAlaSeasonalCounts(feature);
+            // this.fetchLandUsage(feature);
+        },
+        ...mapActions([
+            'storeWetland',
+        ]),
+
     },
     mounted() {
         const self = this;
-        self.content = self.$route.params.id;
+
+        if (self.feature && getNumericFeatureId(self.feature) === self.id) {
+            self.renderWetlandInfo(self.feature);
+        } else {
+            const url = self.getWfsFeatureInfo('aurin', 'wetlands', self.id);
+            self.storeWetland(url);
+        }
     },
 
 };

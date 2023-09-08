@@ -1,17 +1,17 @@
 <template>
-    <div class="col-4 sidebar ">
-        <router-view name="sidebar" :key="$route.path" ></router-view>
+  <div class="col-4 sidebar ">
+    <router-view name="sidebar" :key="$route.path" :feature="selectedWetland"></router-view>
+  </div>
+  <div class="col-8 viewport">
+    <div id="viewport">
+      <MapControls
+        :protectionStatus="this.viewparams.wetlands.protection"
+        @update:protectionStatus="updateProtectionStatus"
+        :map="map"
+      />
+      <div id="map"></div>
     </div>
-    <div class="col-8 viewport">
-        <div id="viewport">
-            <MapControls
-                :protectionStatus="protectionStatus"
-                @update:protectionStatus="status => protectionStatus = status"
-                :map="map"
-            />
-            <div id="map"></div>
-        </div>
-    </div>
+  </div>
 
 </template>
 
@@ -25,142 +25,121 @@ import {transformExtent} from 'ol/proj';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import {Fill, Stroke, Style} from 'ol/style';
-import {GeoJSON, MVT, WKT} from 'ol/format';
+import {GeoJSON} from 'ol/format';
 import MapControls from '@/components/MapControls.vue';
-import VectorTileSource from 'ol/source/VectorTile';
-import VectorTileLayer from 'ol/layer/VectorTile';
-import {zoomToExtent, zoomToFullExtent} from "@/components/ol-helpers";
+import {getNumericFeatureId, zoomToExtent} from '@/components/ol-helpers';
+import TileWMS from 'ol/source/TileWMS';
 
-const wetlandStyle = new Style({
-    stroke: new Stroke({
-        color: '#3F3F3F',
-        width: 1,
-    }),
-    fill: new Fill({
-        color: 'rgba(99,183,0,0.45)',
-    }),
-});
+import geoserverMixin from '@/components/geoserver-mixin';
+import _ from 'lodash';
+import {mapActions, mapState} from 'vuex';
+
 const selectedWetlandStyle = new Style({
     stroke: new Stroke({
-        color: '#3F3F3F',
-        width: 1,
+        color: '#3f3f3f',
+        width: 2,
     }),
     fill: new Fill({
-        color: 'rgba(255,180,0,0.45)',
+        color: 'rgba(255,184,0,0.6)',
     }),
 });
 
-const hiddenStyle = new Style({
-    stroke: new Stroke({
-        color: 'rgba(255,255,255,0)',
-        width: 0,
-    }),
-    fill: new Fill({
-        color: 'rgba(255,255,255,0)',
-    }),
-});
+const MAP_EXTENT = [144.1168836932806130, -38.5675203851200266, 146.1634340206783236, -37.2082605301040985];
 
 export default {
     components: {MapControls},
     data() {
         return {
             sidebar: null,
-            protectionStatus: '',
             wetlandName: '',
             layers: {
                 wetlands: null,
+                selected: null,
             },
-            map: null
+            viewparams: {
+                wetlands: {
+                    'protection': 'all',
+                },
+            },
+            map: null,
         };
     },
     computed: {
-        selectedWetland() {
-            return this.$store.state.selectedWetland;
-        }
+        ...mapState([
+            'selectedWetland',
+        ]),
     },
+    mixins: [geoserverMixin],
     methods: {
-        visibleFeatureStyle(feature) {
-            return this.selectedWetland !== null && this.selectedWetland.getId() === feature.getId() ? selectedWetlandStyle : wetlandStyle;
+        buildViewParams(viewparams) {
+            return _.reduce(viewparams, function(result, value, key) {
+                result = (result !== '' ? result + ',' : result) + key + ':' + value;
+                return result;
+            }, '');
         },
+        updateProtectionStatus(status) {
+            this.viewparams.wetlands.protection = status;
+            let source = this.layers.wetlands.getSource();
+            source.updateParams(
+                _.merge(source.getParams(), {
+                    VIEWPARAMS: this.buildViewParams(this.viewparams.wetlands),
+                }),
+            );
+        },
+
         selectFeature(e) {
             let self = this;
 
-            this.layers.wetlands.getFeatures(e.pixel).then(function(features) {
-                if (!features.length) {
-                    self.$store.commit('deselectWetland');
-                    return;
-                }
+            const url = self.layers.wetlands.getSource().getFeatureInfoUrl(
+                e.coordinate,
+                self.map.getView().getResolution(),
+                'EPSG:3857',
+                {
+                    INFO_FORMAT: 'application/json',
+                },
+            );
 
-                let feature = features[0];
+            this.storeWetland(url);
 
-                // Select feature
-                self.$store.commit('selectWetland', feature);
-            });
-
-            // Trigger redraw
-         //   this.layers.wetlands.changed();
         },
         renderSelectedFeature(feature) {
             let self = this;
+            self.layers.selected.getSource().clear();
 
-            // Zoom To Selected Feature
-            // VectorTiles splits geometries across tiles and so doesn't have a concept of a complete geometry
-            // This means normal feature.getGeometry().getExtent() changes based on map zoom/resolution
-            // Therefore we send the geometry's extent through from Geoserver/PostGIS and use that to zoom to feature
-            if (feature.get('extent')) {
-                zoomToExtent(self.map, JSON.parse(feature.get('extent')));
+            if (feature) {
+                self.layers.selected.getSource().addFeature(feature);
+                zoomToExtent(self.map, feature.getGeometry().getExtent());
+                self.pushWetlandInfoRoute(feature);
             }
-
-            self.displayFeatureInfo(feature);
         },
-        displayFeatureInfo(feature) {
-            this.$router.push({name: 'wetland-report', params: { id: feature.getId() }})
-        },
-        // zoomToExtent(extent) {
-        //     extent = transformExtent(extent, 'EPSG:4283', 'EPSG:3857');
-        //
-        //     this.map.getView().fit(extent, {
-        //         padding: [50, 50, 50, 50],
-        //     });
-        // },
-        wetlandStyler(feature) {
-            let self = this;
-            if (self.protectionStatus) {
-                let capadStatus = JSON.parse(feature.getProperties()['capad_status']);
-                capadStatus = capadStatus.map(status => status === null ? 'None' : status);
+        pushWetlandInfoRoute(feature) {
+            let featureId = getNumericFeatureId(feature);
 
-                if (capadStatus.indexOf(self.protectionStatus) > -1) {
-                    return self.visibleFeatureStyle(feature);
-                }
-                return hiddenStyle;
+            // Only push route if feature is different to the one in the url, otherwise assume we're loading a url from scratch
+            if (featureId !== this.$route.params.id) {
+                this.$router.push({name: 'wetland-report', params: {id: featureId}});
             }
-            return self.visibleFeatureStyle(feature);
         },
-        // zoomToFullExtent() {
-        //     this.zoomToExtent([144.1168836932806130, -38.5675203851200266, 146.1634340206783236, -37.2082605301040985]);
-        // }
+        pushHomeRoute() {
+            this.$router.push({name: '/'});
+        },
+        ...mapActions([
+            'storeWetland',
+        ]),
     },
     watch: {
-        protectionStatus(newStatus, oldStatus) {
-            // trigger Style function
-            this.layers.wetlands.changed();
-        },
         selectedWetland(feature) {
-            if (feature) {
-                this.renderSelectedFeature(feature)
-            }
-
-            // Trigger redraw
-            this.layers.wetlands.changed();
-        }
+            feature ? this.pushWetlandInfoRoute(feature) : this.pushHomeRoute();
+            this.renderSelectedFeature(feature);
+        },
     },
     mounted() {
         let self = this;
 
         const mwBoundary = new VectorLayer({
             source: new VectorSource({
-                url: self.config['geoserver_base_url'] +
-                    '/geoserver/aurin/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=aurin:mw_boundary_simplified&outputFormat=application/json',
+                url: self.geoserverUrl +
+                    '?service=WFS&version=1.1.0&request=GetFeature&typeName=aurin:mw_boundary_simplified&outputFormat=application/json',
                 format: new GeoJSON(),
             }),
             style: new Style({
@@ -171,18 +150,20 @@ export default {
             }),
         });
 
-        self.layers.wetlands = new VectorTileLayer({
-            declutter: true,
-            source: new VectorTileSource({
-                format: new MVT({
-                    idProperty: 'id',
-                    featureClass: Feature,
-                }),
-                url: self.config['geoserver_base_url'] +
-                    '/geoserver/gwc/service/tms/1.0.0/' +
-                    'aurin:wetlands@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
+        self.layers.wetlands = new TileLayer({
+            source: new TileWMS({
+                url: self.geoserverUrl,
+                params: {
+                    LAYERS: 'aurin:wetlands',
+                    TILED: true,
+                    VIEWPARAMS: this.buildViewParams(this.viewparams.wetlands),
+                },
             }),
-            style: self.wetlandStyler,
+        });
+
+        self.layers.selected = new VectorLayer({
+            source: new VectorSource({}),
+            style: selectedWetlandStyle,
         });
 
         self.map = new Map({
@@ -191,6 +172,7 @@ export default {
                 new TileLayer({source: new OSM()}),
                 mwBoundary,
                 this.layers.wetlands,
+                this.layers.selected,
             ],
             view: new View({
                 center: [0, 0],
@@ -198,16 +180,13 @@ export default {
             }),
         });
 
-        zoomToFullExtent(self.map),
-        self.map.once('rendercomplete', () => {
-            self.$store.commit('storeWetlands', self.layers.wetlands)
-        })
+        // TODO: convert map_extent to /app/config
+        self.map.set('MAP_EXTENT', transformExtent(MAP_EXTENT, 'EPSG:7844', 'EPSG:3857'));
+        zoomToExtent(self.map, self.map.get('MAP_EXTENT'));
 
         self.map.on('singleclick', self.selectFeature);
-
-
     },
-}
-;
+};
+
 
 </script>

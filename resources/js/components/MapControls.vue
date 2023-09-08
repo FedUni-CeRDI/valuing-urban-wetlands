@@ -19,18 +19,20 @@
                                 :value="protectionStatus"
                                 @input="$emit('update:protectionStatus', $event.target.value)"
                         >
-                            <option value="National Park">National Park</option>
-                            <option value="Reference Area">Reference Area</option>
                             <option value="Conservation Park">Conservation Park</option>
-                            <option value="State Park">State Park</option>
-                            <option value="Natural Features Reserve">Natural Features Reserve</option>
-                            <option value="Other">Other</option>
-                            <option value="Private Nature Reserve">Private Nature Reserve</option>
-                            <option value="Nature Conservation Reserve">Nature Conservation Reserve</option>
                             <option value="Heritage River">Heritage River</option>
                             <option value="Natural Catchment Area">Natural Catchment Area</option>
-                            <option value="None">None</option>
-                            <option value="">No Filter</option>
+                            <option value="Nature Conservation Reserve">Nature Conservation Reserve</option>
+                            <option value="Natural Features Reserve">Natural Features Reserve</option>
+                            <option value="National Park">National Park</option>
+                            <option value="Private Nature Reserve">Private Nature Reserve</option>
+                            <option value="Ramsar">Ramsar Site</option>
+                            <option value="Reference Area">Reference Area</option>
+                            <option value="State Park">State Park</option>
+                            <option value="Other">Other</option>
+                            <option value="none">No protection</option>
+                            <option value="any">Any protection</option>
+                            <option value="all">No Filter</option>
                         </select>
                         <label for="protectionStatus">Filter by protection status</label>
                     </div>
@@ -42,12 +44,12 @@
 
 <script>
 import WetlandSearch from "@/components/WetlandSearch.vue";
-import {zoomToFullExtent} from "@/components/ol-helpers";
+import {zoomToExtent} from "@/components/ol-helpers";
 
 export default {
     methods: {
         zoomToFullExtent(map) {
-            return zoomToFullExtent(map)
+           return zoomToExtent(map, map.get('MAP_EXTENT'))
         }
     },
     components: {WetlandSearch},

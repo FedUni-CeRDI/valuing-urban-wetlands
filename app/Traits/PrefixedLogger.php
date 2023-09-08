@@ -10,13 +10,20 @@ use Illuminate\Support\Facades\Log;
 
 trait PrefixedLogger
 {
-    private function getPrefix(): string
+    private string $loggerPrefix;
+
+    private function setLoggerPrefix(string $prefix): void
     {
-        return $this->logPrefix;
+        $this->loggerPrefix = $prefix;
+    }
+
+    private function getLoggerPrefix(): string
+    {
+        return $this->loggerPrefix;
     }
     private function log(string $level, string $message, array $context = []):void
     {
-        $message = sprintf('%s: %s', $this->getPrefix(), $message);
+        $message = sprintf('%s: %s', $this->getLoggerPrefix(), $message);
         Log::{$level}($message, $context);
     }
 

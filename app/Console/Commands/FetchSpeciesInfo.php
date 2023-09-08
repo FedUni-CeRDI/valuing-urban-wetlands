@@ -15,8 +15,6 @@ class FetchSpeciesInfo extends Command
 {
     use PrefixedLogger;
 
-    protected string $logPrefix = 'FetchSpeciesInfo';
-
     /**
      * The name and signature of the console command.
      *
@@ -35,6 +33,9 @@ class FetchSpeciesInfo extends Command
     {
         parent::__construct();
 
+        $this->setLoggerPrefix(basename(__CLASS__));
+
+        // TODO: Move to AlaService
         $this->client = new Client([
             'base_uri' => 'https://api.ala.org.au'
         ]);;
@@ -110,9 +111,19 @@ class FetchSpeciesInfo extends Command
 
                 $specie['guid'] = $guid;
                 $specie['scientific_name'] = $speciesInfo->taxonConcept->nameString;
-                $specie['common_name'] = $speciesInfo->commonNames[0]?->nameString;
-                $specie['conservation_aus'] = $speciesInfo->conservationStatuses?->AUS?->status ?? null;
-                $specie['conservation_vic'] = $speciesInfo->conservationStatuses?->VIC?->status ?? null;
+                $specie['common_name'] = [];
+                if (count($speciesInfo->commonNames)) {
+                    $specie['common_name'] = array_unique(array_column($speciesInfo->commonNames, 'nameString'));
+                }
+                $specie['conservation'] = [];
+                if (property_exists($speciesInfo, 'conservationStatuses')) {
+                    foreach ((array)$speciesInfo->conservationStatuses as $locale => $status) {
+                        $specie['conservation'][strtolower($locale)] = $status->status;
+                    }
+                }
+
+//                $specie['conservation_aus'] = $speciesInfo->conservationStatuses?->AUS?->status ?? null;
+//                $specie['conservation_vic'] = $speciesInfo->conservationStatuses?->VIC?->status ?? null;
 
                 $species[] = $specie;
             } catch (JsonException $e) {
@@ -120,7 +131,7 @@ class FetchSpeciesInfo extends Command
             } catch (GuzzleException $e) {
                 $this->log('error', 'Unable to fetch species info', ['exception' => $e->getMessage(), 'guid' => $guid]);
             } catch (\Exception $e) {
-                $this->log('error', $e->getMessage(), ['guid' => $guid]);
+                $this->log('error', $e->getMessage(), ['guid' => $guid, 'line' => $e->getLine()]);
             }
         }
 

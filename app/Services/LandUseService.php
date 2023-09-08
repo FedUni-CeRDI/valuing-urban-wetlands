@@ -2,12 +2,20 @@
 
 namespace App\Services;
 
+use App\Traits\PrefixedLogger;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Query\Builder;
 
 class LandUseService
 {
+    use PrefixedLogger;
+
+    public function __construct()
+    {
+        $this->setLoggerPrefix(basename(__CLASS__));
+    }
+
     /**
      * @param string $wkt
      * @param string $table_name
@@ -18,15 +26,15 @@ class LandUseService
      */
     private function buildPercentageIntersectionQuery(string $wkt, string $table_name, string $description_field, int $wkt_srid, int $table_srid): string
     {
-        return sprintf(<<<SQL
+        $query = sprintf(<<<SQL
             WITH selected_wetland AS (
-                SELECT ST_Transform(
+                SELECT ST_MakeValid(ST_Transform(
                     ST_GeomFromText(
                         %s,
                         $wkt_srid
                     ),
                     $table_srid
-                ) AS geom
+                )) AS geom
             )
             SELECT
                 ROUND(CAST(area AS NUMERIC), 2) AS "area",
@@ -51,9 +59,11 @@ class LandUseService
 SQL,
             DB::getPdo()->quote($wkt),
         );
+
+        return $query;
     }
 
-    private function getIntersectingLandUsePercentages(string $wkt, string $land_use_table_name, string $land_use_description_field, int $wkt_srid = 4326, int $land_use_srid = 3111): array
+    private function getIntersectingLandUsePercentages(string $wkt, string $land_use_table_name, string $land_use_description_field, int $wkt_srid = 7844, int $land_use_srid = 3111): array
     {
         return DB::select($this->buildPercentageIntersectionQuery($wkt, $land_use_table_name, $land_use_description_field, $wkt_srid, $land_use_srid));
     }

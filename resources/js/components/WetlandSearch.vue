@@ -1,25 +1,28 @@
 <script>
 import {autocomplete} from "@algolia/autocomplete-js";
 import '@algolia/autocomplete-theme-classic';
+import geoserverMixin from '@/components/geoserver-mixin';
+import {mapActions, mapState} from 'vuex';
 
 export default {
+    mixins: [geoserverMixin],
     data() {
-        return {
-            'wetlands': null
-        }
+        return {}
     },
     computed: {
-        features() {
-            return this.$store.getters.wetlandFeatures;
-        }
+        ...mapState({
+            wetlands: 'wetlandNames',
+        }),
+        ...mapState([
+            'selectedWetland'
+        ])
     },
-    watch: {
-        features() {
-            this.wetlands = this.features.map(function (feature) {
-                return {'name': feature.get('wetland_name'), 'feature': feature}
-            });
-        }
+    methods: {
+      ...mapActions([
+          'storeWetland'
+      ])
     },
+
     mounted() {
         let self = this;
         let source = {
@@ -38,7 +41,11 @@ export default {
                 return item.name;
             },
             onSelect({item}) {
-                self.$store.commit('selectWetland', item.feature)
+                if (!self.selectedWetland || self.selectedWetland.getId() !== 'wetlands.' + item.id) {
+
+                    const url = self.getWfsFeatureInfo('aurin', 'wetlands', item.id);
+                    self.storeWetland(url);
+                }
             }
         };
 
