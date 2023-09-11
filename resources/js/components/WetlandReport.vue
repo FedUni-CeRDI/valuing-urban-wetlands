@@ -14,33 +14,7 @@
             </tbody>
         </table>
 
-        <h2>Land use</h2>
-        <table class="table">
-            <tbody>
-            <tr v-if="!landuse.length">
-                <td>?</td>
-            </tr>
-            <tr v-else>
-                <td colspan="2">
-                    <table class="w-100">
-                        <thead>
-                        <tr>
-                            <th>Source / Primary classification</th>
-                            <th>%</th>
-                        </tr>
-                        </thead>
-                        <tbody v-for="(usage, key) in landuse">
-                        <tr>
-                            <td colspan="2">
-                                <land-use-chart :landUseData="usage" :key="usage.label" :index="key"></land-use-chart>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+
 
         <h2>ALA Records</h2>
         <table class="table">
@@ -122,6 +96,34 @@
             <tr v-if="showAlaSeasonalCountChart">
                 <td colspan="3">
                     <seasonal-counts-chart :seasonal-counts="snipe.alaSeasonalCounts" :index="2"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Land use</h2>
+        <table class="table">
+            <tbody>
+            <tr v-if="!landuse.length">
+                <td>?</td>
+            </tr>
+            <tr v-else>
+                <td colspan="2">
+                    <table class="w-100">
+                        <thead>
+                        <tr>
+                            <th>Source / Primary classification</th>
+                            <th>%</th>
+                        </tr>
+                        </thead>
+                        <tbody v-for="(usage, key) in landuse">
+                        <tr>
+                            <td colspan="2">
+                                <land-use-chart :landUseData="usage" :key="usage.label" :index="key"></land-use-chart>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
             </tbody>
@@ -221,6 +223,7 @@ export default {
         },
         maxSnipeAlaSeasonCount() {
             if (this.snipe.alaSeasonalCounts.length > 0) {
+                // TODO: Max season count wrong. See Seaford. Count is string, not number
                 return maxBy(this.snipe.alaSeasonalCounts, 'count');
             }
             return null;
