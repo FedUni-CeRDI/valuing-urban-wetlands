@@ -217,14 +217,13 @@ export default {
         },
         maxSnipeSeasonCount() {
             if (this.snipe.seasonalCounts.length > 0) {
-                return maxBy(this.snipe.seasonalCounts, 'count');
+                return maxBy(this.snipe.seasonalCounts, (record) => parseInt(record.count));
             }
             return null;
         },
         maxSnipeAlaSeasonCount() {
             if (this.snipe.alaSeasonalCounts.length > 0) {
-                // TODO: Max season count wrong. See Seaford. Count is string, not number
-                return maxBy(this.snipe.alaSeasonalCounts, 'count');
+                return maxBy(this.snipe.alaSeasonalCounts, (record) => parseInt(record.count));
             }
             return null;
         },
