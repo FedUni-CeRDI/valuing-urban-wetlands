@@ -122,7 +122,7 @@ export default {
             }
         },
         pushHomeRoute() {
-            this.$router.push({name: '/'});
+            this.$router.push({name: 'intro'});
         },
         ...mapActions([
             'storeWetland',
