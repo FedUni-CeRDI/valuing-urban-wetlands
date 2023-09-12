@@ -98,3 +98,17 @@ h3 {
     font-size: 1.2rem;
     font-weight: bold;
 }
+
+.partners {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 1em;
+    column-gap: 1em;
+    max-width: 100%;
+    align-items: center;
+
+    a img {
+        display: block;
+        max-width: 100%;
+    }
+}

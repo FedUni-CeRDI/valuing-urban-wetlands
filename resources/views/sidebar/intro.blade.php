@@ -32,3 +32,12 @@
     Navigate to the wetland of interest and click on wetland to get a report<br>
     The report queries all citizen science records and geographic information within 350m of the wetland edge
 </p>
+<h3>Partners</h3>
+<div class="partners">
+    <a href="https://aurin.org.au/" target="_blank"><img src="{{ url('storage/partners/aurin-logo.png') }}"></a>
+    <a href="https://ala.org.au/" target="_blank"><img src="{{ url('storage/partners/ALA_Logo_Stacked_RGB.png') }}"></a>
+    <a href="https://birdlife.org.au/" target="_blank"><img src="{{ url('storage/partners/BIRDLIFE-Logo.jpg') }}"></a>
+    <a href="https://www.unimelb.edu.au/" target="_blank"><img src="{{ url('storage/partners/uni-melbourne.svg') }}"></a>
+    <a href="https://www.cerdi.edu.au/" target="_blank"><img src="{{ url('storage/partners/cerdi.jpg') }}"></a>
+</div>
+
