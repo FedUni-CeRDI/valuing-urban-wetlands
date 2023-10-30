@@ -9,6 +9,7 @@ namespace App\Services;
 use App\Services\Ala\OccurrenceService;
 use App\Traits\PrefixedLogger;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class SpeciesService
@@ -74,7 +75,18 @@ class SpeciesService
      */
     public function getSpeciesList(): array
     {
-        return json_decode(Storage::get('species-info-cache.json'));
+        $speciesList = null;
+
+        $json = Storage::get('species-info-cache.json');
+
+        if (is_string($json)) {
+            $speciesList = json_decode($json);
+        }
+        if (!is_array($speciesList) || count($speciesList) === 0) {
+            $speciesList = [];
+            Log::error('Waterbird species cache has 0 entries. Re-run php artisan species:info');
+        }
+        return $speciesList;
     }
 
     public function getWaterbirdsInArea(string $wkt)

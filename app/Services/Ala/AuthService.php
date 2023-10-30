@@ -27,9 +27,11 @@ class AuthService
 
     public function getBearerToken(): string
     {
-        if ($this->tokenCacheIsValid() && $this->tokenIsExpired()) {
-            $this->log('debug', 'Token is expired. Refreshing');
-            $this->refreshAccessToken();
+        if ($this->tokenCacheIsValid()) {
+            if ($this->tokenIsExpired()) {
+                $this->log('debug', 'Token is expired. Refreshing');
+                $this->refreshAccessToken();
+            }
         } else {
             $this->log('debug', 'Token missing or invalid. Generating');
             $this->generateAccessToken();
