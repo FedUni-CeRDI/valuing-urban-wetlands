@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import {Popover} from 'bootstrap';
+
 export default {
     name: 'SidebarXhrContent',
     data() {
@@ -10,6 +12,7 @@ export default {
             content: 'Loading ...',
         };
     },
+    watch: {},
     computed: {
         contentPath() {
             return this.$route.name ? '/content/' + this.$route.name : null;
@@ -20,6 +23,13 @@ export default {
         if (self.contentPath) {
             axios.get(self.contentPath).then(function(response) {
                 self.content = response.data;
+            }).then(function() {
+
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+                var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                    return new Popover(tooltipTriggerEl);
+                });
+
             });
         }
     },
