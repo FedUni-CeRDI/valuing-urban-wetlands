@@ -39,5 +39,6 @@
     <a href="https://birdlife.org.au/" target="_blank"><img src="{{ url('storage/partners/BIRDLIFE-Logo.jpg') }}" alt="BirdLife Australia"></a>
     <a href="https://www.unimelb.edu.au/" target="_blank"><img src="{{ url('storage/partners/uni-melbourne.svg') }}" alt="The University of Melbourne"></a>
     <a href="https://www.cerdi.edu.au/" target="_blank"><img src="{{ url('storage/partners/cerdi.jpg') }}" alt="Centre for eResearch and Digital Innovation (CeRDI)"></a>
+    <a href="https://www.melbournewater.com.au/" target="_blank"><img src="{{ url('storage/partners/mw_logo_rgb.svg') }}" alt="Melbourne Water"></a>
 </div>
 
