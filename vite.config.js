@@ -12,7 +12,7 @@ export default defineConfig({
         splitVendorChunkPlugin(),
         laravel({
             input: ['resources/scss/app.scss', 'resources/js/app.js'],
-            refresh: true,
+            refresh: ['resources/**'],
         }),
         vue({
             template: {
