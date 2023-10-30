@@ -34,10 +34,10 @@
 </p>
 <h3>Partners</h3>
 <div class="partners">
-    <a href="https://aurin.org.au/" target="_blank"><img src="{{ url('storage/partners/aurin-logo.png') }}"></a>
-    <a href="https://ala.org.au/" target="_blank"><img src="{{ url('storage/partners/ALA_Logo_Stacked_RGB.png') }}"></a>
-    <a href="https://birdlife.org.au/" target="_blank"><img src="{{ url('storage/partners/BIRDLIFE-Logo.jpg') }}"></a>
-    <a href="https://www.unimelb.edu.au/" target="_blank"><img src="{{ url('storage/partners/uni-melbourne.svg') }}"></a>
-    <a href="https://www.cerdi.edu.au/" target="_blank"><img src="{{ url('storage/partners/cerdi.jpg') }}"></a>
+    <a href="https://aurin.org.au/" target="_blank"><img src="{{ url('storage/partners/aurin-logo.png') }}" alt="Australian Urban Research Infrastructure Network (AURIN)"></a>
+    <a href="https://ala.org.au/" target="_blank"><img src="{{ url('storage/partners/ALA_Logo_Stacked_RGB.png') }}" alt="Atlas of Living Australia (ALA)"></a>
+    <a href="https://birdlife.org.au/" target="_blank"><img src="{{ url('storage/partners/BIRDLIFE-Logo.jpg') }}" alt="BirdLife Australia"></a>
+    <a href="https://www.unimelb.edu.au/" target="_blank"><img src="{{ url('storage/partners/uni-melbourne.svg') }}" alt="The University of Melbourne"></a>
+    <a href="https://www.cerdi.edu.au/" target="_blank"><img src="{{ url('storage/partners/cerdi.jpg') }}" alt="Centre for eResearch and Digital Innovation (CeRDI)"></a>
 </div>
 
