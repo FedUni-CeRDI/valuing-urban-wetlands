@@ -13,16 +13,16 @@ class SidebarController extends Controller
 
     public function contact(): string
     {
-        return 'contact';
+        return view('sidebar.contact');
     }
 
     public function terms(): string
     {
-        return 'terms';
+        return view('sidebar.terms');
     }
 
     public function about(): string
     {
-        return 'about';
+        return view('sidebar.about');
     }
 }

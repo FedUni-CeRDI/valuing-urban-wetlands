@@ -1,5 +1,9 @@
 <template>
     <h1>Wetland Values Report</h1>
+    <p>
+        The wetland values report tool provides a summary of the waterbird diversity at a selected wetland. Dominant
+        land uses are reported within 350m of the wetland boundary.
+    </p>
     <template v-if="feature">
         <table class="table">
             <tbody>
@@ -13,7 +17,6 @@
             </tr>
             </tbody>
         </table>
-
 
 
         <h2>ALA Records</h2>
@@ -30,29 +33,34 @@
             </tbody>
         </table>
 
-        <h2>BirdLife Australia records</h2>
-        <table class="table">
-            <tbody>
-            <tr>
-                <td>Reporting rate</td>
-                <td>[TBA]</td>
-            </tr>
-            <tr>
-                <td>Breeding metric</td>
-                <td>[TBA]</td>
-            </tr>
-            <tr>
-                <td>Conservation metric</td>
-                <td>[TBA]</td>
-            </tr>
-            <tr>
-                <td>Condition</td>
-                <td>[TBA]</td>
-            </tr>
-            </tbody>
-        </table>
+        <!--        <h2>BirdLife Australia records</h2>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>Reporting rate</td>
+                        <td>[TBA]</td>
+                    </tr>
+                    <tr>
+                        <td>Breeding metric</td>
+                        <td>[TBA]</td>
+                    </tr>
+                    <tr>
+                        <td>Conservation metric</td>
+                        <td>[TBA]</td>
+                    </tr>
+                    <tr>
+                        <td>Condition</td>
+                        <td>[TBA]</td>
+                    </tr>
+                    </tbody>
+                </table>-->
 
         <h2>Latham's snipe data</h2>
+        <p>
+            Latham's Snipe is a mysterious migratory waterbird (shorebird) that is cryptic in its plumage and behaviour.
+            This means it is often overlooked in monitoring and assessment. As a result, its wetland habitats are
+            frequently threatened by land use change.
+        </p>
 
         <table class="table">
             <tbody>
@@ -102,6 +110,11 @@
         </table>
 
         <h2>Land use</h2>
+        <p>
+            The built environment surrounding a wetland will influence its value for biodiversity. A wetland surrounded
+            by housing or industry may provide less habitat for wetland birds than a wetland located near other
+            wetlands. But it may also provide a refuge for birds transiting through an urban landscape.
+        </p>
         <table class="table">
             <tbody>
             <tr v-if="!landuse.length">
@@ -365,6 +378,7 @@ export default {
 </script>
 
 <style scoped>
-
-
+h2 {
+    margin-top: 2em;
+}
 </style>
