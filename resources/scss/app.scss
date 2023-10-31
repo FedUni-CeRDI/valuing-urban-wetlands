@@ -55,6 +55,10 @@ $line-height-base: 1.3;
     border-right: 2px solid #000;
     overflow-y: scroll;
     padding: 1rem;
+
+    img {
+        max-width: 100%;
+    }
 }
 
 .viewport {
@@ -120,4 +124,19 @@ abbr {
 
 mark {
     padding: inherit;
+}
+
+figure {
+    position: relative;
+
+    figcaption {
+        background: #FFFFFF99;
+        position: absolute;
+        padding: 0.4em 0.5em;
+        font-weight: bold;
+        text-align: center;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
 }

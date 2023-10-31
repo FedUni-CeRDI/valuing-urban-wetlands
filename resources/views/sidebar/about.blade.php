@@ -30,7 +30,11 @@
     Latham's Snipe
 </h2>
 
-<mark>[insert photo from Mark Lethlean]</mark>
+<figure>
+    <img src="{{ url('storage/photos/MarkLethlean_Lathams Snipe_Balnarring070119_resized.jpg') }}"
+         title="Latham's Snipe - &copy; Mark Lethlean">
+    <figcaption>Latham's Snipe - &copy; Mark Lethlean</figcaption>
+</figure>
 
 <p>
     A range of uncommon and threatened species are known to rely on urban wetlands. One such species is Latham's Snipe,
@@ -61,7 +65,11 @@
     lost to land development and land use change.
 </p>
 
-<mark>[insert photo from David Sinnott]</mark>
+<figure>
+    <img src="{{ url('storage/photos/DavidSinnott_DSC0das3373_resized.jpg') }}"
+         title="&copy; David Sinnott">
+    <figcaption>&copy; David Sinnott</figcaption>
+</figure>
 
 <h2>
     Project partners
@@ -99,10 +107,13 @@
 </p>
 
 <p>
-    <a href="https://www.sciencedaily.com/releases/2022/08/220816093620.htm">Decreasing backyard bird diversity</a> Science Daily, August 2022
+    <a href="https://www.sciencedaily.com/releases/2022/08/220816093620.htm">Decreasing backyard bird diversity</a>
+    Science Daily, August 2022
 </p>
 
-<p><mark>[something from MW?]</mark></p>
+<p>
+    <mark>[something from MW?]</mark>
+</p>
 
 <p>
     Urban plans can be amended to accommodate nature: read in the Conversation an article by <a
@@ -110,10 +121,23 @@
         Louise Wright and Catherine Murphy</a>
 </p>
 
-<p><mark>[add a photo of snipe in urban wetland]</mark></p>
+<figure>
+    <img src="{{ url('storage/photos/DaveBassett_Jerrawetlands_Jan2021_3V4A4006_PERMISSION_TO_USE_resized.jpg') }}"
+         title="Jerra Wetlands Jan 2021 - &copy; Dave Bassett">
+    <figcaption>Jerra Wetlands Jan 2021 - &copy; Dave Bassett</figcaption>
+</figure>
 
-<p><mark>[add 1 or 2 photos of urban wetlands]</mark></p>
+<figure>
+    <img src="{{ url('storage/photos/KingstonJerraCk_20201109_215033248_iOS_resized.jpg') }}"
+         title="Jerrabomberra Creek, Kingston ACT">
+    <figcaption>Jerrabomberra Creek, Kingston ACT</figcaption>
+</figure>
 
+<figure>
+    <img src="{{ url('storage/photos/Heathdale_Glen_Orden_wetlands_werribee_IMG_20170111_0811133491_resized.jpg') }}"
+         title="Heathdale Glen Orden Wetlands, Werribee VIC">
+    <figcaption>Heathdale Glen Orden Wetlands, Werribee VIC</figcaption>
+</figure>
 
 <p>
     You can share your Latham's Snipe or general bird observations using:
