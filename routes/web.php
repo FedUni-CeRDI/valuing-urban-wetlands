@@ -28,6 +28,7 @@ Route::prefix('content')->group(function () {
 Route::prefix('app')->group(function () {
     Route::get('wetlands', [PublicController::class, 'getWetlandNames']);
     Route::post('area/ala-birds', [PublicController::class, 'alaWaterbirdCounts']);
+    Route::post('area/ala-frogs', [PublicController::class, 'alaFrogCounts']);
     Route::get('species-info', [PublicController::class, 'speciesInfo']);
     Route::get('config', [PublicController::class, 'config']);
     Route::prefix('landuse')->group(function () {

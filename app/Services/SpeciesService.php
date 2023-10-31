@@ -89,6 +89,14 @@ class SpeciesService
         return $speciesList;
     }
 
+    public function getFrogsInArea(string $wkt)
+    {
+        $frogsInArea = $this->alaOccurrence->getFrogsInArea($wkt);
+
+        return $frogsInArea;
+    }
+
+
     public function getWaterbirdsInArea(string $wkt)
     {
         $birdsInArea = $this->alaOccurrence->getBirdsInArea($wkt);

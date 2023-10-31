@@ -14,6 +14,7 @@ use JsonException;
 
 class OccurrenceService
 {
+
     use PrefixedLogger;
 
     private Client $client;
@@ -29,7 +30,6 @@ class OccurrenceService
 
     public function getFacetCountsBySpeciesConceptInLocation(string $taxonConceptId, string $wkt, string $facet, ?Carbon $startDate, ?Carbon $endDate): array
     {
-
         $startDate = $startDate ? $startDate->toIso8601ZuluString() : '*';
         $endDate = $endDate ? $endDate->toIso8601ZuluString() : '*';
 
@@ -50,25 +50,42 @@ class OccurrenceService
             ]);
 
             return $response->data[0]->data;
-
         } catch (GuzzleException|JsonException $e) {
             $this->log('error', $e->getMessage(), [
-                'function: '.__FUNCTION__,
+                'function: ' . __FUNCTION__,
             ]);
 
             return [];
         }
 
-        //chart?
-        //q=lsid%3Ahttps://biodiversity.org.au/afd/taxa/5c1957dc-0780-47cb-9c89-0498340c1e62%20AND%20occurrence_date%3A[2010-01-01T00%3A00%3A00Z%20TO%202019-12-31T23%3A59%3A59Z]
-        //&qualityProfile=ALA
-        //&x=year
+    }
 
+    public function getFrogsInArea(string $wkt): array
+    {
+        try {
+            $qid = $this->cacheSpatialQuery([
+                'fq' => 'class:Amphibia',
+                'wkt' => $wkt,
+            ]);
+
+            return $this->executeQuery('mapping/species', [
+                'query' => [
+                    'flimit' => 1000,
+                    'q' => 'qid:' . $qid,
+                ],
+            ]);
+
+        } catch (GuzzleException|JsonException $e) {
+            $this->log('error', $e->getMessage(), [
+                'function: ' . __FUNCTION__,
+            ]);
+
+            return [];
+        }
     }
 
     public function getBirdsInArea(string $wkt): array
     {
-
         try {
             $qid = $this->cacheSpatialQuery([
                 'fq' => 'class:Aves',
@@ -78,15 +95,14 @@ class OccurrenceService
             $response = $this->executeQuery('mapping/species', [
                 'query' => [
                     'flimit' => 1000,
-                    'q' => 'qid:'.$qid,
+                    'q' => 'qid:' . $qid,
                 ],
             ]);
 
             return $response;
-
         } catch (GuzzleException|JsonException $e) {
             $this->log('error', $e->getMessage(), [
-                'function: '.__FUNCTION__,
+                'function: ' . __FUNCTION__,
             ]);
 
             return [];
@@ -99,7 +115,6 @@ class OccurrenceService
      */
     private function cacheSpatialQuery(array $query): string
     {
-
         return $this->executeQuery(
             'qid',
             [
@@ -128,4 +143,5 @@ class OccurrenceService
 
         return $contents;
     }
+
 }

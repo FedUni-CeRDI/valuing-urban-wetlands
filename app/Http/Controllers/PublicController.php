@@ -35,6 +35,12 @@ class PublicController extends Controller
         return new JsonResponse($waterbirds);
     }
 
+    public function alaFrogCounts(SpeciesService $speciesService, Request $request): JsonResponse
+    {
+        $frogs = $speciesService->getFrogsInArea($request->get('wkt'));
+        return new JsonResponse($frogs);
+    }
+
     public function snipeSeasonalCounts(SnipeService $snipeService, Request $request): JsonResponse
     {
         $seasonalCounts = $snipeService->getMaxSeasonCountsByLocation($request->input('wkt'));
