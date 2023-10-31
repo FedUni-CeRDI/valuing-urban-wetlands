@@ -9,11 +9,13 @@ namespace App\Services;
 use App\Services\Ala\OccurrenceService;
 use App\Traits\PrefixedLogger;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class SpeciesService
 {
+
     use PrefixedLogger;
 
     private OccurrenceService $alaOccurrence;
@@ -56,12 +58,12 @@ class SpeciesService
             return $stateAbbreviations[$state] ?? false;
         });
 
-        $speciesList = collect($this->getSpeciesList());
+        $speciesList = collect($this->getWaterbirdList());
 
         $threatenedSpecies = $speciesList->filter(function ($specie) use ($states, $stateAbbreviations, $include_national) {
             $threatened = $include_national && $specie->conservation_aus;
             foreach ($states as $state) {
-                $threatened = (bool) $specie->{'conservation_'.$stateAbbreviations[$state]} ?? $threatened;
+                $threatened = (bool)$specie->{'conservation_' . $stateAbbreviations[$state]} ?? $threatened;
             }
 
             return $threatened;
@@ -73,34 +75,63 @@ class SpeciesService
     /**
      * @return array<object>
      */
-    public function getSpeciesList(): array
+    public function getFrogList(): array
     {
         $speciesList = null;
 
-        $json = Storage::get('species-info-cache.json');
+        $json = Storage::get('frog-species-info-cache.json');
 
         if (is_string($json)) {
             $speciesList = json_decode($json);
         }
         if (!is_array($speciesList) || count($speciesList) === 0) {
             $speciesList = [];
-            Log::error('Waterbird species cache has 0 entries. Re-run php artisan species:info');
+            Log::error('Frog species cache has 0 entries. Re-run php artisan frog:info');
         }
         return $speciesList;
     }
 
-    public function getFrogsInArea(string $wkt)
+    /**
+     * @return array<object>
+     */
+    public function getWaterbirdList(): array
     {
-        $frogsInArea = $this->alaOccurrence->getFrogsInArea($wkt);
+        $speciesList = null;
+
+        $json = Storage::get('waterbird-species-info-cache.json');
+
+        if (is_string($json)) {
+            $speciesList = json_decode($json);
+        }
+        if (!is_array($speciesList) || count($speciesList) === 0) {
+            $speciesList = [];
+            Log::error('Waterbird species cache has 0 entries. Re-run php artisan waterbird:info');
+        }
+        return $speciesList;
+    }
+
+    public function getFrogsInArea(string $wkt): Collection
+    {
+        $frogsInArea = collect($this->alaOccurrence->getFrogsInArea($wkt));
+        $frogs = collect($this->getFrogList());
+
+        $frogsInArea = $frogsInArea->map(function ($frog) use ($frogs) {
+            $meta = $frogs->first(fn($entry) => $entry->guid === $frog->guid);
+            $frog = array_merge((array)$frog, (array)$meta);
+
+            $removeKeys = ['name', 'commonName', 'kingdom', 'rank', 'family'];
+            $frog = array_diff_key($frog, array_flip($removeKeys));
+
+            return $frog;
+        });
 
         return $frogsInArea;
     }
 
-
     public function getWaterbirdsInArea(string $wkt)
     {
         $birdsInArea = $this->alaOccurrence->getBirdsInArea($wkt);
-        $waterbirds = collect($this->getSpeciesList());
+        $waterbirds = collect($this->getWaterbirdList());
         $waterbirdGuids = $waterbirds->pluck('guid')->toArray();
 
         // Check if retrieved bird exists in our list of waterbirds
@@ -110,10 +141,10 @@ class SpeciesService
 
         $waterbirdsInArea = $waterbirdsInArea->map(function ($bird) use ($waterbirds) {
             // Get our metadata for this waterbird
-            $waterbird = $waterbirds->first(fn ($wb) => $bird->guid == $wb->guid);
-            $bird = array_merge((array) $bird, (array) $waterbird);
+            $waterbird = $waterbirds->first(fn($wb) => $bird->guid == $wb->guid);
+            $bird = array_merge((array)$bird, (array)$waterbird);
 
-            $bird['common_names'] = array_unique(array_merge((array) $bird['common_name'], [$bird['commonName']]));
+            $bird['common_names'] = array_unique(array_merge((array)$bird['common_name'], [$bird['commonName']]));
 
             $removeKeys = ['name', 'commonName', 'common_name', 'kingdom', 'rank', 'family'];
             $bird = array_diff_key($bird, array_flip($removeKeys));
@@ -123,4 +154,5 @@ class SpeciesService
 
         return $waterbirdsInArea->values();
     }
+
 }

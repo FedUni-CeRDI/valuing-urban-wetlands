@@ -57,7 +57,27 @@ class OccurrenceService
 
             return [];
         }
+    }
 
+    public function getFacetDownload(string $facets = '', string $fq = ''): ?string
+    {
+        try {
+            return $this->executeQuery('occurrences/facets/download', [
+                'query' => [
+                    'facets' => $facets,
+                    'lookup' => true,
+                    'count' => true,
+                    'lists' => true,
+                    'fq' => $fq,
+                ],
+            ]);
+        } catch (GuzzleException|JsonException $e) {
+            $this->log('error', $e->getMessage(), [
+                'function: ' . __FUNCTION__,
+            ]);
+
+            return null;
+        }
     }
 
     public function getFrogsInArea(string $wkt): array
@@ -74,7 +94,6 @@ class OccurrenceService
                     'q' => 'qid:' . $qid,
                 ],
             ]);
-
         } catch (GuzzleException|JsonException $e) {
             $this->log('error', $e->getMessage(), [
                 'function: ' . __FUNCTION__,

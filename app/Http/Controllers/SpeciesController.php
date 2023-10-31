@@ -11,9 +11,8 @@ use JsonException;
 
 class SpeciesController extends Controller
 {
-    public function __construct()
-    {
-    }
+
+    public function __construct() {}
 
     //
     public function getSpeciesCountByWkt(Request $request, SpeciesService $speciesService): JsonResponse
@@ -36,7 +35,7 @@ class SpeciesController extends Controller
 
         try {
             $birdsInGeometry = json_decode($response->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR);
-            $waterbirds = collect($speciesService->getSpeciesList());
+            $waterbirds = collect($speciesService->getWaterbirdList());
             $waterbirdTaxon = $waterbirds->pluck('scientific_name');
 
             $waterbirdsInGeometry = collect($birdsInGeometry)->filter(function ($bird) use ($waterbirdTaxon) {
@@ -47,20 +46,16 @@ class SpeciesController extends Controller
 
             $threatenedSpecies = $speciesService->getThreatenedSpeciesByStates($states, true);
 
-            // filter birdsInGeom by waterbirds
-            // filter waterbirds by threatened waterbirds
-            // return count of waterbirds and threatened waterbirds in geom
-
             return response()->json([
                 'waterbirds' => $waterbirdsInGeometry,
                 'threatenedSpecies' => $threatenedSpecies,
                 'birds' => $birdsInGeometry,
             ]);
-
         } catch (JsonException $e) {
-            Log::error(__FUNCTION__.': Unable to parse JSON response', ['message' => $e->getMessage()]);
+            Log::error(__FUNCTION__ . ': Unable to parse JSON response', ['message' => $e->getMessage()]);
         }
 
         return response()->json([]);
     }
+
 }

@@ -24,11 +24,19 @@
             <tbody>
             <tr>
                 <td>Number of waterbird species</td>
-                <td>{{ alaSpecies == null ? '?' : alaSpecies.length }}</td>
+                <td>{{ alaWaterbirdSpecies == null ? '?' : alaWaterbirdSpecies.length }}</td>
             </tr>
             <tr>
                 <td>Number of threatened waterbird species</td>
-                <td>{{ threatenedAlaSpecies == null ? '?' : threatenedAlaSpecies.length }}</td>
+                <td>{{ threatenedAlaWaterbirdSpecies == null ? '?' : threatenedAlaWaterbirdSpecies.length }}</td>
+            </tr>
+            <tr>
+                <td>Number of frog species</td>
+                <td>{{ alaFrogSpecies == null ? '?' : alaFrogSpecies.length }}</td>
+            </tr>
+            <tr>
+                <td>Number of threatened frog species</td>
+                <td>{{ threatenedAlaFrogSpecies == null ? '?' : threatenedAlaFrogSpecies.length }}</td>
             </tr>
             </tbody>
         </table>
@@ -182,7 +190,8 @@ export default {
                 'South Australia': 'sa',
             },
             content: '',
-            alaSpecies: null,
+            alaWaterbirdSpecies: null,
+            alaFrogSpecies: null,
             landuse: [],
             snipe: {
                 seasonalCounts: [],
@@ -216,10 +225,22 @@ export default {
         featureStateAbbreviations() {
             return values(pick(this.stateAbbreviations, this.feature.get('states')));
         },
-        threatenedAlaSpecies() {
+        threatenedAlaWaterbirdSpecies() {
             let self = this;
-            if (self.alaSpecies) {
-                return filter(self.alaSpecies, function(specie) {
+            if (self.alaWaterbirdSpecies) {
+                return filter(self.alaWaterbirdSpecies, function(specie) {
+                    let targetStatuses = ['aus', ...self.featureStateAbbreviations];
+                    let knownStatuses = Object.keys(specie.conservation);
+
+                    return intersection(targetStatuses, knownStatuses).length > 0;
+                });
+            }
+            return null;
+        },
+        threatenedAlaFrogSpecies() {
+            let self = this;
+            if (self.alaFrogSpecies) {
+                return filter(self.alaFrogSpecies, function(specie) {
                     let targetStatuses = ['aus', ...self.featureStateAbbreviations];
                     let knownStatuses = Object.keys(specie.conservation);
 
@@ -287,19 +308,30 @@ export default {
 
             return bufferedFeature;
         },
-        fetchAlaBirds(feature) {
+        fetchAlaWaterbirds(feature) {
             let self = this;
             if (feature) {
                 axios.post('/app/area/ala-birds', {
                     'wkt': self.featureToWkt(feature, 7844),
                 }).then(function(response) {
-                    self.alaSpecies = response.data;
+                    self.alaWaterbirdSpecies = response.data;
                 });
             } else {
-                self.alaSpecies = null;
+                self.alaWaterbirdSpecies = null;
             }
         },
-
+        fetchAlaFrogs(feature) {
+            let self = this;
+            if (feature) {
+                axios.post('/app/area/ala-frogs', {
+                    'wkt': self.featureToWkt(feature, 7844),
+                }).then(function(response) {
+                    self.alaFrogSpecies = response.data;
+                });
+            } else {
+                self.alaFrogSpecies = null;
+            }
+        },
         fetchLandUsage(feature) {
             let self = this;
             self.landuse.length = 0;
@@ -352,7 +384,8 @@ export default {
             }
         },
         renderWetlandInfo(feature) {
-            this.fetchAlaBirds(feature);
+            this.fetchAlaWaterbirds(feature);
+            this.fetchAlaFrogs(feature);
             this.fetchLathamsSnipeSeasonalCounts(feature);
             this.fetchSnipeAlaSeasonalCounts(feature);
             this.fetchLandUsage(feature);

@@ -9,8 +9,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use JsonException;
 
-class FetchSpeciesInfo extends Command
+class FetchWaterbirdInfo extends Command
 {
+
     use PrefixedLogger;
 
     /**
@@ -18,14 +19,14 @@ class FetchSpeciesInfo extends Command
      *
      * @var string
      */
-    protected $signature = 'species:info';
+    protected $signature = 'waterbird:info';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fetch and cache species info';
+    protected $description = 'Fetch and cache waterbird species info';
 
     private Client $client;
 
@@ -109,11 +110,11 @@ class FetchSpeciesInfo extends Command
                 $specie['scientific_name'] = $speciesInfo->taxonConcept->nameString;
                 $specie['common_name'] = [];
                 if (count($speciesInfo->commonNames)) {
-                    $specie['common_name'] = array_unique(array_column($speciesInfo->commonNames, 'nameString'));
+                    $specie['common_name'] = array_values(array_unique(array_column($speciesInfo->commonNames, 'nameString')));
                 }
                 $specie['conservation'] = [];
                 if (property_exists($speciesInfo, 'conservationStatuses')) {
-                    foreach ((array) $speciesInfo->conservationStatuses as $locale => $status) {
+                    foreach ((array)$speciesInfo->conservationStatuses as $locale => $status) {
                         $specie['conservation'][strtolower($locale)] = $status->status;
                     }
                 }
@@ -136,6 +137,7 @@ class FetchSpeciesInfo extends Command
 
     private function writeSpeciesData(array $speciesData): bool
     {
-        return Storage::put('species-info-cache.json', json_encode($speciesData));
+        return Storage::put('waterbird-species-info-cache.json', json_encode($speciesData));
     }
+
 }

@@ -25,7 +25,7 @@ class PublicController extends Controller
 
     public function speciesInfo(SpeciesService $speciesService): JsonResponse
     {
-        return new JsonResponse($speciesService->getSpeciesList());
+        return new JsonResponse($speciesService->getWaterbirdList());
     }
 
     public function alaWaterbirdCounts(SpeciesService $speciesService, Request $request): JsonResponse
