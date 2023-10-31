@@ -36,17 +36,30 @@
 </h3>
 <p>
     Navigate to the wetland of interest and click on wetland to get a report<br>
-    The report queries all <abbr data-bs-toggle="popover"
-                                 data-bs-html="true"
-                                 data-bs-content="Citizen scientists contributed over 62 million species records to the Atlas of Living Australia by 2023.
+    The report queries all
+    <button class="btn btn-link btn-abbr btn-inline"
+            data-bs-toggle="popover"
+            data-bs-html="true"
+            data-bs-trigger="focus"
+            data-bs-content="Citizen scientists contributed over 62 million species records to the Atlas of Living Australia by 2023.
                                  <a href='https://www.csiro.au/en/news/All/News/2023/September/Aussies-provide-more-than-62-million-species-records-for-conservation-research' target='_blank'>
-    Read about citizen science records in the ALA</a>">citizen science</abbr> records and
-    geographic information <abbr data-bs-toggle="popover"
-                                 data-bs-html="true"
-                                 title="Why 350m?"
-                                 data-bs-content="Research by the University of British Columbia has demonstrated an anthropogenic heat effect over 300m from heavy industry sources in relation to local climate zones across a range of land uses
+    Read about citizen science records in the ALA</a>">
+        citizen science
+    </button>
+    records and
+    geographic information
+    <button
+        class="btn btn-link btn-abbr btn-inline"
+        data-bs-toggle="popover"
+        data-bs-html="true"
+        data-bs-trigger="focus"
+        title="Why 350m?"
+        data-bs-content="Research by the University of British Columbia has demonstrated an anthropogenic heat effect over 300m from heavy industry sources in relation to local climate zones across a range of land uses
                                  <a href='https://doi.org/10.1175/BAMS-D-11-00019.1' target='_blank'>Stewart and Oke (2012)</a>.<br><br>We use 350m to represent the potential maximum local climate zone of wetlands. Further research would be valuable to
-    refine this to the Australia urban context.">within 350m</abbr> of the wetland edge
+    refine this to the Australia urban context.">
+        within 350m
+    </button>
+    of the wetland edge
 </p>
 
 

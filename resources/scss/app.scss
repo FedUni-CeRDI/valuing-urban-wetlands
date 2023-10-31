@@ -117,10 +117,29 @@ h3 {
     }
 }
 
-abbr {
+.btn-inline {
+    padding: 0;
+    line-height: inherit;
+    display: inline;
+    text-decoration: none;
+    color: inherit;
+    vertical-align: inherit;
+    border-radius: 0;
+}
+
+abbr,
+.btn-abbr {
     cursor: help;
     border-bottom: 1px dotted;
 }
+
+.btn-abbr:hover,
+.btn-abbr:active {
+    color: inherit;
+    cursor: help;
+    border-bottom: 1px dotted;
+}
+
 
 mark {
     padding: inherit;
