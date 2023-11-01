@@ -45,7 +45,6 @@ export default {
         let container = document.getElementById(this.id);
         this.modal = new Modal(container);
         container.addEventListener('hide.bs.modal', function(e) {
-            console.log('hide')
             vm.$emit('closed');
         });
         this.toggleModal();
