@@ -23,45 +23,23 @@
         <table class="table">
             <tbody>
             <tr>
-                <td>Number of waterbird species</td>
-                <td>{{ alaWaterbirdSpecies == null ? '?' : alaWaterbirdSpecies.length }}</td>
+                <th colspan="3">Waterbirds</th>
             </tr>
             <tr>
-                <td>Number of threatened waterbird species</td>
-                <td>{{ threatenedAlaWaterbirdSpecies == null ? '?' : threatenedAlaWaterbirdSpecies.length }}</td>
+                <td>{{ alaWaterbirdSpecies == null ? '?' : alaWaterbirdSpecies.length }} species</td>
+                <td>{{ threatenedAlaWaterbirdSpecies == null ? '?' : threatenedAlaWaterbirdSpecies.length }} threatened</td>
+                <td class="text-end" @click="showWaterbirdList = true"><button class="btn btn-light btn-sm" title="View species listing/info"><i class="bi bi-list-columns"></i></button></td>
             </tr>
             <tr>
-                <td>Number of frog species</td>
-                <td>{{ alaFrogSpecies == null ? '?' : alaFrogSpecies.length }}</td>
+                <th colspan="3">Frogs</th>
             </tr>
             <tr>
-                <td>Number of threatened frog species</td>
-                <td>{{ threatenedAlaFrogSpecies == null ? '?' : threatenedAlaFrogSpecies.length }}</td>
+                <td>{{ alaFrogSpecies == null ? '?' : alaFrogSpecies.length }} species</td>
+                <td>{{ threatenedAlaFrogSpecies == null ? '?' : threatenedAlaFrogSpecies.length }} threatened</td>
+                <td class="text-end" @click="showFrogList = true"><button class="btn btn-light btn-sm" title="View species listing/info"><i class="bi bi-list-columns"></i></button></td>
             </tr>
             </tbody>
         </table>
-
-        <!--        <h2>BirdLife Australia records</h2>
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <td>Reporting rate</td>
-                        <td>[TBA]</td>
-                    </tr>
-                    <tr>
-                        <td>Breeding metric</td>
-                        <td>[TBA]</td>
-                    </tr>
-                    <tr>
-                        <td>Conservation metric</td>
-                        <td>[TBA]</td>
-                    </tr>
-                    <tr>
-                        <td>Condition</td>
-                        <td>[TBA]</td>
-                    </tr>
-                    </tbody>
-                </table>-->
 
         <h2>Latham's snipe data</h2>
         <p>
@@ -149,6 +127,8 @@
             </tr>
             </tbody>
         </table>
+        <species-list :visible="showWaterbirdList" :species-list="alaWaterbirdSpecies" title="Waterbirds" id="list-waterbirds" @closed="showWaterbirdList = false"/>
+        <species-list :visible="showFrogList" :species-list="alaFrogSpecies" title="Frogs" id="list-frogs" @closed="showFrogList = false"/>
     </template>
 </template>
 
@@ -163,14 +143,17 @@ import {getNumericFeatureId} from './ol-helpers';
 import geoserverMixin from './geoserver-mixin';
 
 import {mapActions} from 'vuex';
+import SpeciesList from './SpeciesList.vue';
 
 export default {
     name: 'WetlandReport',
-    components: {SeasonalCountsChart, LandUseChart},
+    components: {SpeciesList, SeasonalCountsChart, LandUseChart},
     props: ['feature', 'id'],
     mixins: [geoserverMixin],
     data() {
         return {
+            showWaterbirdList: false,
+            showFrogList: false,
             landuseEndpointMap: {
                 'Vicmap Planning Zones': 'planning/zones',
                 'Vicmap Planning Overlays': 'planning/overlays',
