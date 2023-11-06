@@ -67,21 +67,22 @@ export default {
                                 <th>Scientific Name</th>
                                 <th>Common names</th>
                                 <th>Threatened?</th>
-                                <th>More&nbsp;info</th>
                             </tr>
                             <tr v-for="(specie) in speciesList">
-                                <td>{{ specie.scientific_name }}</td>
+                                <td>
+                                    <a :href="'https://bie.ala.org.au/species/' + specie.guid"
+                                       target="_blank">{{ specie.scientific_name }}</a> <a
+                                    :href="'https://bie.ala.org.au/species/' + specie.guid" target="_blank"><i
+                                    class="bi bi-box-arrow-up-right"></i></a>
+                                </td>
                                 <td>{{ commonNames(specie) }}</td>
                                 <td>{{ isThreatened(specie) }}</td>
-                                <td><a :href="'https://bie.ala.org.au/species/' + specie.guid" target="_blank"><i
-                                    class="bi bi-box-arrow-up-right"></i></a></td>
                             </tr>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -90,8 +91,13 @@ export default {
     th, td {
         padding: 0.3em 0.7em;
     }
+
     td > a {
         padding: 0;
+
+        i {
+            text-decoration: none;
+        }
     }
 }
 
