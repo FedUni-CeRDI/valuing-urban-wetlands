@@ -22,7 +22,7 @@
     "css": [
       "assets/app-e80f8aa6.css"
     ],
-    "file": "assets/app-25c4e561.js",
+    "file": "assets/app-5e2a6ee3.js",
     "imports": [
       "_vendor-ba1a9126.js"
     ],
@@ -30,7 +30,7 @@
     "src": "resources/js/app.js"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-4719fc68.css",
+    "file": "assets/app-8061d234.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   }

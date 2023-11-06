@@ -5,8 +5,8 @@
                 <div class="col-auto">
                     <div class="row justify-content-center align-items-center">
                         <div class="col-auto">
-                            <button class="btn btn-sm btn-light" type="button" @click="zoomToFullExtent(map)">
-                                <i class="bi bi-arrows-angle-expand"></i>
+                            <button class="btn btn-sm btn-light" title="View full map" type="button" @click="zoomToFullExtent(map)">
+                                <i class="bi bi-zoom-out"></i>
                             </button>
                         </div>
                     </div>
