@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Traits\PrefixedLogger;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class LandUseService
 {
@@ -27,7 +28,9 @@ class LandUseService
                                     ST_Transform(geom, 7844),
                                     (%d / 111.1 / 1000) -- Convert metres to decimal degrees
                                 ),
-		                        ST_Transform(wetlands.geom, 7844)
+                                ST_MakeValid(
+		                            ST_Transform(wetlands.geom, 7844)
+                                )
 	                        ),
                             $destination_srid
                         )
@@ -39,6 +42,7 @@ CTE,
             config('aurin.wetland_buffer'),
             DB::getPdo()->quote($feature)
         );
+
 
     }
 
@@ -71,6 +75,8 @@ CTE,
 SQL,
             $this->buildBufferedWetlandCTE($feature, $table_srid)
         );
+
+        Log::debug($query);
 
         return $query;
     }
