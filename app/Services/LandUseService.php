@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Traits\PrefixedLogger;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class LandUseService
 {
@@ -53,7 +52,7 @@ CTE,
                 "usage",
                 ROUND (
                     CAST(
-                        area / (SUM(area) OVER ()) * 100
+                         area / (ST_Area(wetland_buffer."geom")) * 100
                         AS NUMERIC
                     ),
                     2
@@ -63,10 +62,11 @@ CTE,
                     SUM(ST_Area(ST_Intersection(wetland_buffer.geom, land_use."geom"))) AS area,
                     COALESCE(land_use.$description_field, 'Unknown') AS "usage"
                 FROM $table_name AS "land_use"
-                RIGHT JOIN wetland_buffer ON st_intersects(wetland_buffer."geom", land_use."geom")
+                RIGHT JOIN wetland_buffer ON ST_Intersects(wetland_buffer."geom", land_use."geom")
                 GROUP BY "usage"
-            ) AS areas
-            GROUP BY area, "usage"
+            ) AS areas,
+                wetland_buffer
+            GROUP BY area, "usage", wetland_buffer."geom"
             ORDER BY "percentage" DESC
 SQL,
             $this->buildBufferedWetlandCTE($feature, $table_srid)
