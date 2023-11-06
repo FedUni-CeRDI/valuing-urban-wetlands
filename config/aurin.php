@@ -16,5 +16,6 @@ return [
             'lathams_snipe' => env('ALA_TAXON_CONCEPT_LATHAMS_SNIPE', 'https://biodiversity.org.au/afd/taxa/5c1957dc-0780-47cb-9c89-0498340c1e62'),
         ],
     ],
-
+    // Wetland buffer radius in metres
+    'wetland_buffer' => 350
 ];

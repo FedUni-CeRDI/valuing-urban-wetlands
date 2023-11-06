@@ -4,9 +4,11 @@ namespace App\Services;
 
 use App\Traits\PrefixedLogger;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class LandUseService
 {
+
     use PrefixedLogger;
 
     public function __construct()
@@ -14,18 +16,38 @@ class LandUseService
         $this->setLoggerPrefix(basename(__CLASS__));
     }
 
-    private function buildPercentageIntersectionQuery(string $wkt, string $table_name, string $description_field, int $wkt_srid, int $table_srid): string
+    private function buildBufferedWetlandCTE(string $feature, int $destination_srid): string
     {
-        $query = sprintf(<<<SQL
-            WITH selected_wetland AS (
-                SELECT ST_MakeValid(ST_Transform(
-                    ST_GeomFromText(
-                        %s,
-                        $wkt_srid
-                    ),
-                    $table_srid
-                )) AS geom
+        return sprintf(<<<CTE
+            WITH wetland_buffer AS (
+                SELECT
+                    ST_MakeValid(
+                        ST_Transform(
+                            ST_Difference(
+		                        ST_Buffer(
+                                    ST_Transform(geom, 7844),
+                                    (%d / 111.1 / 1000) -- Convert metres to decimal degrees
+                                ),
+		                        ST_Transform(wetlands.geom, 7844)
+	                        ),
+                            $destination_srid
+                        )
+                    ) AS geom
+                FROM "wetlands"
+                WHERE "id" = %s
             )
+CTE,
+            config('aurin.wetland_buffer'),
+            DB::getPdo()->quote($feature)
+        );
+
+    }
+
+    private function buildPercentageIntersectionQuery(string $feature, string $table_name, string $description_field, int $table_srid): string
+    {
+        $query = sprintf(
+            <<<SQL
+            %s
             SELECT
                 ROUND(CAST(area AS NUMERIC), 2) AS "area",
                 "usage",
@@ -38,53 +60,54 @@ class LandUseService
                 ) AS percentage
             FROM (
                 SELECT
-                    SUM(ST_Area(ST_Intersection(selected_wetland.geom, land_use."geom"))) AS area,
+                    SUM(ST_Area(ST_Intersection(wetland_buffer.geom, land_use."geom"))) AS area,
                     COALESCE(land_use.$description_field, 'Unknown') AS "usage"
                 FROM $table_name AS "land_use"
-                RIGHT JOIN selected_wetland ON st_intersects(selected_wetland."geom", land_use."geom")
+                RIGHT JOIN wetland_buffer ON st_intersects(wetland_buffer."geom", land_use."geom")
                 GROUP BY "usage"
             ) AS areas
             GROUP BY area, "usage"
             ORDER BY "percentage" DESC
 SQL,
-            DB::getPdo()->quote($wkt),
+            $this->buildBufferedWetlandCTE($feature, $table_srid)
         );
 
         return $query;
     }
 
-    private function getIntersectingLandUsePercentages(string $wkt, string $land_use_table_name, string $land_use_description_field, int $wkt_srid = 7844, int $land_use_srid = 3111): array
+    private function getIntersectingLandUsePercentages(string $feature, string $land_use_table_name, string $land_use_description_field, int $land_use_srid = 3111): array
     {
-        return DB::select($this->buildPercentageIntersectionQuery($wkt, $land_use_table_name, $land_use_description_field, $wkt_srid, $land_use_srid));
+        return DB::select($this->buildPercentageIntersectionQuery($feature, $land_use_table_name, $land_use_description_field, $land_use_srid));
     }
 
-    public function getVicmapPlanningZones(string $wkt)
+    public function getVicmapPlanningZones(string $feature)
     {
-        return $this->getIntersectingLandUsePercentages($wkt, 'aurin_plan_zone_3111', 'zone_desc');
+        return $this->getIntersectingLandUsePercentages($feature, 'aurin_plan_zone_3111', 'zone_desc');
     }
 
-    public function getVicmapPlanningOverlays(string $wkt)
+    public function getVicmapPlanningOverlays(string $feature)
     {
-        return $this->getIntersectingLandUsePercentages($wkt, 'aurin_plan_overlay_3111', 'zone_desc');
+        return $this->getIntersectingLandUsePercentages($feature, 'aurin_plan_overlay_3111', 'zone_desc');
     }
 
-    public function getCatchmentLandUse(string $wkt)
+    public function getCatchmentLandUse(string $feature)
     {
-        return $this->getIntersectingLandUsePercentages($wkt, 'aurin_landuse18_3111', 'land_use');
+        return $this->getIntersectingLandUsePercentages($feature, 'aurin_landuse18_3111', 'land_use');
     }
 
-    public function getVluisPropertyClassification(string $wkt)
+    public function getVluisPropertyClassification(string $feature)
     {
-        return $this->getIntersectingLandUsePercentages($wkt, 'aurin_vluis2017_7899', 'lu_desc', land_use_srid: 7899);
+        return $this->getIntersectingLandUsePercentages($feature, 'aurin_vluis2017_7899', 'lu_desc', land_use_srid: 7899);
     }
 
-    public function getVluisLandUse(string $wkt)
+    public function getVluisLandUse(string $feature)
     {
-        return $this->getIntersectingLandUsePercentages($wkt, 'aurin_vluis2017_7899', 'lu_description_a', land_use_srid: 7899);
+        return $this->getIntersectingLandUsePercentages($feature, 'aurin_vluis2017_7899', 'lu_description_a', land_use_srid: 7899);
     }
 
-    public function getVluisLandCover(string $wkt)
+    public function getVluisLandCover(string $feature)
     {
-        return $this->getIntersectingLandUsePercentages($wkt, 'aurin_vluis2017_7899', 'lc_desc_17', land_use_srid: 7899);
+        return $this->getIntersectingLandUsePercentages($feature, 'aurin_vluis2017_7899', 'lc_desc_17', land_use_srid: 7899);
     }
+
 }

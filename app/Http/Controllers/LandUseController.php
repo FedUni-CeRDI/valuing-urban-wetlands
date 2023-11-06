@@ -11,42 +11,42 @@ class LandUseController extends Controller
     public function getPlanningZones(LandUseService $landUseService, Request $request): JsonResponse
     {
         return response()->json(
-            $landUseService->getVicmapPlanningZones($request->wkt)
+            $landUseService->getVicmapPlanningZones($request->feature)
         );
     }
 
     public function getPlanningOverlays(LandUseService $landUseService, Request $request): JsonResponse
     {
         return response()->json(
-            $landUseService->getVicmapPlanningOverlays($request->wkt)
+            $landUseService->getVicmapPlanningOverlays($request->feature)
         );
     }
 
     public function getCatchmentLandUse(LandUseService $landUseService, Request $request): JsonResponse
     {
         return response()->json(
-            $landUseService->getCatchmentLandUse($request->wkt)
+            $landUseService->getCatchmentLandUse($request->feature)
         );
     }
 
     public function getVluisPropertyClassification(LandUseService $landUseService, Request $request): JsonResponse
     {
         return response()->json(
-            $landUseService->getVluisPropertyClassification($request->wkt)
+            $landUseService->getVluisPropertyClassification($request->feature)
         );
     }
 
     public function getVluisLandUse(LandUseService $landUseService, Request $request): JsonResponse
     {
         return response()->json(
-            $landUseService->getVluisLandUse($request->wkt)
+            $landUseService->getVluisLandUse($request->feature)
         );
     }
 
     public function getVluisLandCover(LandUseService $landUseService, Request $request): JsonResponse
     {
         return response()->json(
-            $landUseService->getVluisLandCover($request->wkt)
+            $landUseService->getVluisLandCover($request->feature)
         );
     }
 }

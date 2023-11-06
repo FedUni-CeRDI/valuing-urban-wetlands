@@ -1,6 +1,6 @@
 {
-  "_vendor-3f01f3a9.js": {
-    "file": "assets/vendor-3f01f3a9.js"
+  "_vendor-26527c6c.js": {
+    "file": "assets/vendor-26527c6c.js"
   },
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
     "file": "assets/bootstrap-icons-4d4572ef.woff",
@@ -11,7 +11,7 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/js/app.css": {
-    "file": "assets/app-241bd37a.css",
+    "file": "assets/app-240ce499.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
@@ -20,11 +20,11 @@
       "assets/bootstrap-icons-4d4572ef.woff"
     ],
     "css": [
-      "assets/app-241bd37a.css"
+      "assets/app-240ce499.css"
     ],
-    "file": "assets/app-318133cf.js",
+    "file": "assets/app-e642ec2b.js",
     "imports": [
-      "_vendor-3f01f3a9.js"
+      "_vendor-26527c6c.js"
     ],
     "isEntry": true,
     "src": "resources/js/app.js"

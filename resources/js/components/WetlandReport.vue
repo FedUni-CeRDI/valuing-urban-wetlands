@@ -135,7 +135,6 @@
 <script>
 import {GeoJSON, WKT} from 'ol/format';
 import {values, pick, filter, intersection, maxBy, forIn, sortBy} from 'lodash';
-import {buffer} from '@turf/turf';
 
 import LandUseChart from './LandUseChart.vue';
 import SeasonalCountsChart from './SeasonalCountsChart.vue';
@@ -275,22 +274,6 @@ export default {
             }
             return (new WKT()).writeFeature(feature, wktOptions);
         },
-        bufferedFeature(feature) {
-            // TODO: convert bufferDistance to /app/config
-            let bufferDistance = .350;
-            let localFeature = feature.clone();
-            localFeature.getGeometry().transform('EPSG:3857', 'EPSG:7844');
-            let geojson = (new GeoJSON()).writeFeatureObject(localFeature);
-
-            let bufferedFeature = buffer(geojson, bufferDistance, {
-                'units': 'kilometers',
-            });
-
-            bufferedFeature = (new GeoJSON()).readFeature(bufferedFeature);
-            bufferedFeature.getGeometry().transform('EPSG:7844', 'EPSG:3857');
-
-            return bufferedFeature;
-        },
         fetchAlaWaterbirds(feature) {
             let self = this;
             if (feature) {
@@ -328,7 +311,8 @@ export default {
         async fetchLandUsePercentage(feature, label, endpoint) {
             let self = this;
             await axios.post('/app/landuse/' + endpoint, {
-                'wkt': self.featureToWkt(self.bufferedFeature(feature), 7844),
+                'wkt': self.featureToWkt(feature, 7844),
+                'feature': feature.getId().split('.').pop()
             }).then(function(response) {
                 self.landUsePushAndSort(
                     {
