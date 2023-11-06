@@ -85,7 +85,7 @@ export default {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .table-bordered {
     th, td {
         padding: 0.3em 0.7em;

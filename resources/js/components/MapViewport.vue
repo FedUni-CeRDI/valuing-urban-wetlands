@@ -6,7 +6,9 @@
         <div id="viewport">
             <MapControls
                 :protectionStatus="this.viewparams.wetlands.protection"
+                :landUse="this.viewparams.wetlands.landuse"
                 @update:protectionStatus="updateProtectionStatus"
+                @update:landUse="updateLandUse"
                 :map="map"
             />
             <div id="map"></div>
@@ -60,6 +62,7 @@ export default {
             viewparams: {
                 wetlands: {
                     'protection': 'all',
+                    'landuse': 'all'
                 },
             },
             map: null,
@@ -74,12 +77,21 @@ export default {
     methods: {
         buildViewParams(viewparams) {
             return reduce(viewparams, function(result, value, key) {
-                result = (result !== '' ? result + ',' : result) + key + ':' + value;
+                result = (result !== '' ? result + ';' : result) + key + ':' + value;
                 return result;
             }, '');
         },
         updateProtectionStatus(status) {
             this.viewparams.wetlands.protection = status;
+            let source = this.layers.wetlands.getSource();
+            source.updateParams(
+                merge(source.getParams(), {
+                    VIEWPARAMS: this.buildViewParams(this.viewparams.wetlands),
+                }),
+            );
+        },
+        updateLandUse(status) {
+            this.viewparams.wetlands.landuse = status;
             let source = this.layers.wetlands.getSource();
             source.updateParams(
                 merge(source.getParams(), {
