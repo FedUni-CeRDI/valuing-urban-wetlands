@@ -1,16 +1,19 @@
 <template>
-    <div class="map-controls">
+
+    <div class="row justify-content-center align-items-center map-controls">
+        <div class="col-auto">
+            <button class="btn btn-sm btn-light d-block mt-3" title="View full map" type="button" @click="zoomToFullExtent(map)">
+                <i class="bi bi-zoom-out" title="View full map"></i>
+            </button>
+            <button class="btn btn-sm btn-light d-block" title="Reset map filters" type="button" @click="resetFilters(map)">
+                <i class="bi bi-eraser" title="Reset map filters"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="map-filters">
         <form>
             <div class="row">
-                <div class="col-auto">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-auto">
-                            <button class="btn btn-sm btn-light" title="View full map" type="button" @click="zoomToFullExtent(map)">
-                                <i class="bi bi-zoom-out"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
                 <div class="col">
                     <div class="row justify-content-center align-items-center">
 
@@ -97,10 +100,13 @@ export default {
         zoomToFullExtent(map) {
             return zoomToExtent(map, map.get('MAP_EXTENT'));
         },
+        resetFilters() {
+            this.$emit('reset:filters');
+        }
     },
     components: {WetlandSearch},
     props: ['protectionStatus', 'landUse', 'map'],
-    emits: ['update:protectionStatus', 'update:landUse'],
+    emits: ['update:protectionStatus', 'update:landUse', 'reset:filters'],
     mounted() {
 
     },
