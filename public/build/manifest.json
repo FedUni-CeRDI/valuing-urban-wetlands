@@ -1,0 +1,37 @@
+{
+  "_vendor-8862e422.js": {
+    "file": "assets/vendor-8862e422.js"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
+    "file": "assets/bootstrap-icons-4d4572ef.woff",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2": {
+    "file": "assets/bootstrap-icons-bacd70af.woff2",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-330c1189.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "assets": [
+      "assets/bootstrap-icons-bacd70af.woff2",
+      "assets/bootstrap-icons-4d4572ef.woff"
+    ],
+    "css": [
+      "assets/app-330c1189.css"
+    ],
+    "file": "assets/app-de82bf59.js",
+    "imports": [
+      "_vendor-8862e422.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/scss/app.scss": {
+    "file": "assets/app-67f60477.css",
+    "isEntry": true,
+    "src": "resources/scss/app.scss"
+  }
+}
