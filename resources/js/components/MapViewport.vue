@@ -9,6 +9,7 @@
                 :landUse="this.viewparams.wetlands.landuse"
                 @update:protectionStatus="updateProtectionStatus"
                 @update:landUse="updateLandUse"
+                @reset:filters="resetMapFilters"
                 :map="map"
             />
             <div id="map"></div>
@@ -83,23 +84,16 @@ export default {
         },
         updateProtectionStatus(status) {
             this.viewparams.wetlands.protection = status;
-            let source = this.layers.wetlands.getSource();
-            source.updateParams(
-                merge(source.getParams(), {
-                    VIEWPARAMS: this.buildViewParams(this.viewparams.wetlands),
-                }),
-            );
         },
         updateLandUse(status) {
             this.viewparams.wetlands.landuse = status;
-            let source = this.layers.wetlands.getSource();
-            source.updateParams(
-                merge(source.getParams(), {
-                    VIEWPARAMS: this.buildViewParams(this.viewparams.wetlands),
-                }),
-            );
         },
-
+        resetMapFilters() {
+            this.viewparams.wetlands = {
+                'protection': 'all',
+                'landuse': 'all'
+            }
+        },
         selectFeature(e) {
             let self = this;
 
@@ -145,6 +139,17 @@ export default {
             feature ? this.pushWetlandInfoRoute(feature) : this.pushHomeRoute();
             this.renderSelectedFeature(feature);
         },
+        'viewparams.wetlands': {
+            deep: true,
+            handler: function() {
+                let source = this.layers.wetlands.getSource();
+                source.updateParams(
+                    merge(source.getParams(), {
+                        VIEWPARAMS: this.buildViewParams(this.viewparams.wetlands),
+                    }),
+                );
+            }
+        }
     },
     mounted() {
         let self = this;
