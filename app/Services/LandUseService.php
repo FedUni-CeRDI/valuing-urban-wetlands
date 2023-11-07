@@ -76,8 +76,6 @@ SQL,
             $this->buildBufferedWetlandCTE($feature, $table_srid)
         );
 
-        Log::debug($query);
-
         return $query;
     }
 
@@ -86,6 +84,35 @@ SQL,
         return DB::select($this->buildPercentageIntersectionQuery($feature, $land_use_table_name, $land_use_description_field, $land_use_srid));
     }
 
+    public function getWetlandsUsage(string $feature)
+    {
+        $wetlands_srid = 3857;
+        $query = sprintf(
+            <<<SQL
+            %s
+            SELECT
+                ROUND(CAST(area AS NUMERIC), 2) AS "area",
+                ROUND (CAST(
+                        area / (ST_Area(wetland_buffer.geom)) * 100
+                        AS NUMERIC
+                    ), 2) AS percentage,
+                ROUND(CAST(ST_Area(wetland_buffer.geom) as NUMERIC), 2) as "total_area"
+            FROM (
+                SELECT
+                    SUM(ST_Area(ST_Intersection(wetland_buffer.geom, land_use."geom"))) AS area
+                FROM wetlands AS "land_use"
+                RIGHT JOIN wetland_buffer ON st_intersects(wetland_buffer."geom", land_use."geom")
+
+            ) AS areas,
+						wetland_buffer
+            GROUP BY area, wetland_buffer.geom
+            ORDER BY "percentage" DESC
+SQL,
+            $this->buildBufferedWetlandCTE($feature, $wetlands_srid)
+        );
+
+        return DB::select($query);
+    }
     public function getVicmapPlanningZones(string $feature)
     {
         return $this->getIntersectingLandUsePercentages($feature, 'aurin_plan_zone_3111', 'zone_desc');

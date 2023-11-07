@@ -27,8 +27,13 @@
             </tr>
             <tr>
                 <td>{{ alaWaterbirdSpecies == null ? '?' : alaWaterbirdSpecies.length }} species</td>
-                <td>{{ threatenedAlaWaterbirdSpecies == null ? '?' : threatenedAlaWaterbirdSpecies.length }} threatened</td>
-                <td class="text-end" @click="showWaterbirdList = true"><button class="btn btn-light btn-sm" title="View species listing/info"><i class="bi bi-list-columns"></i></button></td>
+                <td>{{ threatenedAlaWaterbirdSpecies == null ? '?' : threatenedAlaWaterbirdSpecies.length }}
+                    threatened
+                </td>
+                <td class="text-end" @click="showWaterbirdList = true">
+                    <button class="btn btn-light btn-sm" title="View species listing/info"><i
+                        class="bi bi-list-columns"></i></button>
+                </td>
             </tr>
             <tr>
                 <th colspan="3">Frogs</th>
@@ -36,7 +41,10 @@
             <tr>
                 <td>{{ alaFrogSpecies == null ? '?' : alaFrogSpecies.length }} species</td>
                 <td>{{ threatenedAlaFrogSpecies == null ? '?' : threatenedAlaFrogSpecies.length }} threatened</td>
-                <td class="text-end" @click="showFrogList = true"><button class="btn btn-light btn-sm" title="View species listing/info"><i class="bi bi-list-columns"></i></button></td>
+                <td class="text-end" @click="showFrogList = true">
+                    <button class="btn btn-light btn-sm" title="View species listing/info"><i
+                        class="bi bi-list-columns"></i></button>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -127,8 +135,10 @@
             </tr>
             </tbody>
         </table>
-        <species-list :visible="showWaterbirdList" :species-list="alaWaterbirdSpecies" title="Waterbirds" id="list-waterbirds" @closed="showWaterbirdList = false"/>
-        <species-list :visible="showFrogList" :species-list="alaFrogSpecies" title="Frogs" id="list-frogs" @closed="showFrogList = false"/>
+        <species-list :visible="showWaterbirdList" :species-list="alaWaterbirdSpecies" title="Waterbirds"
+                      id="list-waterbirds" @closed="showWaterbirdList = false"/>
+        <species-list :visible="showFrogList" :species-list="alaFrogSpecies" title="Frogs" id="list-frogs"
+                      @closed="showFrogList = false"/>
     </template>
 </template>
 
@@ -154,6 +164,7 @@ export default {
             showWaterbirdList: false,
             showFrogList: false,
             landuseEndpointMap: {
+                'Wetland in buffer (%)': 'wetlands',
                 'Vicmap Planning Zones': 'planning/zones',
                 'Vicmap Planning Overlays': 'planning/overlays',
                 'VLUIS Property Classification': 'vluis/property',
@@ -310,9 +321,10 @@ export default {
 
         async fetchLandUsePercentage(feature, label, endpoint) {
             let self = this;
-            await axios.post('/app/landuse/' + endpoint, {
-                'wkt': self.featureToWkt(feature, 7844),
-                'feature': feature.getId().split('.').pop()
+            await axios.get('/app/landuse/' + endpoint, {
+                params: {
+                    'feature': feature.getId().split('.').pop(),
+                },
             }).then(function(response) {
                 self.landUsePushAndSort(
                     {

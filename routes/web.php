@@ -32,16 +32,18 @@ Route::prefix('app')->group(function () {
     Route::get('species-info', [PublicController::class, 'speciesInfo']);
     Route::get('config', [PublicController::class, 'config']);
     Route::prefix('landuse')->group(function () {
+
+        Route::get('catchment', [LandUseController::class, 'getCatchmentLandUse']);
         Route::prefix('planning')->group(function () {
-            Route::post('zones', [LandUseController::class, 'getPlanningZones']);
-            Route::post('overlays', [LandUseController::class, 'getPlanningOverlays']);
+            Route::get('zones', [LandUseController::class, 'getPlanningZones']);
+            Route::get('overlays', [LandUseController::class, 'getPlanningOverlays']);
         });
-        Route::post('catchment', [LandUseController::class, 'getCatchmentLandUse']);
         Route::prefix('vluis')->group(function () {
-            Route::post('property', [LandUseController::class, 'getVluisPropertyClassification']);
-            Route::post('alum', [LandUseController::class, 'getVluisLandUse']);
-            Route::post('landcover', [LandUseController::class, 'getVluisLandCover']);
+            Route::get('property', [LandUseController::class, 'getVluisPropertyClassification']);
+            Route::get('alum', [LandUseController::class, 'getVluisLandUse']);
+            Route::get('landcover', [LandUseController::class, 'getVluisLandCover']);
         });
+        Route::get('wetlands', [LandUseController::class, 'getWetlandUsage']);
     });
 
     Route::post('snipe/seasonal-counts', [PublicController::class, 'snipeSeasonalCounts']);

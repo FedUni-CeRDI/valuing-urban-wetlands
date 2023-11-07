@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class LandUseController extends Controller
 {
+    public function getWetlandUsage(LandUseService $landUseService, Request $request): JsonResponse
+    {
+        return response()->json(
+            $landUseService->getWetlandsUsage($request->feature)
+        );
+    }
     public function getPlanningZones(LandUseService $landUseService, Request $request): JsonResponse
     {
         return response()->json(
