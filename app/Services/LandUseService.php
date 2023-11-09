@@ -123,11 +123,6 @@ SQL,
         return $this->getIntersectingLandUsePercentages($feature, 'aurin_plan_overlay_3111', 'zone_desc');
     }
 
-    public function getCatchmentLandUse(string $feature)
-    {
-        return $this->getIntersectingLandUsePercentages($feature, 'aurin_landuse18_3111', 'land_use');
-    }
-
     public function getVluisPropertyClassification(string $feature)
     {
         return $this->getIntersectingLandUsePercentages($feature, 'aurin_vluis2017_7899', 'lu_desc', land_use_srid: 7899);

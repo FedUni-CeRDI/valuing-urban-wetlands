@@ -33,7 +33,6 @@ Route::prefix('app')->group(function () {
     Route::get('config', [PublicController::class, 'config']);
     Route::prefix('landuse')->group(function () {
 
-        Route::get('catchment', [LandUseController::class, 'getCatchmentLandUse']);
         Route::prefix('planning')->group(function () {
             Route::get('zones', [LandUseController::class, 'getPlanningZones']);
             Route::get('overlays', [LandUseController::class, 'getPlanningOverlays']);

@@ -169,8 +169,7 @@ export default {
                 'Vicmap Planning Overlays': 'planning/overlays',
                 'VLUIS Property Classification': 'vluis/property',
                 'VLUIS Land Use': 'vluis/alum',
-                'VLUIS Land Cover': 'vluis/landcover',
-                'Catchment Land use': 'catchment',
+                'VLUIS Land Cover': 'vluis/landcover'
             },
             stateAbbreviations: {
                 'Victoria': 'vic',

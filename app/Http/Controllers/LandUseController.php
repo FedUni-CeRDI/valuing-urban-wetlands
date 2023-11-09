@@ -28,13 +28,6 @@ class LandUseController extends Controller
         );
     }
 
-    public function getCatchmentLandUse(LandUseService $landUseService, Request $request): JsonResponse
-    {
-        return response()->json(
-            $landUseService->getCatchmentLandUse($request->feature)
-        );
-    }
-
     public function getVluisPropertyClassification(LandUseService $landUseService, Request $request): JsonResponse
     {
         return response()->json(
