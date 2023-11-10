@@ -11,7 +11,3 @@
 <p>
     For technical support, please contact <a href="https://www.cerdi.edu.au/contactus" target="_blank">CeRDI</a>.
 </p>
-
-<p>
-    <mark>[link to metadata?]</mark>
-</p>

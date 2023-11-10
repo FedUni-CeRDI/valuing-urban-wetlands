@@ -111,9 +111,6 @@
     Science Daily, August 2022
 </p>
 
-<p>
-    <mark>[something from MW?]</mark>
-</p>
 
 <p>
     Urban plans can be amended to accommodate nature: read in the Conversation an article by <a
