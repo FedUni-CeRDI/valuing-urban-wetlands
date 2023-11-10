@@ -1,5 +1,6 @@
 <script>
 import Plotly from 'plotly.js-basic-dist-min';
+
 import 'bootstrap-icons/font/bootstrap-icons.scss';
 import {forEach} from 'lodash';
 

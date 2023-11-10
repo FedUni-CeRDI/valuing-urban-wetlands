@@ -1,6 +1,21 @@
 {
-  "_vendor-8862e422.js": {
-    "file": "assets/vendor-8862e422.js"
+  "_bootstrap-c9b78b8b.js": {
+    "file": "assets/bootstrap-c9b78b8b.js"
+  },
+  "_lodash-ebdeb6e1.js": {
+    "file": "assets/lodash-ebdeb6e1.js"
+  },
+  "_ol-58f69527.js": {
+    "file": "assets/ol-58f69527.js"
+  },
+  "_plotly-b27f6d33.js": {
+    "file": "assets/plotly-b27f6d33.js",
+    "imports": [
+      "_lodash-ebdeb6e1.js"
+    ]
+  },
+  "_vue-bfb93dd8.js": {
+    "file": "assets/vue-bfb93dd8.js"
   },
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
     "file": "assets/bootstrap-icons-4d4572ef.woff",
@@ -22,9 +37,13 @@
     "css": [
       "assets/app-c18b50a7.css"
     ],
-    "file": "assets/app-02194c6b.js",
+    "file": "assets/app-2b784cf7.js",
     "imports": [
-      "_vendor-8862e422.js"
+      "_bootstrap-c9b78b8b.js",
+      "_vue-bfb93dd8.js",
+      "_ol-58f69527.js",
+      "_lodash-ebdeb6e1.js",
+      "_plotly-b27f6d33.js"
     ],
     "isEntry": true,
     "src": "resources/js/app.js"
