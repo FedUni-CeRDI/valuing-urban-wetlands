@@ -3,18 +3,34 @@
 - PHP 8.2
 
 # Deployment
+## Create database
+- Defaults expect PostgreSQL + PostGIS database
+  - Name: `valuing_urban_wetlands`
+  - Owner: `vuw_user`
+  - All data imported in tables as outlined in datasets below
+
+## Setup .env
 - Copy `.env.example` to `.env`
 - Provide a valid ALA API Client ID and Secret
--
+- Provide a valid GOOGLE_ANALYTICS_KEY
+
+## Run local file cache commands
 Below console commands should to be run to generate needed cache files.
-
-
-
 
 ```bash
 php8.2 artisan frog:info
 php8.2 artisan waterbird:info
 ```
+
+## Run database seeder
+> **Note**: This requires all tables to be created as per datasets below
+
+> **Warning**: This will take around an hour to run
+```bash
+php8.2 artisan migrate --step
+```
+
+
 # Datasets
 ##  Melbourne Water Corporation
 - URL: https://datashare.maps.vic.gov.au/search?md=9ee9d41a-93dc-5e13-9ad8-69c64c22249d
@@ -71,6 +87,5 @@ php8.2 artisan waterbird:info
 # TODO
 
 [//]: # (Link to datasets &#40;wetlands and snipe data&#41; on AURIN)
-[//]: # (Add SQL views to code base)
 [//]: # (Document GeoServer configs/SLDs/etc)
 
