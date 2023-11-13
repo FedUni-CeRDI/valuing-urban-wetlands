@@ -84,8 +84,16 @@ php8.2 artisan migrate --step
 - As table in PostGIS: aurin_vluis2017_7899
 
 
+## Configuring GeoServer
+The portal requires a GeoServer instance to deliver map tiles for the wetlands and boundary.
+
+This application requires the GeoServer Workspace be called `valuing_urban_wetlands`
+
+See reference configuration files in `resources/geoserver`. Except database (above PostGIS) configuration
+params in `resources/geoserver/valuing_urban_wetlands/postgis_valuing_urban_wetlands/datastore.xml` the
+entire `valuing_urban_wetlands` can be dropped into you GeoServer workspaces directory.
+
 # TODO
 
 [//]: # (Link to datasets &#40;wetlands and snipe data&#41; on AURIN)
-[//]: # (Document GeoServer configs/SLDs/etc)
 

@@ -1,0 +1,17 @@
+<layer>
+  <name>wetlands</name>
+  <id>LayerInfoImpl--6e5c224:18a43df4c5a:1c8a</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--6e5c224:18a43df4c5a:1c8b</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--6e5c224:18a43df4c5a:1c89</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2023-09-01 07:36:54.709 UTC</dateCreated>
+  <dateModified>2023-11-09 04:14:35.992 UTC</dateModified>
+</layer>

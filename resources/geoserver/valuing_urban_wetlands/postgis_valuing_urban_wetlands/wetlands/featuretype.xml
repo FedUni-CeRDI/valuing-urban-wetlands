@@ -1,0 +1,108 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--6e5c224:18a43df4c5a:1c89</id>
+  <name>wetlands</name>
+  <nativeName>wetlands</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-1f5a6c70:186b3a1922c:-5202</id>
+  </namespace>
+  <title>wetlands</title>
+  <keywords>
+    <string>features</string>
+    <string>wetlands</string>
+  </keywords>
+  <nativeCRS class="projected">PROJCS[&quot;WGS 84 / Pseudo-Mercator&quot;, 
+  GEOGCS[&quot;WGS 84&quot;, 
+    DATUM[&quot;World Geodetic System 1984&quot;, 
+      SPHEROID[&quot;WGS 84&quot;, 6378137.0, 298.257223563, AUTHORITY[&quot;EPSG&quot;,&quot;7030&quot;]], 
+      AUTHORITY[&quot;EPSG&quot;,&quot;6326&quot;]], 
+    PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]], 
+    UNIT[&quot;degree&quot;, 0.017453292519943295], 
+    AXIS[&quot;Geodetic longitude&quot;, EAST], 
+    AXIS[&quot;Geodetic latitude&quot;, NORTH], 
+    AUTHORITY[&quot;EPSG&quot;,&quot;4326&quot;]], 
+  PROJECTION[&quot;Popular Visualisation Pseudo Mercator&quot;, AUTHORITY[&quot;EPSG&quot;,&quot;1024&quot;]], 
+  PARAMETER[&quot;semi_minor&quot;, 6378137.0], 
+  PARAMETER[&quot;latitude_of_origin&quot;, 0.0], 
+  PARAMETER[&quot;central_meridian&quot;, 0.0], 
+  PARAMETER[&quot;scale_factor&quot;, 1.0], 
+  PARAMETER[&quot;false_easting&quot;, 0.0], 
+  PARAMETER[&quot;false_northing&quot;, 0.0], 
+  UNIT[&quot;m&quot;, 1.0], 
+  AXIS[&quot;Easting&quot;, EAST], 
+  AXIS[&quot;Northing&quot;, NORTH], 
+  AUTHORITY[&quot;EPSG&quot;,&quot;3857&quot;]]</nativeCRS>
+  <srs>EPSG:3857</srs>
+  <nativeBoundingBox>
+    <minx>1.6043725643364707E7</minx>
+    <maxx>1.6268988715903435E7</maxx>
+    <miny>-4653806.4237771565</miny>
+    <maxy>-4469102.888658575</maxy>
+    <crs class="projected">EPSG:3857</crs>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>144.1232395965482</minx>
+    <maxx>146.14681220664082</maxx>
+    <miny>-38.52463404454425</miny>
+    <maxy>-37.21489521761329</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="JDBC_VIRTUAL_TABLE">
+      <virtualTable>
+        <name>wetlands</name>
+        <sql>SELECT * &#xd;
+FROM &quot;wetlands&quot;&#xd;
+WHERE &#xd;
+(&#xd;
+    &apos;%protection%&apos; = &apos;all&apos; OR (&#xd;
+        &apos;%protection%&apos; = &apos;any&apos; AND NOT protection_status::jsonb @&gt; jsonb_build_array(null)&#xd;
+    ) OR (&#xd;
+        protection_status::jsonb @&gt; jsonb_build_array(&#xd;
+            NULLIF(&apos;%protection%&apos;, &apos;none&apos;)&#xd;
+        )&#xd;
+    )&#xd;
+)&#xd;
+AND (&#xd;
+    &apos;%landuse%&apos; = &apos;all&apos; OR (&#xd;
+        land_use::jsonb @&gt; jsonb_build_array(&apos;%landuse%&apos;)&#xd;
+    )&#xd;
+)
+</sql>
+        <escapeSql>false</escapeSql>
+        <keyColumn>id</keyColumn>
+        <geometry>
+          <name>geom</name>
+          <type>MultiPolygon</type>
+          <srid>3857</srid>
+        </geometry>
+        <parameter>
+          <name>landuse</name>
+          <defaultValue>all</defaultValue>
+          <regexpValidator>^[\w\d\s/]+$</regexpValidator>
+        </parameter>
+        <parameter>
+          <name>protection</name>
+          <defaultValue>all</defaultValue>
+          <regexpValidator>^[\w\d\s]+$</regexpValidator>
+        </parameter>
+      </virtualTable>
+    </entry>
+    <entry key="cachingEnabled">false</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-1f5a6c70:186b3a1922c:-5201</id>
+  </store>
+  <serviceConfiguration>false</serviceConfiguration>
+  <simpleConversionEnabled>false</simpleConversionEnabled>
+  <internationalTitle/>
+  <internationalAbstract/>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <padWithZeros>false</padWithZeros>
+  <forcedDecimal>false</forcedDecimal>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>
