@@ -13,6 +13,16 @@
 
     <!-- Styles -->
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('aurin.google_analytics_key') }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '{{ config('aurin.google_analytics_key') }}');
+    </script>
 </head>
 <body class="">
 <div id="app">

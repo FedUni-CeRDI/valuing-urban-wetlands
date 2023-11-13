@@ -17,5 +17,6 @@ return [
         ],
     ],
     // Wetland buffer radius in metres
-    'wetland_buffer' => 350
+    'wetland_buffer' => 350,
+    'google_analytics_key' => env('GOOGLE_ANALYTICS_KEY')
 ];
