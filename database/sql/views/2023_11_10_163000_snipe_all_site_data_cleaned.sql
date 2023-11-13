@@ -31,8 +31,6 @@ FROM snipe_all_site_data
 
 WITH NO DATA;
 
-ALTER MATERIALIZED VIEW "public"."snipe_all_site_data_cleaned" OWNER TO "aurin_user";
-
 CREATE INDEX "snipe_all_site_data_cleaned_geom_idx"
     ON "public"."snipe_all_site_data_cleaned" USING gist ("geom" "public"."gist_geometry_ops_2d");
 

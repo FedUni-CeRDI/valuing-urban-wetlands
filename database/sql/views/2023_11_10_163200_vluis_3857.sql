@@ -22,8 +22,6 @@ FROM aurin_vluis2017_7899
 
 WITH NO DATA;
 
-ALTER MATERIALIZED VIEW "public"."vluis_3857" OWNER TO "aurin_user";
-
 CREATE UNIQUE INDEX "vluis_3857_id_idx"
     ON "public"."vluis_3857" USING btree ("id" "pg_catalog"."int4_ops" ASC NULLS LAST);
 

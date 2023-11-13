@@ -16,8 +16,6 @@ FROM (
 
 WITH NO DATA;
 
-ALTER MATERIALIZED VIEW "public"."protection_status" OWNER TO "aurin_user";
-
 CREATE INDEX "protection_status_geom_idx"
     ON "public"."protection_status" USING gist ("geom" "public"."gist_geometry_ops_2d");
 

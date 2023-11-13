@@ -44,8 +44,6 @@ WHERE ((ala_snipe_records."decimalLatitude")::text <> ''::text)
 
 WITH NO DATA;
 
-ALTER MATERIALIZED VIEW "public"."ala_snipe_records_cleaned" OWNER TO "aurin_user";
-
 CREATE UNIQUE INDEX "ala_snipe_records_cleaned_id_idx"
     ON "public"."ala_snipe_records_cleaned" USING btree ("id" "pg_catalog"."int8_ops" ASC NULLS LAST);
 

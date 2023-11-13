@@ -36,8 +36,6 @@ WHERE ST_Intersects("CAPAD2020_terrestrial".geom, mw_boundary_simplified.geom)
 
 WITH NO DATA;
 
-ALTER MATERIALIZED VIEW "public"."capad_greater_melbourne" OWNER TO "aurin_user";
-
 CREATE INDEX "capad_greater_melbourne_geom_idx"
     ON "public"."capad_greater_melbourne" USING gist ("geom" "public"."gist_geometry_ops_2d");
 

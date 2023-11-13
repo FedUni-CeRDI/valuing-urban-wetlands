@@ -16,8 +16,6 @@ GROUP BY wetlands.id, wetlands.geom, wetlands.norm_sitnm
 
 WITH NO DATA;
 
-ALTER MATERIALIZED VIEW "public"."wetlands" OWNER TO "aurin_user";
-
 CREATE UNIQUE INDEX "wetlands_id_idx"
     ON "public"."wetlands" USING btree ("id" "pg_catalog"."int4_ops" ASC NULLS LAST);
 
