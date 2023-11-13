@@ -56,7 +56,7 @@
         </div>
     </nav>
     <div class="content">
-        <map-viewport />
+        <map-viewport></map-viewport>
     </div>
 </div>
 </body>
