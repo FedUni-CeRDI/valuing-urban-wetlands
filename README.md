@@ -68,8 +68,8 @@ php8.2 artisan migrate --step
 - As table in PostGIS: melbourne_wetlands_3857
 
 
-## Vicmap Planning - Planning Scheme Overlay Polygon
-- URL: https://datashare.maps.vic.gov.au/search?md=47847f20-b7ab-5cb9-8baf-c88ed6500988
+## Vicmap Planning - Planning Scheme Zone Polygon
+- URL: https://datashare.maps.vic.gov.au/search?md=e61471a1-277d-54ea-9a75-3cc9b1a86800
 - Projection: GDA94 VicGrid / 3111
 - As table in PostGIS: aurin_plan_zone_3111
 
