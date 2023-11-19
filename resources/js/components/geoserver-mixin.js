@@ -1,7 +1,7 @@
 export default {
     computed: {
         geoserverUrl() {
-            return this.config['geoserver_base_url'] + '/geoserver/aurin/ows';
+            return this.config['geoserver_base_url'] + '/geoserver/valuing_urban_wetlands/ows';
         },
     },
     methods: {
