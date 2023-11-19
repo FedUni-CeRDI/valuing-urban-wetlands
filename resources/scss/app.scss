@@ -1,0 +1,210 @@
+$font-family-base: 'Zen Kurenaido', sans-serif;
+$font-size-base: 1.2rem;
+$line-height-base: 1.3;
+
+@import '~bootstrap/scss/bootstrap';
+
+.navbar {
+    border-bottom: 2px solid #000;
+    position: absolute;
+    height: 7vh;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+
+    h1 {
+        font-size: 2.1rem;
+        margin-bottom: 0;
+
+        a {
+            font-size: 2.0rem;
+        }
+
+        img {
+            padding-right: 0.2rem;
+        }
+    }
+}
+
+.content {
+    position: absolute;
+    top: 7vh;
+    height: 93vh;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: stretch;
+}
+
+.navbar-collapse {
+    &.collapsing,
+    &.show {
+        position: absolute;
+        top: 7vh;
+        left: 0;
+        right: 0;
+        background: #FFF;
+        z-index: 100;
+        padding: 0.3rem 1rem;
+        border-bottom: 2px solid #000;
+    }
+}
+
+.sidebar {
+    border-right: 2px solid #000;
+    overflow-y: scroll;
+    padding: 1rem;
+
+    img {
+        max-width: 100%;
+    }
+}
+
+.viewport {
+    position: relative;
+}
+
+#viewport, #map {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.map-controls {
+    position: absolute;
+    left: 0.5em;
+    top: 3.5em;
+    z-index: 1;
+
+    .btn {
+        margin-bottom: 0.3em;
+    }
+}
+
+.ol-zoom-in::before {
+    content: "\F4FE";
+}
+
+.ol-zoom-out::before {
+    content: "\F2EA";
+}
+
+.ol-zoom-in::before,
+.ol-zoom-out::before {
+    display: inline-block;
+    font-family: "bootstrap-icons" !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: -0.125em;
+    color: #444;
+    font-size: 25px;
+}
+
+.ol-zoom {
+    background: none!important;
+
+    button {
+        line-height: 0!important;
+        height: 34px!important;
+        width: 34px!important;
+        padding: 0.5em!important;
+        font-size: 0!important;
+    }
+}
+
+.map-filters {
+    margin: 0 0 0 2.5em;
+    padding: 0.5em 0;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+
+    span {
+        display: block;
+        font-size: 0.8em;
+        color: #666;
+        margin-top: 0.5rem;
+    }
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-top: 1em;
+}
+
+h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.partners {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 1.5vw;
+    column-gap: 1.5vh;
+    max-width: 100%;
+    align-items: center;
+
+    a img {
+        display: block;
+        max-width: 100%;
+    }
+}
+
+.btn-inline {
+    padding: 0;
+    line-height: inherit;
+    display: inline;
+    text-decoration: none;
+    color: inherit;
+    vertical-align: inherit;
+    border-radius: 0;
+}
+
+abbr,
+.btn-abbr {
+    cursor: help;
+    border-bottom: 1px dotted;
+}
+
+.btn-abbr:hover,
+.btn-abbr:active {
+    color: inherit;
+    cursor: help;
+    border-bottom: 1px dotted;
+}
+
+
+mark {
+    padding: inherit;
+}
+
+figure {
+    position: relative;
+
+    figcaption {
+        background: #FFFFFF99;
+        position: absolute;
+        padding: 0.4em 0.5em;
+        font-weight: bold;
+        text-align: center;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+.aa-Panel {
+    z-index: 1;
+}

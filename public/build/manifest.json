@@ -1,0 +1,56 @@
+{
+  "_bootstrap-c9b78b8b.js": {
+    "file": "assets/bootstrap-c9b78b8b.js"
+  },
+  "_lodash-ebdeb6e1.js": {
+    "file": "assets/lodash-ebdeb6e1.js"
+  },
+  "_ol-58f69527.js": {
+    "file": "assets/ol-58f69527.js"
+  },
+  "_plotly-b27f6d33.js": {
+    "file": "assets/plotly-b27f6d33.js",
+    "imports": [
+      "_lodash-ebdeb6e1.js"
+    ]
+  },
+  "_vue-137b9990.js": {
+    "file": "assets/vue-137b9990.js"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
+    "file": "assets/bootstrap-icons-4d4572ef.woff",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2": {
+    "file": "assets/bootstrap-icons-bacd70af.woff2",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-c18b50a7.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "assets": [
+      "assets/bootstrap-icons-bacd70af.woff2",
+      "assets/bootstrap-icons-4d4572ef.woff"
+    ],
+    "css": [
+      "assets/app-c18b50a7.css"
+    ],
+    "file": "assets/app-43bd2bab.js",
+    "imports": [
+      "_bootstrap-c9b78b8b.js",
+      "_vue-137b9990.js",
+      "_ol-58f69527.js",
+      "_lodash-ebdeb6e1.js",
+      "_plotly-b27f6d33.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/scss/app.scss": {
+    "file": "assets/app-f0cbde87.css",
+    "isEntry": true,
+    "src": "resources/scss/app.scss"
+  }
+}
