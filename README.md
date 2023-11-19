@@ -57,12 +57,12 @@ php8.2 artisan migrate --step
 - As table in PostGIS: ramsar_update_nov22
 
 
-## Latham's Snipe Project data !
-- URL: To be supplied to AURIN
+## Latham's Snipe Project data
+- URL: https://data2.cerdi.edu.au/dataset/45f4e18b-88cc-458e-a04e-0153acd74c57
 - Projection: 4326
 - As table in PostGIS: snipe_all_site_data
 
-## Wetlands !
+## !! Wetlands 
 - URL: To be supplied to AURIN
 - Projection: 3857
 - As table in PostGIS: melbourne_wetlands_3857
