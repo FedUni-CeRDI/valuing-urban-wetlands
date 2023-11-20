@@ -13,6 +13,13 @@
 - Copy `.env.example` to `.env`
 - Provide a valid ALA API Client ID and Secret
 - Provide a valid GOOGLE_ANALYTICS_KEY
+- Provide connection details to database
+
+## Run setup commands
+```bash
+php8.2 artisan key:generate
+php8.2 artisan storage:link
+```
 
 ## Run local file cache commands
 Below console commands should to be run to generate needed cache files.
@@ -62,8 +69,8 @@ php8.2 artisan migrate --step
 - Projection: 4326
 - As table in PostGIS: snipe_all_site_data
 
-## !! Wetlands 
-- URL: To be supplied to AURIN
+## Melbourne wetlands mapping
+- URL: https://data2.cerdi.edu.au/dataset/15191c61-f8f5-47df-9fc6-05dcc279063e
 - Projection: 3857
 - As table in PostGIS: melbourne_wetlands_3857
 
@@ -92,8 +99,3 @@ This application requires the GeoServer Workspace be called `valuing_urban_wetla
 See reference configuration files in `resources/geoserver`. Except database (above PostGIS) configuration
 params in `resources/geoserver/valuing_urban_wetlands/postgis_valuing_urban_wetlands/datastore.xml` the
 entire `valuing_urban_wetlands` can be dropped into you GeoServer workspaces directory.
-
-# TODO
-
-[//]: # (Link to datasets &#40;wetlands and snipe data&#41; on AURIN)
-
