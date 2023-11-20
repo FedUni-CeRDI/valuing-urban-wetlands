@@ -5,7 +5,7 @@ import {createApp} from 'vue/dist/vue.esm-bundler';
 import proj4 from 'proj4';
 import {register} from 'ol/proj/proj4';
 
-import {createRouter, createWebHashHistory} from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import {createStore} from 'vuex';
 
 proj4.defs('EPSG:7844', '+proj=longlat +ellps=GRS80 +no_defs +type=crs');
@@ -17,7 +17,7 @@ import WetlandReport from './components/WetlandReport.vue';
 import {GeoJSON} from 'ol/format';
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes: [
         {path: '/', name: 'intro', components: {sidebar: SidebarXhrContent}},
         {path: '/about', name: 'about', components: {'sidebar': SidebarXhrContent}},

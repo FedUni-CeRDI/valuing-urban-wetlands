@@ -68,7 +68,7 @@ class SnipeService
     SQL
         );
 
-        // TODO: WHERE "eventDate" filter shouldn't be hardcoded
+        // TODO: WHERE "eventDate" filter shouldn't be hardcoded. This will cause issues if data sources become dynamic
 
         return DB::select($sql, [$wkt]);
     }
