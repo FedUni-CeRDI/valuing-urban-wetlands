@@ -4,4 +4,6 @@ pipelines:
   default:
     - step:
         script:
+          - git clone --bare git@bitbucket.org/feduni-cerdi/vuw-portal.git
+          - cd vuw-portal.git
           - git push --mirror git@github.com:FedUni-CeRDI/valuing-urban-wetlands.git
