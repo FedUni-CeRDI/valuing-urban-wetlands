@@ -156,7 +156,7 @@ export default {
         const mwBoundary = new VectorLayer({
             source: new VectorSource({
                 url: self.geoserverUrl +
-                    '?service=WFS&version=1.1.0&request=GetFeature&typeName=aurin:mw_boundary_simplified&outputFormat=application/json',
+                    '?service=WFS&version=1.1.0&request=GetFeature&typeName=valuing_urban_wetlands:mw_boundary_simplified&outputFormat=application/json',
                 format: new GeoJSON(),
             }),
             style: new Style({
@@ -171,7 +171,7 @@ export default {
             source: new TileWMS({
                 url: self.geoserverUrl,
                 params: {
-                    LAYERS: 'aurin:wetlands',
+                    LAYERS: 'valuing_urban_wetlands:wetlands',
                     TILED: true,
                     VIEWPARAMS: this.buildViewParams(this.viewparams.wetlands),
                 },
