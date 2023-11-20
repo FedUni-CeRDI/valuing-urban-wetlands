@@ -48,3 +48,7 @@ Route::prefix('app')->group(function () {
     Route::post('snipe/seasonal-counts', [PublicController::class, 'snipeSeasonalCounts']);
     Route::post('snipe/ala-seasonal-counts', [PublicController::class, 'snipeAlaSeasonalCounts']);
 });
+
+Route::fallback(function() {
+    return (new PublicController)->index();
+});
