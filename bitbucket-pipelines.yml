@@ -1,7 +1,10 @@
+image: atlassian/default-image:2
 clone:
-  depth: full
+  enabled: false
 pipelines:
   default:
     - step:
         script:
+          - git clone --mirror ${BITBUCKET_GIT_HTTP_ORIGIN} ./mirrored;
+          - cd ./mirrored;
           - git push --mirror git@github.com:FedUni-CeRDI/valuing-urban-wetlands.git
