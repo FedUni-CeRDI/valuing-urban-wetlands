@@ -18,7 +18,7 @@
     Use this tool to learn more about your local wetland.
 </p>
 <p>
-    <a href="#about">Read more..</a>
+    <a href="about">Read more..</a>
 </p>
 
 <h2>How to use this tool</h2>
