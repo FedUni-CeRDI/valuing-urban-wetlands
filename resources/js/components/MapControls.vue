@@ -10,6 +10,8 @@
                     @click="resetFilters(map)">
                 <i class="bi bi-eraser" title="Reset map filters"></i>
             </button>
+            <a href="#" id="panel-open"  @click="openNav">
+              <i class="bi bi-arrow-right"></i></a>
         </div>
     </div>
 
@@ -110,6 +112,14 @@ export default {
         resetFilters() {
             this.$emit('reset:filters');
         },
+      openNav(event) {
+        document.getElementById(
+            "aurin-sidebar").style.display = "block";
+        document.getElementById(
+            "map-viewport").className = "viewport";
+        document.getElementById(
+            "panel-open").style.display = "none";
+      },
     },
     components: {WetlandSearch},
     props: ['protectionStatus', 'landUse', 'map'],
