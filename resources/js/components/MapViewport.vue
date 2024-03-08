@@ -1,6 +1,6 @@
 <template>
     <div class="col-4 sidebar" id="aurin-sidebar">
-    <button type="button" class="btn-close" aria-label="Close" @click="closeNav"></button>
+    <button type="button" class="btn-close" aria-label="Close" @click="closePanel"></button>
     <router-view name="sidebar" :key="$route.path" :feature="selectedWetland"></router-view>
   </div>
   <div class="col-8 viewport" id="map-viewport">
@@ -78,7 +78,7 @@ export default {
   methods: {
 /* Set the width of the sidebar to 0
 and the left margin of the page content to 0 */
-  closeNav(event) {
+  closePanel(event) {
   document.getElementById(
       "aurin-sidebar").style.display = "none";
     document.getElementById(
@@ -86,7 +86,6 @@ and the left margin of the page content to 0 */
     document.getElementById(
         "panel-open").style.display = "block";
 },
-
     buildViewParams(viewparams) {
       return reduce(viewparams, function(result, value, key) {
         result = (result !== '' ? result + ';' : result) + key + ':' + value;

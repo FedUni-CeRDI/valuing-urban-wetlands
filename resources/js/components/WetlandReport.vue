@@ -15,6 +15,10 @@
                 <td>Protection Status</td>
                 <td>{{ protectionStatus }}</td>
             </tr>
+            <tr>
+              <td>Land Use</td>
+              <td>{{ landUsePurpose == null ? '?' : landUsePurpose }}</td>
+            </tr>
             </tbody>
         </table>
 
@@ -205,6 +209,11 @@ export default {
             return this.feature.get('name');
         },
 
+      landUsePurpose(){
+          let reg=/\[|]|\"|"/gm;
+        return this.feature.get('land_use').replace(reg,'');
+      },
+
         protectionStatus() {
             if (this.feature === null || !this.feature.get('protection_status')) {
                 return 'Unknown';
@@ -296,6 +305,14 @@ export default {
                 self.alaWaterbirdSpecies = null;
             }
         },
+      openPanel(event) {
+        document.getElementById(
+            "aurin-sidebar").style.display = "block";
+        document.getElementById(
+            "map-viewport").className = "viewport";
+        document.getElementById(
+            "panel-open").style.display = "none";
+      },
         fetchAlaFrogs(feature) {
             let self = this;
             if (feature) {
@@ -367,6 +384,7 @@ export default {
             this.fetchLathamsSnipeSeasonalCounts(feature);
             this.fetchSnipeAlaSeasonalCounts(feature);
             this.fetchLandUsage(feature);
+            this.openPanel();
         },
         ...mapActions([
             'storeWetland',

@@ -28,15 +28,12 @@
 <div id="app">
 
     <nav class="navbar navbar-expand-lg col">
-        <div class="container-fluid">
-            <h1 class=" col-auto">
-                <router-link class="navbar-brand" to="/">
-
+            <div class="col-auto">
+                <router-link class="navbar-brand main-heading" to="/">
                     <img src="{{ url('storage/logo.svg') }}">
                     {{ config('app.name') }}
-
                 </router-link>
-            </h1>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -53,7 +50,6 @@
                     </li>
                 </ul>
             </div>
-        </div>
     </nav>
     <div class="content">
         <map-viewport></map-viewport>
