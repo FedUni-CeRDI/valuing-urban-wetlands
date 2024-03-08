@@ -42,4 +42,14 @@ a#panel-open {
   .main-heading{
     font-size: 25px;
   }
+
+  nav.navbar.navbar-expand-lg.col{
+    height: auto;
+  }
+}
+
+@media (max-width: 361px) {
+  .main-heading{
+    font-size: 21px;
+  }
 }
