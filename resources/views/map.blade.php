@@ -22,6 +22,15 @@
         gtag('js', new Date());
 
         gtag('config', '{{ config('aurin.google_analytics_key') }}');
+
+        function openPanel(){
+            document.getElementById(
+                "aurin-sidebar").style.display = "block";
+            document.getElementById(
+                "map-viewport").className = "viewport";
+            document.getElementById(
+                "panel-open").style.display = "none";
+        }
     </script>
 </head>
 <body class="">
@@ -40,13 +49,13 @@
             <div class="collapse navbar-collapse col justify-content-end" id="navbar">
                 <ul class="navbar-nav align-middle">
                     <li class="nav-item">
-                        <router-link to="/about" class="nav-link" >About</router-link>
+                        <router-link to="/about" class="nav-link" onclick="openPanel()">About</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/terms" class="nav-link" >Terms of use</router-link>
+                        <router-link to="/terms" class="nav-link" onclick="openPanel()">Terms of use</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/contact" class="nav-link" >Contact</router-link>
+                        <router-link to="/contact" class="nav-link" onclick="openPanel()">Contact</router-link>
                     </li>
                 </ul>
             </div>

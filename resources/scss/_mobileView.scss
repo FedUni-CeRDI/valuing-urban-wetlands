@@ -37,6 +37,7 @@ a#panel-open {
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
+
   }
 
   .main-heading{
@@ -46,10 +47,21 @@ a#panel-open {
   nav.navbar.navbar-expand-lg.col{
     height: auto;
   }
+
+  .content{
+    max-width: 100%;
+    overflow-x: hidden;
+  }
 }
 
 @media (max-width: 361px) {
   .main-heading{
     font-size: 21px;
+  }
+}
+
+@media (max-width: 361px) {
+  .main-heading {
+    font-size: 16px;
   }
 }
