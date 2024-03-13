@@ -47,6 +47,10 @@ a#panel-open {
 
   }
 
+  .species-column{
+    overflow: hidden;
+  }
+
   button.btn-close,#landUse,#protectionStatus,#landUse-label,#protectionStatus-label {
     display:none;
   }
