@@ -20,6 +20,10 @@ button.btn-close {
 display: none;
 }
 
+#weather-heading{
+max-width: 80%;
+}
+
 a#panel-open {
   background: rgb(29, 21, 21);
   box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
@@ -44,11 +48,10 @@ a#panel-open {
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
-
   }
 
-  .species-column{
-    overflow: hidden;
+  #list-waterbirds{
+    margin-top: 40vh;
   }
 
   button.btn-close,#landUse,#protectionStatus,#landUse-label,#protectionStatus-label {
@@ -93,5 +96,16 @@ a#panel-open {
 @media (max-width: 361px) {
   .main-heading {
     font-size: 16px;
+  }
+}
+
+@media (height < 500px){
+  .navbar-collapse.collapsing, .navbar-collapse.show {
+    top:15vh !important;
+  }
+}
+@media (height > 1000px){
+  .navbar-collapse.collapsing, .navbar-collapse.show {
+    top:4vh !important;
   }
 }

@@ -1,5 +1,5 @@
 <template>
-    <h1>Wetland Values Report</h1>
+    <h1 id="weather-heading">Wetland Values Report</h1>
     <p>
         The wetland values report tool provides a summary of the waterbird diversity at a selected wetland. Dominant
         land uses are reported within 350m of the wetland boundary.

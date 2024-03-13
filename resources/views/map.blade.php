@@ -21,6 +21,7 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         let filterOnFlag=false;
+        let alertCount=0;
         gtag('config', '{{ config('aurin.google_analytics_key') }}');
 
         function openPanel(){
@@ -32,6 +33,13 @@
                 "panel-open").style.display = "none";
         }
         function toggleFilter(){
+            if(alertCount===0) {
+                alertCount++;
+               alert("Filters will be shown on Map");
+            }
+            else{
+                alertCount++;
+            }
             if(filterOnFlag){
                 document.getElementById("filter-link").innerHTML="Hide Map Filters";
                 document.getElementById(
@@ -83,7 +91,7 @@
                         <router-link to="/contact" class="nav-link" onclick="openPanel()">Contact</router-link>
                     </li>
                     <li class="nav-item" >
-                        <router-link to="/" class="nav-link d-lg-none" id="filter-link" onclick="toggleFilter()">View Map Filters</router-link>
+                        <router-link to="" class="nav-link d-lg-none" id="filter-link" onclick="toggleFilter()">View Map Filters</router-link>
                     </li>
                 </ul>
             </div>
