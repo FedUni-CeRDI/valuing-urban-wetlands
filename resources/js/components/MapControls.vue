@@ -41,7 +41,7 @@
                     <option value="any">Any protection</option>
                     <option value="all">No Filter</option>
                 </select>
-                <label for="protectionStatus">Filter by protection status</label>
+                <label for="protectionStatus" id="protectionStatus-label">Filter by protection status</label>
             </div>
         </div>
         <div class="col-12 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 mb-1">
@@ -91,8 +91,10 @@
                     <option value="Waste treatment and disposal">Waste treatment and disposal</option>
                     <option value="all">No Filter</option>
                 </select>
-                <label for="landUse">Filter by land use</label>
+                <label for="landUse" id="landUse-label">Filter by land use</label>
             </div>
+
+
         </div>
         <div class="col-12 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 mb-1">
             <WetlandSearch/>

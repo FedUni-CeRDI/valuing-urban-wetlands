@@ -1,6 +1,7 @@
 <template>
     <div class="col-4 sidebar" id="aurin-sidebar">
     <button type="button" class="btn-close" aria-label="Close" @click="closePanel"></button>
+      <button type="button" id="map-button" @click="closePanel" >View Map</button>
     <router-view name="sidebar" :key="$route.path" :feature="selectedWetland"></router-view>
   </div>
   <div class="col-8 viewport" id="map-viewport">

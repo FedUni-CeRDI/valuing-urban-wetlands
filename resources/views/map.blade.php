@@ -20,7 +20,7 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
+        let filterOnFlag=false;
         gtag('config', '{{ config('aurin.google_analytics_key') }}');
 
         function openPanel(){
@@ -30,6 +30,31 @@
                 "map-viewport").className = "viewport";
             document.getElementById(
                 "panel-open").style.display = "none";
+        }
+        function toggleFilter(){
+            if(filterOnFlag){
+                document.getElementById("filter-link").innerHTML="Hide Map Filters";
+                document.getElementById(
+                    "landUse").style.display = "block";
+                document.getElementById(
+                    "landUse-label").style.display = "block";
+                document.getElementById(
+                    "protectionStatus").style.display = "block";
+                document.getElementById(
+                    "protectionStatus-label").style.display = "block";
+            }
+            else {
+                document.getElementById("filter-link").innerHTML="View Map Filters";
+                document.getElementById(
+                    "landUse").style.display = "none";
+                document.getElementById(
+                    "landUse-label").style.display = "none";
+                document.getElementById(
+                    "protectionStatus").style.display = "none";
+                document.getElementById(
+                    "protectionStatus-label").style.display = "none";
+            }
+            filterOnFlag=!filterOnFlag;
         }
     </script>
 </head>
@@ -56,6 +81,9 @@
                     </li>
                     <li class="nav-item">
                         <router-link to="/contact" class="nav-link" onclick="openPanel()">Contact</router-link>
+                    </li>
+                    <li class="nav-item" >
+                        <router-link to="/" class="nav-link d-lg-none" id="filter-link" onclick="toggleFilter()">View Map Filters</router-link>
                     </li>
                 </ul>
             </div>
