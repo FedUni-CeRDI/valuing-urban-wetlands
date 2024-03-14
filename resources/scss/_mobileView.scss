@@ -12,21 +12,21 @@ button.btn-close {
   line-height: 1px;
 }
 
-#landUse,#protectionStatus,#landUse-label,#protectionStatus-label {
-  display:block;
+#landUse, #protectionStatus, #landUse-label, #protectionStatus-label {
+  display: block;
 }
 
-#map-button, #filter-button{
-display: none;
+#map-button, #filter-button {
+  display: none;
 }
 
-#weather-heading{
-max-width: 80%;
+#weather-heading {
+  max-width: 80%;
 }
 
 a#panel-open {
   background: rgb(29, 21, 21);
-  box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   color: #e7dede;
   position: absolute;
@@ -36,59 +36,60 @@ a#panel-open {
   top: 110px;
   display: none;
 }
+
 .map-viewport {
   position: initial;
 }
 
-.main-heading{
+.main-heading {
   font-size: 32px;
   font-weight: 700;
 }
 
+.navbar-collapse.collapsing, .navbar-collapse.show {
+  top: 4rem !important;
+}
+
+//Mobile/iPad specific css rules starts from now
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
   }
 
-  #list-waterbirds{
-    margin-top: 40vh;
+  button.btn-close, #landUse, #protectionStatus, #landUse-label, #protectionStatus-label {
+    display: none;
   }
 
-  button.btn-close,#landUse,#protectionStatus,#landUse-label,#protectionStatus-label {
-    display:none;
-  }
-
-  #map-button{
+  #map-button {
     display: block;
     position: relative;
     left: 85%;
     font-size: x-small;
   }
 
-  #filter-button{
+  #filter-button {
     display: block;
     position: relative;
     left: 80%;
     font-size: x-small;
   }
 
-  .main-heading{
+  .main-heading {
     font-size: 25px;
   }
 
-  nav.navbar.navbar-expand-lg.col{
+  nav.navbar.navbar-expand-lg.col {
     height: auto;
   }
 
-  .content{
+  .content {
     max-width: 100%;
     overflow-x: hidden;
   }
-
 }
 
 @media (max-width: 361px) {
-  .main-heading{
+  .main-heading {
     font-size: 21px;
   }
 }
@@ -99,13 +100,3 @@ a#panel-open {
   }
 }
 
-@media (height < 500px){
-  .navbar-collapse.collapsing, .navbar-collapse.show {
-    top:15vh !important;
-  }
-}
-@media (height > 1000px){
-  .navbar-collapse.collapsing, .navbar-collapse.show {
-    top:4vh !important;
-  }
-}

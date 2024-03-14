@@ -83,7 +83,7 @@ and the left margin of the page content to 0 */
   document.getElementById(
       "aurin-sidebar").style.display = "none";
     document.getElementById(
-        "map-viewport").className=",map-viewport"
+        "map-viewport").className="map-viewport"
     document.getElementById(
         "panel-open").style.display = "block";
 },
