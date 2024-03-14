@@ -50,8 +50,37 @@ a#panel-open {
   top: 4rem !important;
 }
 
+.modal {
+  position: fixed;
+  top: 3%;
+  right: 3%;
+  left: 3%;
+  width: auto;
+  margin: 0;
+}
+.modal-body {
+  height: 40%;
+}
+
+.modal-body {
+  max-height: 350px;
+  padding: 15px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 //Mobile/iPad specific css rules starts from now
 @media (max-width: 768px) {
+
+  .modal {
+    position: fixed;
+    top: 3%;
+    right: 13%;
+    left: 13%;
+    width: auto;
+    margin: 0;
+  }
+
   .sidebar {
     width: 100%;
   }
