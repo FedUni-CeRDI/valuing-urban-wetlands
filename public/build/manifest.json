@@ -14,8 +14,8 @@
       "_lodash-ebdeb6e1.js"
     ]
   },
-  "_vue-13adf208.js": {
-    "file": "assets/vue-13adf208.js"
+  "_vue-a1b1857c.js": {
+    "file": "assets/vue-a1b1857c.js"
   },
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
     "file": "assets/bootstrap-icons-4d4572ef.woff",
@@ -25,22 +25,32 @@
     "file": "assets/bootstrap-icons-bacd70af.woff2",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
+  "node_modules/primevue/resources/themes/aura-light-green/fonts/Inter-italic.var.woff2": {
+    "file": "assets/Inter-italic.var-d1401419.woff2",
+    "src": "node_modules/primevue/resources/themes/aura-light-green/fonts/Inter-italic.var.woff2"
+  },
+  "node_modules/primevue/resources/themes/aura-light-green/fonts/Inter-roman.var.woff2": {
+    "file": "assets/Inter-roman.var-17fe38ab.woff2",
+    "src": "node_modules/primevue/resources/themes/aura-light-green/fonts/Inter-roman.var.woff2"
+  },
   "resources/js/app.css": {
-    "file": "assets/app-ee8b8a83.css",
+    "file": "assets/app-f970f437.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "assets": [
+      "assets/Inter-roman.var-17fe38ab.woff2",
+      "assets/Inter-italic.var-d1401419.woff2",
       "assets/bootstrap-icons-bacd70af.woff2",
       "assets/bootstrap-icons-4d4572ef.woff"
     ],
     "css": [
-      "assets/app-ee8b8a83.css"
+      "assets/app-f970f437.css"
     ],
-    "file": "assets/app-ed79c94d.js",
+    "file": "assets/app-1ca6ad57.js",
     "imports": [
       "_bootstrap-c9b78b8b.js",
-      "_vue-13adf208.js",
+      "_vue-a1b1857c.js",
       "_ol-58f69527.js",
       "_lodash-ebdeb6e1.js",
       "_plotly-b27f6d33.js"

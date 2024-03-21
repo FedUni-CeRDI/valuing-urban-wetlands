@@ -4,6 +4,8 @@ import {createApp} from 'vue/dist/vue.esm-bundler';
 
 import proj4 from 'proj4';
 import {register} from 'ol/proj/proj4';
+import PrimeVue from 'primevue/config';
+import 'primevue/resources/themes/aura-light-green/theme.css'
 
 import {createRouter, createWebHistory} from 'vue-router';
 import {createStore} from 'vuex';
@@ -33,9 +35,17 @@ const store = createStore({
             selectedWetland: null,
             speciesInfo: null,
             wetlandNames: [],
+            filteredWetland:null,
+            dropDownObject:null,
         };
     },
     mutations: {
+        updateDropDownObject(state, obj){
+            state.dropDownObject=obj;
+        },
+        updateFilteredWetland(state, wetland){
+            state.filteredWetland=wetland;
+        },
         storeWetlandNames(state, names) {
             state.wetlandNames = names;
         },
@@ -101,4 +111,5 @@ app.config.globalProperties.config = await axios.get('/app/config').
 
 app.use(store);
 app.use(router);
+app.use(PrimeVue);
 app.mount('#app');

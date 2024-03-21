@@ -94,17 +94,21 @@
                 <label for="landUse" id="landUse-label">Filter by land use</label>
             </div>
 
-
         </div>
         <div class="col-12 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 mb-1">
             <WetlandSearch/>
         </div>
+      <div  id="filter-list-dropdown" style="display: none" class="col-12 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 mb-1">
+        <FilteredResults />
+      </div>
     </div>
 </template>
 
 <script>
 import WetlandSearch from './WetlandSearch.vue';
 import {zoomToExtent} from './ol-helpers';
+import FilteredResults from './FilteredResults.vue';
+import Vuex from 'vuex';
 
 export default {
     methods: {
@@ -123,12 +127,15 @@ export default {
             "panel-open").style.display = "none";
       },
     },
-    components: {WetlandSearch},
-    props: ['protectionStatus', 'landUse', 'map'],
-    emits: ['update:protectionStatus', 'update:landUse', 'reset:filters'],
+    components: {FilteredResults, WetlandSearch},
+    props: ['protectionStatus', 'landUse', 'map', 'filterResultList'],
+    emits: ['update:protectionStatus', 'update:landUse', 'reset:filters','update:filterResultList'],
     mounted() {
-
     },
+  data() {
+      return{
+      };
+  }
 };
 
 </script>

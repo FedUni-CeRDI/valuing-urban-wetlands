@@ -14,6 +14,7 @@
           @reset:filters="resetMapFilters"
           :map="map"
       />
+
       <div id="map"></div>
     </div>
   </div>
@@ -30,7 +31,7 @@ import VectorLayer from 'ol/layer/Vector';
 import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS';
 import VectorSource from 'ol/source/Vector';
-
+import Vuex, {mapMutations} from 'vuex';
 import MapControls from './MapControls.vue';
 import geoserverMixin from './geoserver-mixin';
 import {getNumericFeatureId, zoomToExtent} from './ol-helpers';
@@ -55,6 +56,7 @@ export default {
   components: {MapControls},
   data() {
     return {
+      filteredWetlands: {},
       sidebar: null,
       wetlandName: '',
       layers: {
@@ -74,6 +76,15 @@ export default {
     ...mapState([
       'selectedWetland',
     ]),
+    ...mapState([
+      'filteredWetland',
+    ]),
+    loadWetland(){
+      if(this.filteredWetland!=null) {
+        let featureId = this.filteredWetland.substring(9);
+        this.$router.push({name: 'wetland-report', params: {id: featureId}});
+      }
+    },
   },
   mixins: [geoserverMixin],
   methods: {
@@ -93,11 +104,51 @@ and the left margin of the page content to 0 */
         return result;
       }, '');
     },
+    showFilterBox(protection, landuse){
+      if( protection!="all" || landuse !="all" ) {
+        document.getElementById(
+            "filter-list-dropdown").style.display = "block";
+      }else{
+        document.getElementById(
+            "filter-list-dropdown").style.display = "none";
+      }
+    },
     updateProtectionStatus(status) {
-      this.viewparams.wetlands.protection = status;
+    if(status!="all"){
+      this.reloadFilterResults( status, this.viewparams.wetlands.landuse, "protection-status");
+    }this.viewparams.wetlands.protection = status;
+    this.showFilterBox(this.viewparams.wetlands.protection, this.viewparams.wetlands.landuse);
+    },
+
+    reloadFilterResults(status, otherStatus,flag){
+      if(status!="all" || otherStatus !="all"){
+      let theUrl,tmpParam= '';
+        let regex = /\s/g;
+        let replace = "%20";
+      if (flag == "land-use" && status!="all") {
+         tmpParam=status.replace(regex, replace);
+        theUrl='https://geo.cerdi.edu.au/geoserver/valuing_urban_wetlands/ows?service=WFS&version=1.3.0&request=GetFeature&typeName=valuing_urban_wetlands%3Awetlands&maxFeatures=500&&VIEWPARAMS=protection%3Aall%3Blanduse%3A'+tmpParam+'&outputFormat=application%2Fjson';
+      } else if (flag == "protection-status" && status!="all") {
+        tmpParam=status.replace(regex, replace);
+        theUrl='https://geo.cerdi.edu.au/geoserver/valuing_urban_wetlands/ows?service=WFS&version=1.3.0&request=GetFeature&typeName=valuing_urban_wetlands%3Awetlands&maxFeatures=500&&VIEWPARAMS=protection%3A'+tmpParam+'%3Blanduse%3Aall&outputFormat=application%2Fjson';
+      }
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", theUrl, false );
+      xmlHttp.send( null );
+      const obj=JSON.parse(xmlHttp.responseText);
+        for (let i = 0; i < obj.features.length; i++) {
+          this.filteredWetlands[obj.features[i].id] = obj.features[i].properties.name;
+        }
+        this.updateDropDownObject(this.filteredWetlands);
+      }
+      this.filteredWetlands={};
     },
     updateLandUse(status) {
+      if(status!="all"){
+        this.reloadFilterResults(status, this.viewparams.wetlands.protection,"land-use" );
+      }
       this.viewparams.wetlands.landuse = status;
+      this.showFilterBox(this.viewparams.wetlands.protection, this.viewparams.wetlands.landuse);
     },
     resetMapFilters() {
       this.viewparams.wetlands = {
@@ -116,7 +167,6 @@ and the left margin of the page content to 0 */
             INFO_FORMAT: 'application/json',
           },
       );
-
       this.storeWetland(url);
 
     },
@@ -132,7 +182,6 @@ and the left margin of the page content to 0 */
     },
     pushWetlandInfoRoute(feature) {
       let featureId = getNumericFeatureId(feature);
-
       // Only push route if feature is different to the one in the url, otherwise assume we're loading a url from scratch
       if (featureId !== this.$route.params.id) {
         this.$router.push({name: 'wetland-report', params: {id: featureId}});
@@ -144,8 +193,14 @@ and the left margin of the page content to 0 */
     ...mapActions([
       'storeWetland',
     ]),
+    ...mapMutations([
+      'updateDropDownObject',
+    ]),
   },
   watch: {
+    loadWetland(){
+      this.filteredWetland ? this.loadWetland(): this.pushHomeRoute();
+    },
     selectedWetland(feature) {
       feature ? this.pushWetlandInfoRoute(feature) : this.pushHomeRoute();
       this.renderSelectedFeature(feature);
@@ -216,6 +271,11 @@ and the left margin of the page content to 0 */
     zoomToExtent(self.map, self.map.get('MAP_EXTENT'));
 
     self.map.on('singleclick', self.selectFeature);
+
+    if(this.filteredWetland!=null) {
+      let featureId = this.filteredWetland.substring(9);
+      this.$router.push({name: 'wetland-report', params: {id: featureId}});
+    }
   },
 };
 
