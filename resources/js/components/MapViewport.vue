@@ -135,9 +135,15 @@ and the left margin of the page content to 0 */
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.open( "GET", theUrl, false );
       xmlHttp.send( null );
+      let tmpCounter=1;
       const obj=JSON.parse(xmlHttp.responseText);
         for (let i = 0; i < obj.features.length; i++) {
-          this.filteredWetlands[obj.features[i].id] = obj.features[i].properties.name;
+          if(obj.features[i].properties.name=="UNNAMED") {
+            this.filteredWetlands[obj.features[i].id] = tmpCounter+'. '+obj.features[i].properties.name;
+            tmpCounter++;
+          }else{
+            this.filteredWetlands[obj.features[i].id] = obj.features[i].properties.name;
+          }
         }
         this.updateDropDownObject(this.filteredWetlands);
       }
