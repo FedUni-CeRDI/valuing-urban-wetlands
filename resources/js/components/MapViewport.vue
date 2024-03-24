@@ -121,33 +121,33 @@ and the left margin of the page content to 0 */
     },
 
     reloadFilterResults(status, otherStatus,flag){
-      if(status!="all" || otherStatus !="all"){
-      let theUrl,tmpParam= '';
+      if(status!="all" || otherStatus !="all") {
+        let theUrl, tmpParam = '';
         let regex = /\s/g;
         let replace = "%20";
-      if (flag == "land-use" && status!="all") {
-         tmpParam=status.replace(regex, replace);
-        theUrl='https://geo.cerdi.edu.au/geoserver/valuing_urban_wetlands/ows?service=WFS&version=1.3.0&request=GetFeature&typeName=valuing_urban_wetlands%3Awetlands&maxFeatures=500&&VIEWPARAMS=protection%3Aall%3Blanduse%3A'+tmpParam+'&outputFormat=application%2Fjson';
-      } else if (flag == "protection-status" && status!="all") {
-        tmpParam=status.replace(regex, replace);
-        theUrl='https://geo.cerdi.edu.au/geoserver/valuing_urban_wetlands/ows?service=WFS&version=1.3.0&request=GetFeature&typeName=valuing_urban_wetlands%3Awetlands&maxFeatures=500&&VIEWPARAMS=protection%3A'+tmpParam+'%3Blanduse%3Aall&outputFormat=application%2Fjson';
-      }
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open( "GET", theUrl, false );
-      xmlHttp.send( null );
-      let tmpCounter=1;
-      const obj=JSON.parse(xmlHttp.responseText);
-        for (let i = 0; i < obj.features.length; i++) {
-          if(obj.features[i].properties.name=="UNNAMED") {
-            this.filteredWetlands[obj.features[i].id] = tmpCounter+'. '+obj.features[i].properties.name;
-            tmpCounter++;
-          }else{
-            this.filteredWetlands[obj.features[i].id] = obj.features[i].properties.name;
-          }
+        if (flag == "land-use" && status != "all") {
+          tmpParam = status.replace(regex, replace);
+          theUrl = 'https://geo.cerdi.edu.au/geoserver/valuing_urban_wetlands/ows?service=WFS&version=1.3.0&request=GetFeature&typeName=valuing_urban_wetlands%3Awetlands&maxFeatures=500&&VIEWPARAMS=protection%3Aall%3Blanduse%3A' + tmpParam + '&outputFormat=application%2Fjson';
+        } else if (flag == "protection-status" && status != "all") {
+          tmpParam = status.replace(regex, replace);
+          theUrl = 'https://geo.cerdi.edu.au/geoserver/valuing_urban_wetlands/ows?service=WFS&version=1.3.0&request=GetFeature&typeName=valuing_urban_wetlands%3Awetlands&maxFeatures=500&&VIEWPARAMS=protection%3A' + tmpParam + '%3Blanduse%3Aall&outputFormat=application%2Fjson';
         }
-        this.updateDropDownObject(this.filteredWetlands);
+        let tmpCounter=1;
+        axios.get(theUrl).then(response => {
+                  const obj = response.data;
+                  for (let i = 0; i < obj.features.length; i++) {
+                    if (obj.features[i].properties.name == "UNNAMED") {
+                      this.filteredWetlands[obj.features[i].id] = tmpCounter + '. ' + obj.features[i].properties.name;
+                      tmpCounter++;
+                    } else {
+                      this.filteredWetlands[obj.features[i].id] = obj.features[i].properties.name;
+                    }
+                  }
+                  this.updateDropDownObject(this.filteredWetlands);
+                }
+            );
+        this.filteredWetlands = {};
       }
-      this.filteredWetlands={};
     },
     updateLandUse(status) {
       if(status!="all"){
@@ -161,6 +161,8 @@ and the left margin of the page content to 0 */
         'protection': 'all',
         'landuse': 'all'
       }
+      document.getElementById(
+          "filter-list-dropdown").style.display = "none";
     },
     selectFeature(e) {
       let self = this;

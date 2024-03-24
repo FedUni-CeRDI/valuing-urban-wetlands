@@ -155,7 +155,7 @@ import SeasonalCountsChart from './SeasonalCountsChart.vue';
 import {getNumericFeatureId} from './ol-helpers';
 import geoserverMixin from './geoserver-mixin';
 
-import {mapActions} from 'vuex';
+import {mapActions, mapMutations, mapState} from 'vuex';
 import SpeciesList from './SpeciesList.vue';
 
 export default {
@@ -203,6 +203,9 @@ export default {
                 this.renderWetlandInfo(feature);
             }
         },
+      ...mapState([
+        'filteredWetland',
+      ]),
     },
     computed: {
         wetlandName() {
@@ -284,8 +287,14 @@ export default {
 
             return label;
         },
+      ...mapState([
+        'filteredWetland',
+      ]),
     },
     methods: {
+      ...mapMutations([
+        'updateFilteredWetland',
+      ]),
         featureToWkt(feature, newProjection) {
             let wktOptions = {'featureProjection': 'EPSG:3857'};
             if (typeof newProjection != 'undefined') {
@@ -379,6 +388,11 @@ export default {
             }
         },
         renderWetlandInfo(feature) {
+          if( this.filteredWetland!=feature.getId()){
+            document.getElementById(
+                "filter-list-dropdown").style.display = "none";
+          this.updateFilteredWetland(null);
+          }
             this.fetchAlaWaterbirds(feature);
             this.fetchAlaFrogs(feature);
             this.fetchLathamsSnipeSeasonalCounts(feature);
