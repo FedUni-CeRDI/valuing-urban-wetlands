@@ -17,7 +17,8 @@
             </tr>
             <tr>
               <td>Land Use</td>
-              <td>{{ landUsePurpose == null ? '?' : landUsePurpose }}</td>
+              <td><a href="#land-use-section" class="link-success">Detailed Info</a></td>
+<!--   Commented out for time being          <td>{{ landUsePurpose == null ? '?' : landUsePurpose }}</td>-->
             </tr>
             </tbody>
         </table>
@@ -113,7 +114,7 @@
             by housing or industry may provide less habitat for wetland birds than a wetland located near other
             wetlands. But it may also provide a refuge for birds transiting through an urban landscape.
         </p>
-        <table class="table">
+        <table class="table" id="land-use-section">
             <tbody>
             <tr v-if="!landuse.length">
                 <td>?</td>

@@ -1,7 +1,7 @@
 <template>
     <div class="col-4 sidebar" id="aurin-sidebar">
     <button type="button" class="btn-close" aria-label="Close" @click="closePanel"></button>
-      <button type="button" id="map-button" @click="closePanel" >View Map</button>
+      <button type="button"  class="btn btn-dark" id="map-button" @click="closePanel" >View Map</button>
     <router-view name="sidebar" :key="$route.path" :feature="selectedWetland"></router-view>
   </div>
   <div class="col-8 viewport" id="map-viewport">
@@ -114,12 +114,18 @@ and the left margin of the page content to 0 */
       }
     },
     updateProtectionStatus(status) {
-    if(status!="all"){
-      this.reloadFilterResults( status, this.viewparams.wetlands.landuse, "protection-status");
-    }this.viewparams.wetlands.protection = status;
-    this.showFilterBox(this.viewparams.wetlands.protection, this.viewparams.wetlands.landuse);
+      if (status == "none") {
+        alert("Wetland list too large to load in Quick result dropdown");
+        document.getElementById(
+            "filter-list-dropdown").style.display = "none";
+        this.viewparams.wetlands.protection = status;
+      }
+      else if(status!="all") {
+        this.reloadFilterResults(status, this.viewparams.wetlands.landuse, "protection-status");
+        this.viewparams.wetlands.protection = status;
+        this.showFilterBox(this.viewparams.wetlands.protection, this.viewparams.wetlands.landuse);
+      }
     },
-
     reloadFilterResults(status, otherStatus,flag){
       if(status!="all" || otherStatus !="all") {
         let theUrl, tmpParam = '';

@@ -34,7 +34,7 @@
     "src": "node_modules/primevue/resources/themes/aura-light-green/fonts/Inter-roman.var.woff2"
   },
   "resources/js/app.css": {
-    "file": "assets/app-d55afdf6.css",
+    "file": "assets/app-6ac76b2e.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
@@ -45,9 +45,9 @@
       "assets/bootstrap-icons-4d4572ef.woff"
     ],
     "css": [
-      "assets/app-d55afdf6.css"
+      "assets/app-6ac76b2e.css"
     ],
-    "file": "assets/app-041a3590.js",
+    "file": "assets/app-6fd9224b.js",
     "imports": [
       "_bootstrap-c9b78b8b.js",
       "_vue-a1b1857c.js",
