@@ -1,6 +1,5 @@
 <script>
 import {mapActions, mapState, mapMutations} from 'vuex';
-import Dropdown from 'primevue/dropdown';
 
 import { ref } from "vue";
 
@@ -27,14 +26,6 @@ export default {
     ...mapState([
       'dropDownObject',
     ]),
-  },
-  emits: [],
-  data() {
-    return{
-      filteredList:['land1','land2','land3']
-    };
-  },
-  mounted() {
   },
 };
 </script>

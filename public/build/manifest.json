@@ -14,8 +14,8 @@
       "_lodash-ebdeb6e1.js"
     ]
   },
-  "_vue-e3658073.js": {
-    "file": "assets/vue-e3658073.js"
+  "_vue-5b274f13.js": {
+    "file": "assets/vue-5b274f13.js"
   },
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
     "file": "assets/bootstrap-icons-4d4572ef.woff",
@@ -37,10 +37,10 @@
     "css": [
       "assets/app-98f13659.css"
     ],
-    "file": "assets/app-53bf21ae.js",
+    "file": "assets/app-efa907e0.js",
     "imports": [
       "_bootstrap-c9b78b8b.js",
-      "_vue-e3658073.js",
+      "_vue-5b274f13.js",
       "_ol-58f69527.js",
       "_lodash-ebdeb6e1.js",
       "_plotly-b27f6d33.js"
