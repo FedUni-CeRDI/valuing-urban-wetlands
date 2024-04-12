@@ -71,9 +71,12 @@ export default {
                             <tr v-for="(specie) in speciesList">
                                 <td>
                                     <a :href="specie.guid"
-                                       target="_blank">{{ specie.scientific_name }}</a> <a
-                                    :href="specie.guid" target="_blank"><i
+                                       target="_blank">{{ specie.scientific_name }}</a> <a v-if="isThreatened(specie)"
+                                    :href="'https://bie.ala.org.au/species/' + specie.guid" target="_blank"><i
                                     class="bi bi-box-arrow-up-right"></i></a>
+                                  <a v-else
+                                     :href="specie.guid" target="_blank"><i
+                                      class="bi bi-box-arrow-up-right"></i></a>
                                 </td>
                                 <td class="species-column">{{ commonNames(specie) }}</td>
                                 <td>{{ isThreatened(specie) }}</td>

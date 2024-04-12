@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>{{ config('app.name') }}</title>
 
     <!-- Fonts -->
@@ -12,58 +11,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
 
     <!-- Styles -->
-    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+    @vite(['resources/scss/app.scss', 'resources/js/app.js', 'resources/js/helper.js'])
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('aurin.google_analytics_key') }}"></script>
     <script>
+
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        let filterOnFlag=false;
-        let alertCount=0;
         gtag('config', '{{ config('aurin.google_analytics_key') }}');
-
-        function openPanel(){
-            document.getElementById(
-                "aurin-sidebar").style.display = "block";
-            document.getElementById(
-                "map-viewport").className = "viewport";
-            document.getElementById(
-                "panel-open").style.display = "none";
-        }
-        function toggleFilter(){
-            if(alertCount===0) {
-                alertCount++;
-               alert("Filters will be shown on Map");
-            }
-            else{
-                alertCount++;
-            }
-            if(filterOnFlag){
-                document.getElementById("filter-link").innerHTML="Hide Map Filters";
-                document.getElementById(
-                    "landUse").style.display = "block";
-                document.getElementById(
-                    "landUse-label").style.display = "block";
-                document.getElementById(
-                    "protectionStatus").style.display = "block";
-                document.getElementById(
-                    "protectionStatus-label").style.display = "block";
-            }
-            else {
-                document.getElementById("filter-link").innerHTML="View Map Filters";
-                document.getElementById(
-                    "landUse").style.display = "none";
-                document.getElementById(
-                    "landUse-label").style.display = "none";
-                document.getElementById(
-                    "protectionStatus").style.display = "none";
-                document.getElementById(
-                    "protectionStatus-label").style.display = "none";
-            }
-            filterOnFlag=!filterOnFlag;
-        }
     </script>
 </head>
 <body class="">

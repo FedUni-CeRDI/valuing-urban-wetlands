@@ -131,11 +131,10 @@ and the left margin of the page content to 0 */
         let theUrl, tmpParam = '';
         let regex = /\s/g;
         let replace = "%20";
+        tmpParam = status.replace(regex, replace);
         if (flag == "land-use" && status != "all") {
-          tmpParam = status.replace(regex, replace);
           theUrl = 'https://geo.cerdi.edu.au/geoserver/valuing_urban_wetlands/ows?service=WFS&version=1.3.0&request=GetFeature&typeName=valuing_urban_wetlands%3Awetlands&maxFeatures=500&&VIEWPARAMS=protection%3Aall%3Blanduse%3A' + tmpParam + '&outputFormat=application%2Fjson';
         } else if (flag == "protection-status" && status != "all") {
-          tmpParam = status.replace(regex, replace);
           theUrl = 'https://geo.cerdi.edu.au/geoserver/valuing_urban_wetlands/ows?service=WFS&version=1.3.0&request=GetFeature&typeName=valuing_urban_wetlands%3Awetlands&maxFeatures=500&&VIEWPARAMS=protection%3A' + tmpParam + '%3Blanduse%3Aall&outputFormat=application%2Fjson';
         }
         let tmpCounter=1;
@@ -151,7 +150,9 @@ and the left margin of the page content to 0 */
                   }
                   this.updateDropDownObject(this.filteredWetlands);
                 }
-            );
+            ).catch(error => {
+          console.error("Error fetching data:", error);
+        });
         this.filteredWetlands = {};
       }
     },

@@ -1,3 +1,35 @@
+<script>
+import WetlandSearch from './WetlandSearch.vue';
+import {zoomToExtent} from './ol-helpers';
+import FilteredResults from './FilteredResults.vue';
+import Vuex from 'vuex';
+import {openPanel} from '../helper.js';
+
+export default {
+  methods: {
+    zoomToFullExtent(map) {
+      return zoomToExtent(map, map.get('MAP_EXTENT'));
+    },
+    resetFilters() {
+      this.$emit('reset:filters');
+    },
+    openLeftPanel(){
+      openPanel();
+    },
+  },
+  components: {FilteredResults, WetlandSearch},
+  props: ['protectionStatus', 'landUse', 'map', 'filterResultList'],
+  emits: ['update:protectionStatus', 'update:landUse', 'reset:filters','update:filterResultList'],
+  mounted() {
+  },
+  data() {
+    return{
+    };
+  }
+};
+
+</script>
+
 <template>
 
     <div class="row justify-content-center align-items-center map-controls">
@@ -10,7 +42,7 @@
                     @click="resetFilters(map)">
                 <i class="bi bi-eraser" title="Reset map filters"></i>
             </button>
-            <a href="#" id="panel-open"  @click="openPanel">
+            <a href="#" id="panel-open"  @click="openLeftPanel()">
               <i class="bi bi-arrow-right"></i></a>
         </div>
     </div>
@@ -104,38 +136,3 @@
     </div>
 </template>
 
-<script>
-import WetlandSearch from './WetlandSearch.vue';
-import {zoomToExtent} from './ol-helpers';
-import FilteredResults from './FilteredResults.vue';
-import Vuex from 'vuex';
-
-export default {
-    methods: {
-        zoomToFullExtent(map) {
-            return zoomToExtent(map, map.get('MAP_EXTENT'));
-        },
-        resetFilters() {
-            this.$emit('reset:filters');
-        },
-      openPanel(event) {
-        document.getElementById(
-            "aurin-sidebar").style.display = "block";
-        document.getElementById(
-            "map-viewport").className = "viewport";
-        document.getElementById(
-            "panel-open").style.display = "none";
-      },
-    },
-    components: {FilteredResults, WetlandSearch},
-    props: ['protectionStatus', 'landUse', 'map', 'filterResultList'],
-    emits: ['update:protectionStatus', 'update:landUse', 'reset:filters','update:filterResultList'],
-    mounted() {
-    },
-  data() {
-      return{
-      };
-  }
-};
-
-</script>

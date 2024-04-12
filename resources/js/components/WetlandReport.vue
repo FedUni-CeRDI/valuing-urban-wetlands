@@ -155,7 +155,7 @@ import LandUseChart from './LandUseChart.vue';
 import SeasonalCountsChart from './SeasonalCountsChart.vue';
 import {getNumericFeatureId} from './ol-helpers';
 import geoserverMixin from './geoserver-mixin';
-
+import {openPanel} from '../helper.js';
 import {mapActions, mapMutations, mapState} from 'vuex';
 import SpeciesList from './SpeciesList.vue';
 
@@ -315,14 +315,6 @@ export default {
                 self.alaWaterbirdSpecies = null;
             }
         },
-      openPanel(event) {
-        document.getElementById(
-            "aurin-sidebar").style.display = "block";
-        document.getElementById(
-            "map-viewport").className = "viewport";
-        document.getElementById(
-            "panel-open").style.display = "none";
-      },
         fetchAlaFrogs(feature) {
             let self = this;
             if (feature) {
@@ -399,7 +391,7 @@ export default {
             this.fetchLathamsSnipeSeasonalCounts(feature);
             this.fetchSnipeAlaSeasonalCounts(feature);
             this.fetchLandUsage(feature);
-            this.openPanel();
+            openPanel();
         },
         ...mapActions([
             'storeWetland',

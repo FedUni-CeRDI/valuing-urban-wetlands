@@ -26,7 +26,7 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/js/app.css": {
-    "file": "assets/app-98f13659.css",
+    "file": "assets/app-16315402.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
@@ -35,9 +35,9 @@
       "assets/bootstrap-icons-4d4572ef.woff"
     ],
     "css": [
-      "assets/app-98f13659.css"
+      "assets/app-16315402.css"
     ],
-    "file": "assets/app-efa907e0.js",
+    "file": "assets/app-42df6b2e.js",
     "imports": [
       "_bootstrap-c9b78b8b.js",
       "_vue-5b274f13.js",
@@ -48,8 +48,13 @@
     "isEntry": true,
     "src": "resources/js/app.js"
   },
+  "resources/js/helper.js": {
+    "file": "assets/helper-06468c86.js",
+    "isEntry": true,
+    "src": "resources/js/helper.js"
+  },
   "resources/scss/app.scss": {
-    "file": "assets/app-6b6e30bf.css",
+    "file": "assets/app-17a37aa3.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   }
