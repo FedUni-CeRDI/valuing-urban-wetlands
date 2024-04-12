@@ -70,9 +70,9 @@ export default {
                             </tr>
                             <tr v-for="(specie) in speciesList">
                                 <td>
-                                    <a :href="'https://bie.ala.org.au/species/' + specie.guid"
+                                    <a :href="specie.guid"
                                        target="_blank">{{ specie.scientific_name }}</a> <a
-                                    :href="'https://bie.ala.org.au/species/' + specie.guid" target="_blank"><i
+                                    :href="specie.guid" target="_blank"><i
                                     class="bi bi-box-arrow-up-right"></i></a>
                                 </td>
                                 <td class="species-column">{{ commonNames(specie) }}</td>

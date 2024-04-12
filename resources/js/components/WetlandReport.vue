@@ -230,29 +230,29 @@ export default {
         featureStateAbbreviations() {
             return values(pick(this.stateAbbreviations, this.feature.get('states')));
         },
-        threatenedAlaWaterbirdSpecies() {
-            let self = this;
-            if (self.alaWaterbirdSpecies) {
-                return filter(self.alaWaterbirdSpecies, function(specie) {
-                    let targetStatuses = ['aus', ...self.featureStateAbbreviations];
-                    let knownStatuses = Object.keys(specie.conservation);
-
-                    return intersection(targetStatuses, knownStatuses).length > 0;
-                });
+      threatenedAlaWaterbirdSpecies() {
+        let self = this;
+        let tmpArray = [];
+        if (self.alaWaterbirdSpecies) {
+          for (const specie of self.alaWaterbirdSpecies) {
+            if (Object.keys(specie.conservation).length > 0) {
+              tmpArray.push(specie);
             }
-            return null;
-        },
+          }
+          return tmpArray;
+        }
+      },
         threatenedAlaFrogSpecies() {
             let self = this;
+            let tmpArray = [];
             if (self.alaFrogSpecies) {
-                return filter(self.alaFrogSpecies, function(specie) {
-                    let targetStatuses = ['aus', ...self.featureStateAbbreviations];
-                    let knownStatuses = Object.keys(specie.conservation);
-
-                    return intersection(targetStatuses, knownStatuses).length > 0;
-                });
+              for (const specie of self.alaFrogSpecies) {
+                if (Object.keys(specie.conservation).length > 0) {
+                  tmpArray.push(specie);
+                }
+              }
+              return tmpArray;
             }
-            return null;
         },
         maxSnipeSeasonCount() {
             if (this.snipe.seasonalCounts.length > 0) {
