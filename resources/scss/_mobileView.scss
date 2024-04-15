@@ -67,6 +67,10 @@ a#panel-open {
   -webkit-overflow-scrolling: touch;
 }
 
+div#filter-list-dropdown{
+  font-size: medium;
+}
+
 //Mobile/iPad specific css rules starts from now
 @media (max-width: 768px) {
 
@@ -127,3 +131,9 @@ a#panel-open {
   }
 }
 
+@media (min-width: 992px) {
+  div#filter-list-dropdown{
+    padding-left: 4vh;
+    font-size: medium;
+  }
+}

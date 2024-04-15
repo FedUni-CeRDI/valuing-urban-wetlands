@@ -31,9 +31,9 @@ export default {
 </script>
 
 <template>
-  <label for="filterBox">Quick Filter Results</label>
-  <select @change="filterValueChanged($event)" v-model="key" id="filterBox">
-    <option disabled value="">Please select one</option>
+<!--  <label for="filterBox">Quick Filter Results</label>-->
+  <select @change="filterValueChanged($event)" v-model="key" id="filterBox" multiple>
+    <option disabled value="">Quick Filter Results</option>
     <option v-for="(item, index) in  this.dropDownObject"  v-bind:value="index" >{{item}}</option>
   </select>
 </template>
