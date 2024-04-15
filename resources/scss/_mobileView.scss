@@ -67,12 +67,9 @@ a#panel-open {
   -webkit-overflow-scrolling: touch;
 }
 
-div#filter-list-dropdown{
-  font-size: medium;
-}
-
 select#filterBox{
   padding-left: 12px;
+  padding-top: 16px;
 }
 //Mobile/iPad specific css rules starts from now
 @media (max-width: 768px) {
