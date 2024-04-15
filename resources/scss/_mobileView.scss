@@ -71,6 +71,9 @@ div#filter-list-dropdown{
   font-size: medium;
 }
 
+select#filterBox{
+  padding-left: 12px;
+}
 //Mobile/iPad specific css rules starts from now
 @media (max-width: 768px) {
 
