@@ -1,3 +1,35 @@
+<script>
+import WetlandSearch from './WetlandSearch.vue';
+import {zoomToExtent} from './ol-helpers';
+import FilteredResults from './FilteredResults.vue';
+import Vuex from 'vuex';
+import {openPanel} from '../helper.js';
+
+export default {
+  methods: {
+    zoomToFullExtent(map) {
+      return zoomToExtent(map, map.get('MAP_EXTENT'));
+    },
+    resetFilters() {
+      this.$emit('reset:filters');
+    },
+    openLeftPanel(){
+      openPanel();
+    },
+  },
+  components: {FilteredResults, WetlandSearch},
+  props: ['protectionStatus', 'landUse', 'map', 'filterResultList'],
+  emits: ['update:protectionStatus', 'update:landUse', 'reset:filters','update:filterResultList'],
+  mounted() {
+  },
+  data() {
+    return{
+    };
+  }
+};
+
+</script>
+
 <template>
 
     <div class="row justify-content-center align-items-center map-controls">
@@ -10,6 +42,8 @@
                     @click="resetFilters(map)">
                 <i class="bi bi-eraser" title="Reset map filters"></i>
             </button>
+            <a href="#" id="panel-open"  @click="openLeftPanel()">
+              <i class="bi bi-arrow-right"></i></a>
         </div>
     </div>
 
@@ -39,7 +73,7 @@
                     <option value="any">Any protection</option>
                     <option value="all">No Filter</option>
                 </select>
-                <label for="protectionStatus">Filter by protection status</label>
+                <label for="protectionStatus" id="protectionStatus-label">Filter by protection status</label>
             </div>
         </div>
         <div class="col-12 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 mb-1">
@@ -89,34 +123,16 @@
                     <option value="Waste treatment and disposal">Waste treatment and disposal</option>
                     <option value="all">No Filter</option>
                 </select>
-                <label for="landUse">Filter by land use</label>
+                <label for="landUse" id="landUse-label">Filter by land use</label>
             </div>
+
         </div>
         <div class="col-12 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 mb-1">
             <WetlandSearch/>
         </div>
+      <div  id="filter-list-dropdown" style="display: none" class="col-12 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 mb-1">
+        <FilteredResults class="col-12"/>
+      </div>
     </div>
 </template>
 
-<script>
-import WetlandSearch from './WetlandSearch.vue';
-import {zoomToExtent} from './ol-helpers';
-
-export default {
-    methods: {
-        zoomToFullExtent(map) {
-            return zoomToExtent(map, map.get('MAP_EXTENT'));
-        },
-        resetFilters() {
-            this.$emit('reset:filters');
-        },
-    },
-    components: {WetlandSearch},
-    props: ['protectionStatus', 'landUse', 'map'],
-    emits: ['update:protectionStatus', 'update:landUse', 'reset:filters'],
-    mounted() {
-
-    },
-};
-
-</script>

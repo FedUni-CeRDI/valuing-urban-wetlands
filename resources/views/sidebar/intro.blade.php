@@ -18,7 +18,7 @@
     Use this tool to learn more about your local wetland.
 </p>
 <p>
-    <a href="#about">Read more..</a>
+    <a href="about">Read more..</a>
 </p>
 
 <h2>How to use this tool</h2>
@@ -71,7 +71,7 @@
 <h3>Partners</h3>
 <p>
     This project was funded by the Australian Urban Research Infrastructure Network in partnership with the Atlas of
-    Living Australia. The project is led by the Centre for eResearch and Digital Innovation, Federation Australia.
+    Living Australia. The project is led by the Centre for eResearch and Digital Innovation, Federation University Australia.
     BirdLife Australia, the University of Melbourne and Melbourne Water are project partners and have contributed data
     and information to the project.
 </p>
@@ -89,7 +89,7 @@
              alt="BirdLife Australia">
     </a>
     <a href="https://www.unimelb.edu.au/" target="_blank">
-        <img src="{{ url('storage/partners/uni-melbourne.svg') }}"
+        <img src="{{ url('storage/partners/uni-melbourne.png') }}"
              alt="The University of Melbourne">
     </a>
     <a href="https://www.cerdi.edu.au/" target="_blank">

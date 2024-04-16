@@ -33,9 +33,17 @@ const store = createStore({
             selectedWetland: null,
             speciesInfo: null,
             wetlandNames: [],
+            filteredWetland:null,
+            dropDownObject:null,
         };
     },
     mutations: {
+        updateDropDownObject(state, obj){
+            state.dropDownObject=obj;
+        },
+        updateFilteredWetland(state, wetland){
+            state.filteredWetland=wetland;
+        },
         storeWetlandNames(state, names) {
             state.wetlandNames = names;
         },

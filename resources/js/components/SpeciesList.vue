@@ -54,7 +54,7 @@ export default {
 
 <template>
     <div>
-        <div :id="id" class="modal" tabindex="-1">
+        <div :id="id" class="modal fade" tabindex="-1">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -70,12 +70,15 @@ export default {
                             </tr>
                             <tr v-for="(specie) in speciesList">
                                 <td>
-                                    <a :href="'https://bie.ala.org.au/species/' + specie.guid"
-                                       target="_blank">{{ specie.scientific_name }}</a> <a
+                                    <a :href="specie.guid"
+                                       target="_blank">{{ specie.scientific_name }}</a> <a v-if="isThreatened(specie)"
                                     :href="'https://bie.ala.org.au/species/' + specie.guid" target="_blank"><i
                                     class="bi bi-box-arrow-up-right"></i></a>
+                                  <a v-else
+                                     :href="specie.guid" target="_blank"><i
+                                      class="bi bi-box-arrow-up-right"></i></a>
                                 </td>
-                                <td>{{ commonNames(specie) }}</td>
+                                <td class="species-column">{{ commonNames(specie) }}</td>
                                 <td>{{ isThreatened(specie) }}</td>
                             </tr>
                         </table>

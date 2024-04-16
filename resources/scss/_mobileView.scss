@@ -1,0 +1,132 @@
+$font-family-base: 'Zen Kurenaido', sans-serif;
+$font-size-base: 1.2rem;
+$line-height-base: 1.3;
+
+button.btn-close {
+  font-size: medium;
+  position: relative;
+  top: 40px;
+  left: 95%;
+  line-height: 1px;
+}
+
+#landUse, #protectionStatus, #landUse-label, #protectionStatus-label {
+  display: block;
+}
+
+#map-button, #filter-button {
+  display: none;
+}
+
+#weather-heading {
+  max-width: 80%;
+}
+
+a#panel-open {
+  background: rgb(29, 21, 21);
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  color: #e7dede;
+  position: absolute;
+  padding: 0 10px;
+  left: 10px;
+  right: auto;
+  top: 110px;
+  display: none;
+}
+
+.map-viewport {
+  position: initial;
+}
+
+.main-heading {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.navbar-collapse.collapsing, .navbar-collapse.show {
+  top: 4rem !important;
+}
+
+.modal {
+  position: fixed;
+  top: 3%;
+  right: 3%;
+  left: 3%;
+  width: auto;
+  margin: 0;
+}
+.modal-body {
+  height: 40%;
+}
+
+.modal-body {
+  max-height: 350px;
+  padding: 15px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+select#filterBox{
+  padding-left: 12px;
+  padding-top: 5px;
+}
+//Mobile/iPad specific css rules starts from now
+@media (max-width: 768px) {
+
+  .modal {
+    position: fixed;
+    top: 3%;
+    right: 13%;
+    left: 13%;
+    width: auto;
+    margin: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  button.btn-close, #landUse, #protectionStatus, #landUse-label, #protectionStatus-label {
+    display: none;
+  }
+
+  #map-button {
+    display: block;
+    position: relative;
+    left: 85%;
+    font-size: x-small;
+  }
+
+  #filter-button {
+    display: block;
+    position: relative;
+    left: 80%;
+    font-size: x-small;
+  }
+
+  .main-heading {
+    font-size: 25px;
+  }
+
+  nav.navbar.navbar-expand-lg.col {
+    height: auto;
+  }
+
+  .content {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 361px) {
+  .main-heading {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 361px) {
+  .main-heading {
+    font-size: 16px;
+  }
+}
