@@ -57,8 +57,7 @@ class FetchFrogInfo extends Command
     }
 
     /**
-     * Execute the console command. https://api.ala.org.au/species/species/https%3A%2F%2Fbiodiversity.org.au%2Fafd%2Ftaxa%2F866cd259-3371-49b5-bff0-33afddf29eaa
-     *https://api.ala.org.au/occurrences/occurrences/facets/download?facets=names_and_lsid&lookup=true&count=true&lists=true&fq=state:Victoria&fq=class:Amphibia
+     * Execute the console command.
      * @see https://api.ala.org.au/occurrences/occurrences/facets/download?facets=names_and_lsid&lookup=true&count=true&lists=true&fq=species_group%3AAmphibians
      */
     public function handle(OccurrenceService $occurrenceService)
