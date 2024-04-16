@@ -130,8 +130,8 @@ export default {
         <div class="col-12 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 mb-1">
             <WetlandSearch/>
         </div>
-      <div  id="filter-list-dropdown" style="display: none">
-        <FilteredResults class="col-12 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 mb-1"/>
+      <div  id="filter-list-dropdown" style="display: none" class="col-12 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 mb-1">
+        <FilteredResults class="col-12"/>
       </div>
     </div>
 </template>
