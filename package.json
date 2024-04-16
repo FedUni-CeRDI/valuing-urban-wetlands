@@ -7,23 +7,21 @@
     "devDependencies": {
         "@algolia/autocomplete-js": "^1.9.4",
         "@algolia/autocomplete-theme-classic": "^1.9.4",
+        "@vitejs/plugin-vue": "^4.1.0",
         "axios": "^1.1.2",
+        "bootstrap": "^5.2.3",
         "bootstrap-icons": "^1.10.5",
         "laravel-vite-plugin": "^0.8.0",
         "lodash": "^4.17.19",
+        "ol": "^7.2.2",
+        "plotly.js-basic-dist-min": "^2.27.1",
         "postcss": "^8.1.14",
+        "proj4": "^2.9.0",
         "sass": "^1.58.2",
         "vite": "^4.0.0",
         "vite-bundle-visualizer": "^0.11.0",
-        "@vitejs/plugin-vue": "^4.1.0",
-        "bootstrap": "^5.2.3",
-        "ol": "^7.2.2",
-        "plotly.js-basic-dist-min": "^2.27.1",
-        "proj4": "^2.9.0",
         "vue": "^3.2.47",
         "vue-router": "^4.1.6",
         "vuex": "^4.1.0"
-    },
-    "dependencies": {
     }
 }

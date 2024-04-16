@@ -1,5 +1,5 @@
 <template>
-    <h1>Wetland Values Report</h1>
+    <h1 id="weather-heading">Wetland Values Report</h1>
     <p>
         The wetland values report tool provides a summary of the waterbird diversity at a selected wetland. Dominant
         land uses are reported within 350m of the wetland boundary.
@@ -14,6 +14,11 @@
             <tr>
                 <td>Protection Status</td>
                 <td>{{ protectionStatus }}</td>
+            </tr>
+            <tr>
+              <td>Land Use</td>
+              <td><a href="#land-use-section" class="link-success">Detailed Info</a></td>
+<!--   Commented out for time being          <td>{{ landUsePurpose == null ? '?' : landUsePurpose }}</td>-->
             </tr>
             </tbody>
         </table>
@@ -109,7 +114,7 @@
             by housing or industry may provide less habitat for wetland birds than a wetland located near other
             wetlands. But it may also provide a refuge for birds transiting through an urban landscape.
         </p>
-        <table class="table">
+        <table class="table" id="land-use-section">
             <tbody>
             <tr v-if="!landuse.length">
                 <td>?</td>
@@ -150,8 +155,8 @@ import LandUseChart from './LandUseChart.vue';
 import SeasonalCountsChart from './SeasonalCountsChart.vue';
 import {getNumericFeatureId} from './ol-helpers';
 import geoserverMixin from './geoserver-mixin';
-
-import {mapActions} from 'vuex';
+import {openPanel} from '../helper.js';
+import {mapActions, mapMutations, mapState} from 'vuex';
 import SpeciesList from './SpeciesList.vue';
 
 export default {
@@ -199,11 +204,19 @@ export default {
                 this.renderWetlandInfo(feature);
             }
         },
+      ...mapState([
+        'filteredWetland',
+      ]),
     },
     computed: {
         wetlandName() {
             return this.feature.get('name');
         },
+
+      landUsePurpose(){
+          let reg=/\[|]|\"|"/gm;
+        return this.feature.get('land_use').replace(reg,'');
+      },
 
         protectionStatus() {
             if (this.feature === null || !this.feature.get('protection_status')) {
@@ -217,29 +230,29 @@ export default {
         featureStateAbbreviations() {
             return values(pick(this.stateAbbreviations, this.feature.get('states')));
         },
-        threatenedAlaWaterbirdSpecies() {
-            let self = this;
-            if (self.alaWaterbirdSpecies) {
-                return filter(self.alaWaterbirdSpecies, function(specie) {
-                    let targetStatuses = ['aus', ...self.featureStateAbbreviations];
-                    let knownStatuses = Object.keys(specie.conservation);
-
-                    return intersection(targetStatuses, knownStatuses).length > 0;
-                });
+      threatenedAlaWaterbirdSpecies() {
+        let self = this;
+        let tmpArray = [];
+        if (self.alaWaterbirdSpecies) {
+          for (const specie of self.alaWaterbirdSpecies) {
+            if (Object.keys(specie.conservation).length > 0) {
+              tmpArray.push(specie);
             }
-            return null;
-        },
+          }
+          return tmpArray;
+        }
+      },
         threatenedAlaFrogSpecies() {
             let self = this;
+            let tmpArray = [];
             if (self.alaFrogSpecies) {
-                return filter(self.alaFrogSpecies, function(specie) {
-                    let targetStatuses = ['aus', ...self.featureStateAbbreviations];
-                    let knownStatuses = Object.keys(specie.conservation);
-
-                    return intersection(targetStatuses, knownStatuses).length > 0;
-                });
+              for (const specie of self.alaFrogSpecies) {
+                if (Object.keys(specie.conservation).length > 0) {
+                  tmpArray.push(specie);
+                }
+              }
+              return tmpArray;
             }
-            return null;
         },
         maxSnipeSeasonCount() {
             if (this.snipe.seasonalCounts.length > 0) {
@@ -275,8 +288,14 @@ export default {
 
             return label;
         },
+      ...mapState([
+        'filteredWetland',
+      ]),
     },
     methods: {
+      ...mapMutations([
+        'updateFilteredWetland',
+      ]),
         featureToWkt(feature, newProjection) {
             let wktOptions = {'featureProjection': 'EPSG:3857'};
             if (typeof newProjection != 'undefined') {
@@ -362,11 +381,17 @@ export default {
             }
         },
         renderWetlandInfo(feature) {
+          if( this.filteredWetland!=feature.getId()){
+            document.getElementById(
+                "filter-list-dropdown").style.display = "none";
+          this.updateFilteredWetland(null);
+          }
             this.fetchAlaWaterbirds(feature);
             this.fetchAlaFrogs(feature);
             this.fetchLathamsSnipeSeasonalCounts(feature);
             this.fetchSnipeAlaSeasonalCounts(feature);
             this.fetchLandUsage(feature);
+            openPanel();
         },
         ...mapActions([
             'storeWetland',

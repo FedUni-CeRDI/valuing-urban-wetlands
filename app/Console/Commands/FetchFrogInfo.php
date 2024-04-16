@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
+use JsonException;
 
 class FetchFrogInfo extends Command
 {
@@ -57,7 +58,6 @@ class FetchFrogInfo extends Command
 
     /**
      * Execute the console command.
-     *
      * @see https://api.ala.org.au/occurrences/occurrences/facets/download?facets=names_and_lsid&lookup=true&count=true&lists=true&fq=species_group%3AAmphibians
      */
     public function handle(OccurrenceService $occurrenceService)
@@ -76,7 +76,28 @@ class FetchFrogInfo extends Command
                     'guid' => $guid,
                     'common_name' => $commonName ?: null,
                 ];
-                $frog['conservation'] = $this->parseConversationStatusString($record['Conservation']);
+                $tmpArray= array();
+
+                try {
+                    array_push($tmpArray, $this->parseConversationStatusString($record['Australian Capital Territory : Conservation Status']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['South Australia : Conservation Status']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['Tasmania : Conservation Status']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['Queensland : Conservation Status']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['EPBC Act Threatened Species']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['Victoria : Conservation Status']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['Northern Territory : Conservation Status']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['New South Wales : Conservation Status']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['Western Australia : Conservation status']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['Western Australia : Conservation status: Priority 4']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['Western Australia : Conservation status: Priority 3']));
+                    array_push($tmpArray, $this->parseConversationStatusString($record['Western Australia : Conservation status: Priority 1']));
+                }
+
+                catch(JsonException $e) {
+                    $this->log('error', 'Unable to parse frog Info list response', [$e->getMessage()]);
+                }
+                $tmpArray=array_filter($tmpArray);
+                $frog['conservation'] = ($tmpArray);
                 $frogs[] = $frog;
             }
 
