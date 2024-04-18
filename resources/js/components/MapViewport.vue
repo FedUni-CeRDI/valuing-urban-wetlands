@@ -213,8 +213,8 @@ and the left margin of the page content to 0 */
     ]),
   },
   watch: {
-    loadWetland(){
-      this.filteredWetland ? this.loadWetland(): this.pushHomeRoute();
+    filteredWetland(){
+      this.loadWetland();
     },
     selectedWetland(feature) {
       feature ? this.pushWetlandInfoRoute(feature) : this.pushHomeRoute();
@@ -286,11 +286,6 @@ and the left margin of the page content to 0 */
     zoomToExtent(self.map, self.map.get('MAP_EXTENT'));
 
     self.map.on('singleclick', self.selectFeature);
-
-    if(this.filteredWetland!=null) {
-      let featureId = this.filteredWetland.substring(9);
-      this.$router.push({name: 'wetland-report', params: {id: featureId}});
-    }
   },
 };
 
