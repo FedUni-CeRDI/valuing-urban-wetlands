@@ -1,4 +1,4 @@
-let filterOnFlag=false;
+let filterOffFlag=true;
 let alertCount=0;
 export function openPanel(){
     document.getElementById(
@@ -16,7 +16,7 @@ export function toggleFilter(){
     else{
         alertCount++;
     }
-    if(filterOnFlag){
+    if(filterOffFlag){
         document.getElementById("filter-link").innerHTML="Hide Map Filters";
         document.getElementById(
             "landUse").style.display = "block";
@@ -38,7 +38,7 @@ export function toggleFilter(){
         document.getElementById(
             "protectionStatus-label").style.display = "none";
     }
-    filterOnFlag=!filterOnFlag;
+    filterOffFlag=!filterOffFlag;
 }
 export function clearMap() {
     window.location.reload();
