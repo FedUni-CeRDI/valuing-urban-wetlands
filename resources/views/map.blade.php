@@ -28,7 +28,7 @@
 
     <nav class="navbar navbar-expand-lg col">
             <div class="col-auto">
-                <router-link class="navbar-brand main-heading" to="/" onclick="clearMap()">
+                <router-link class="navbar-brand main-heading" to="/" onclick="window.location.reload()">
                     <img src="{{ url('storage/logo.svg') }}">
                     {{ config('app.name') }}
                 </router-link>

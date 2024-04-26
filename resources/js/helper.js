@@ -40,9 +40,6 @@ export function toggleFilter(){
     }
     filterOffFlag=!filterOffFlag;
 }
-export function clearMap() {
-    window.location.reload();
-}
-window.clearMap = clearMap;
+
 window.openPanel = openPanel;
 window.toggleFilter = toggleFilter;
