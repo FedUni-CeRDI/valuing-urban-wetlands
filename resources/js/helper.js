@@ -1,4 +1,4 @@
-let filterOnFlag=false;
+let filterOffFlag=true;
 let alertCount=0;
 export function openPanel(){
     document.getElementById(
@@ -8,7 +8,7 @@ export function openPanel(){
     document.getElementById(
         "panel-open").style.display = "none";
 }
-function toggleFilter(){
+export function toggleFilter(){
     if(alertCount===0) {
         alertCount++;
         alert("Filters will be shown on Map");
@@ -16,7 +16,7 @@ function toggleFilter(){
     else{
         alertCount++;
     }
-    if(filterOnFlag){
+    if(filterOffFlag){
         document.getElementById("filter-link").innerHTML="Hide Map Filters";
         document.getElementById(
             "landUse").style.display = "block";
@@ -38,7 +38,7 @@ function toggleFilter(){
         document.getElementById(
             "protectionStatus-label").style.display = "none";
     }
-    filterOnFlag=!filterOnFlag;
+    filterOffFlag=!filterOffFlag;
 }
 
 window.openPanel = openPanel;
