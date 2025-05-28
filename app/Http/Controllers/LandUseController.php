@@ -14,6 +14,7 @@ class LandUseController extends Controller
             $landUseService->getWetlandsUsage($request->feature)
         );
     }
+
     public function getPlanningZones(LandUseService $landUseService, Request $request): JsonResponse
     {
         return response()->json(

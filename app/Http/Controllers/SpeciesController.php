@@ -11,7 +11,6 @@ use JsonException;
 
 class SpeciesController extends Controller
 {
-
     public function __construct() {}
 
     //
@@ -52,10 +51,9 @@ class SpeciesController extends Controller
                 'birds' => $birdsInGeometry,
             ]);
         } catch (JsonException $e) {
-            Log::error(__FUNCTION__ . ': Unable to parse JSON response', ['message' => $e->getMessage()]);
+            Log::error(__FUNCTION__.': Unable to parse JSON response', ['message' => $e->getMessage()]);
         }
 
         return response()->json([]);
     }
-
 }
