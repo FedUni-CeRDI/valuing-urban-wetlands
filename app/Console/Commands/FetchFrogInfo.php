@@ -57,7 +57,7 @@ class FetchFrogInfo extends Command
      *
      * @see https://api.ala.org.au/occurrences/occurrences/facets/download?facets=names_and_lsid&lookup=true&count=true&lists=true&fq=species_group%3AAmphibians
      */
-    public function handle(OccurrenceService $occurrenceService)
+    public function handle(OccurrenceService $occurrenceService): void
     {
         $response = $occurrenceService->getFacetDownload('names_and_lsid', 'class:Amphibia');
 
