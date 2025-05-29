@@ -18,3 +18,4 @@ yarn-error.log
 /.editorconfig
 /.user.ini
 composer.phar
+/.phpunit.cache

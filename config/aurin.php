@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User: Scott Limmer
  * Date: 27/03/2023
@@ -18,5 +19,5 @@ return [
     ],
     // Wetland buffer radius in metres
     'wetland_buffer' => 350,
-    'google_analytics_key' => env('GOOGLE_ANALYTICS_KEY')
+    'google_analytics_key' => env('GOOGLE_ANALYTICS_KEY'),
 ];

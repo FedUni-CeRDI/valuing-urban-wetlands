@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 
 trait ViewMigration
 {
-
     public static function runViews(string|array $views): void
     {
         $views = is_string($views) ? [$views] : $views;
@@ -28,5 +27,4 @@ SQL
             );
         }
     }
-
 }
