@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
-//});
+// });
 
 Route::prefix('species')->group(function () {
     Route::post('search/spatial', [SpeciesController::class, 'getSpeciesCountByWkt']);

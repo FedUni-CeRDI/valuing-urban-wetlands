@@ -11,7 +11,6 @@ use JsonException;
 
 class FetchWaterbirdInfo extends Command
 {
-
     use PrefixedLogger;
 
     /**
@@ -114,7 +113,7 @@ class FetchWaterbirdInfo extends Command
                 }
                 $specie['conservation'] = [];
                 if (property_exists($speciesInfo, 'conservationStatuses')) {
-                    foreach ((array)$speciesInfo->conservationStatuses as $locale => $status) {
+                    foreach ((array) $speciesInfo->conservationStatuses as $locale => $status) {
                         $specie['conservation'][strtolower($locale)] = $status->status;
                     }
                 }
@@ -139,5 +138,4 @@ class FetchWaterbirdInfo extends Command
     {
         return Storage::put('waterbird-species-info-cache.json', json_encode($speciesData));
     }
-
 }

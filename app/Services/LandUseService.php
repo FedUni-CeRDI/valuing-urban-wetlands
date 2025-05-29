@@ -4,11 +4,9 @@ namespace App\Services;
 
 use App\Traits\PrefixedLogger;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class LandUseService
 {
-
     use PrefixedLogger;
 
     public function __construct()
@@ -42,7 +40,6 @@ CTE,
             config('aurin.wetland_buffer'),
             DB::getPdo()->quote($feature)
         );
-
 
     }
 
@@ -88,7 +85,7 @@ SQL,
     {
         $wetlands_srid = 3857;
         $query = sprintf(
-            <<<SQL
+            <<<'SQL'
             %s
             SELECT
                 ROUND(CAST(area AS NUMERIC), 2) AS "area",
@@ -113,6 +110,7 @@ SQL,
 
         return DB::select($query);
     }
+
     public function getVicmapPlanningZones(string $feature)
     {
         return $this->getIntersectingLandUsePercentages($feature, 'aurin_plan_zone_3111', 'zone_desc');
@@ -137,5 +135,4 @@ SQL,
     {
         return $this->getIntersectingLandUsePercentages($feature, 'aurin_vluis2017_7899', 'lc_desc_17', land_use_srid: 7899);
     }
-
 }
