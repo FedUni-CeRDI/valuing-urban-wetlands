@@ -38,6 +38,7 @@ class PublicController extends Controller
     public function alaFrogCounts(SpeciesService $speciesService, Request $request): JsonResponse
     {
         $frogs = $speciesService->getFrogsInArea($request->get('wkt'));
+
         return new JsonResponse($frogs);
     }
 

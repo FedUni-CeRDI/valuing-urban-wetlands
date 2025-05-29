@@ -7,12 +7,11 @@ use App\Traits\PrefixedLogger;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use League\Csv\Reader;
 use JsonException;
+use League\Csv\Reader;
 
 class FetchFrogInfo extends Command
 {
-
     use PrefixedLogger;
 
     private array $stateLookup = [
@@ -40,9 +39,6 @@ class FetchFrogInfo extends Command
      */
     protected $description = 'Fetch and cache frog species info';
 
-    /**
-     * @var \GuzzleHttp\Client
-     */
     private Client $client;
 
     public function __construct()
@@ -58,6 +54,7 @@ class FetchFrogInfo extends Command
 
     /**
      * Execute the console command.
+     *
      * @see https://api.ala.org.au/occurrences/occurrences/facets/download?facets=names_and_lsid&lookup=true&count=true&lists=true&fq=species_group%3AAmphibians
      */
     public function handle(OccurrenceService $occurrenceService)
@@ -76,7 +73,7 @@ class FetchFrogInfo extends Command
                     'guid' => $guid,
                     'common_name' => $commonName ?: null,
                 ];
-                $tmpArray= array();
+                $tmpArray = [];
 
                 try {
                     array_push($tmpArray, $this->parseConversationStatusString($record['Australian Capital Territory : Conservation Status']));
@@ -91,12 +88,10 @@ class FetchFrogInfo extends Command
                     array_push($tmpArray, $this->parseConversationStatusString($record['Western Australia : Conservation status: Priority 4']));
                     array_push($tmpArray, $this->parseConversationStatusString($record['Western Australia : Conservation status: Priority 3']));
                     array_push($tmpArray, $this->parseConversationStatusString($record['Western Australia : Conservation status: Priority 1']));
-                }
-
-                catch(JsonException $e) {
+                } catch (JsonException $e) {
                     $this->log('error', 'Unable to parse frog Info list response', [$e->getMessage()]);
                 }
-                $tmpArray=array_filter($tmpArray);
+                $tmpArray = array_filter($tmpArray);
                 $frog['conservation'] = ($tmpArray);
                 $frogs[] = $frog;
             }
@@ -108,15 +103,11 @@ class FetchFrogInfo extends Command
     /**
      * Parse concatenated string of vulnerability statuses into nested area
      * Sample: Australian Capital Territory : Conservation Status | EPBC Act Threatened Species | New South Wales : Conservation Status
-     *
-     * @param string $statusString
-     *
-     * @return array|null
      */
     private function parseConversationStatusString(string $statusString): ?array
     {
         $payload = [];
-        if (!empty($statusString)) {
+        if (! empty($statusString)) {
             $statusParts = str_contains($statusString, '|') ?
                 explode('|', $statusString) : [$statusString];
 
@@ -130,7 +121,7 @@ class FetchFrogInfo extends Command
                 }
             }
         }
+
         return $payload;
     }
-
 }

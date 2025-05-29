@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User: Scott Limmer
  * Date: 5/04/2023
@@ -14,7 +15,6 @@ use JsonException;
 
 class OccurrenceService
 {
-
     use PrefixedLogger;
 
     private Client $client;
@@ -33,7 +33,7 @@ class OccurrenceService
         $startDate = $startDate ? $startDate->toIso8601ZuluString() : '*';
         $endDate = $endDate ? $endDate->toIso8601ZuluString() : '*';
 
-        //https://biocache.ala.org.au/occurrences/search?q=taxa%3A%22japanese%20snipe%22&qualityProfile=ALA&qc=-_nest_parent_%3A*&fq=taxon_name%3A%22Gallinago+%28Gallinago%29+hardwickii%22
+        // https://biocache.ala.org.au/occurrences/search?q=taxa%3A%22japanese%20snipe%22&qualityProfile=ALA&qc=-_nest_parent_%3A*&fq=taxon_name%3A%22Gallinago+%28Gallinago%29+hardwickii%22
         try {
             $qid = $this->cacheSpatialQuery([
                 'fq' => 'taxon_name:"Gallinago (Gallinago) hardwickii"',
@@ -52,7 +52,7 @@ class OccurrenceService
             return $response->data[0]->data;
         } catch (GuzzleException|JsonException $e) {
             $this->log('error', $e->getMessage(), [
-                'function: ' . __FUNCTION__,
+                'function: '.__FUNCTION__,
             ]);
 
             return [];
@@ -73,7 +73,7 @@ class OccurrenceService
             ]);
         } catch (GuzzleException|JsonException $e) {
             $this->log('error', $e->getMessage(), [
-                'function: ' . __FUNCTION__,
+                'function: '.__FUNCTION__,
             ]);
 
             return null;
@@ -91,12 +91,12 @@ class OccurrenceService
             return $this->executeQuery('mapping/species', [
                 'query' => [
                     'flimit' => 1000,
-                    'q' => 'qid:' . $qid,
+                    'q' => 'qid:'.$qid,
                 ],
             ]);
         } catch (GuzzleException|JsonException $e) {
             $this->log('error', $e->getMessage(), [
-                'function: ' . __FUNCTION__,
+                'function: '.__FUNCTION__,
             ]);
 
             return [];
@@ -114,14 +114,14 @@ class OccurrenceService
             $response = $this->executeQuery('mapping/species', [
                 'query' => [
                     'flimit' => 1000,
-                    'q' => 'qid:' . $qid,
+                    'q' => 'qid:'.$qid,
                 ],
             ]);
 
             return $response;
         } catch (GuzzleException|JsonException $e) {
             $this->log('error', $e->getMessage(), [
-                'function: ' . __FUNCTION__,
+                'function: '.__FUNCTION__,
             ]);
 
             return [];
@@ -162,5 +162,4 @@ class OccurrenceService
 
         return $contents;
     }
-
 }
