@@ -30,14 +30,14 @@ class PublicController extends Controller
 
     public function alaWaterbirdCounts(SpeciesService $speciesService, Request $request): JsonResponse
     {
-        $waterbirds = $speciesService->getWaterbirdsInArea($request->get('wkt'));
+        $waterbirds = $speciesService->getWaterbirdsInArea($request->input('wkt'));
 
         return new JsonResponse($waterbirds);
     }
 
     public function alaFrogCounts(SpeciesService $speciesService, Request $request): JsonResponse
     {
-        $frogs = $speciesService->getFrogsInArea($request->get('wkt'));
+        $frogs = $speciesService->getFrogsInArea($request->input('wkt'));
 
         return new JsonResponse($frogs);
     }
