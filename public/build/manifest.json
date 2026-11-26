@@ -28,7 +28,7 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-CKDYgbUF.js",
+    "file": "assets/app-UbwINoFn.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -41,7 +41,7 @@
       "_plotly-CXwKH2De.js"
     ],
     "css": [
-      "assets/app-D4h-2G7t.css"
+      "assets/app-BZAAa5Pb.css"
     ],
     "assets": [
       "assets/bootstrap-icons-BtvjY1KL.woff2",

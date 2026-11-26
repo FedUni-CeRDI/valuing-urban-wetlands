@@ -119,7 +119,7 @@ class SpeciesService
 
         $frogsInArea = $frogsInArea->map(function ($frog) use ($frogs) {
             $meta = $frogs->first(fn ($entry) => $entry->guid === $frog->guid);
-            $frog = array_merge((array) $frog, (array) $meta);
+            $frog = array_merge(['conservation' => []], (array) $frog, (array) $meta);
 
             $removeKeys = ['name', 'commonName', 'kingdom', 'rank', 'family'];
             $frog = array_diff_key($frog, array_flip($removeKeys));
