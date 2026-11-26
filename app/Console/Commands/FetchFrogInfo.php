@@ -5,11 +5,15 @@ namespace App\Console\Commands;
 use App\Services\Ala\OccurrenceService;
 use App\Traits\PrefixedLogger;
 use GuzzleHttp\Client;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use JsonException;
 use League\Csv\Reader;
 
+#[Signature('frog:info')]
+#[Description('Fetch and cache frog species info')]
 class FetchFrogInfo extends Command
 {
     use PrefixedLogger;
@@ -24,20 +28,6 @@ class FetchFrogInfo extends Command
         'Victoria' => 'vic',
         'Western Australia' => 'wa',
     ];
-
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'frog:info';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Fetch and cache frog species info';
 
     private Client $client;
 

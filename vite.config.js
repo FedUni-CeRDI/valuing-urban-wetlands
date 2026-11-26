@@ -6,6 +6,7 @@ import path from 'path';
 export default defineConfig({
     server: {
         watch: {
+            ignored: ['**/storage/framework/views/**'],
             usePolling: true,
         },
     },

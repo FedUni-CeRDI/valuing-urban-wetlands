@@ -247,7 +247,7 @@ export default {
             let tmpArray = [];
             if (self.alaFrogSpecies) {
               for (const specie of self.alaFrogSpecies) {
-                if (Object.keys(specie.conservation).length > 0) {
+                if (Object.keys(specie.conservation ?? {}).length > 0) {
                   tmpArray.push(specie);
                 }
               }
