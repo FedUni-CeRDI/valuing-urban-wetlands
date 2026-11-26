@@ -5,27 +5,17 @@ namespace App\Console\Commands;
 use App\Traits\PrefixedLogger;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use JsonException;
 
+#[Signature('waterbird:info')]
+#[Description('Fetch and cache waterbird species info')]
 class FetchWaterbirdInfo extends Command
 {
     use PrefixedLogger;
-
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'waterbird:info';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Fetch and cache waterbird species info';
 
     private Client $client;
 
