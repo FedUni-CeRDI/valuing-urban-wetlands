@@ -1,61 +1,66 @@
 {
-  "_bootstrap-15a4eddb.js": {
-    "file": "assets/bootstrap-15a4eddb.js"
+  "_bootstrap-DaCRpuqM.js": {
+    "file": "assets/bootstrap-DaCRpuqM.js",
+    "name": "bootstrap"
   },
-  "_lodash-ebdeb6e1.js": {
-    "file": "assets/lodash-ebdeb6e1.js"
+  "_lodash-DY2VrSz-.js": {
+    "file": "assets/lodash-DY2VrSz-.js",
+    "name": "lodash"
   },
-  "_ol-569c151f.js": {
-    "file": "assets/ol-569c151f.js"
+  "_ol-sCC7-P1_.js": {
+    "file": "assets/ol-sCC7-P1_.js",
+    "name": "ol"
   },
-  "_plotly-9306dbed.js": {
-    "file": "assets/plotly-9306dbed.js",
-    "imports": [
-      "_lodash-ebdeb6e1.js"
-    ]
+  "_plotly-CXwKH2De.js": {
+    "file": "assets/plotly-CXwKH2De.js",
+    "name": "plotly"
   },
-  "_vue-fcc69861.js": {
-    "file": "assets/vue-fcc69861.js"
+  "_vue-C2YfU8gs.js": {
+    "file": "assets/vue-C2YfU8gs.js",
+    "name": "vue"
   },
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
-    "file": "assets/bootstrap-icons-bb1de989.woff",
+    "file": "assets/bootstrap-icons-BOrJxbIo.woff",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff"
   },
   "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2": {
-    "file": "assets/bootstrap-icons-476adf42.woff2",
+    "file": "assets/bootstrap-icons-BtvjY1KL.woff2",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
-  "resources/js/app.css": {
-    "file": "assets/app-fc79cbf0.css",
-    "src": "resources/js/app.css"
-  },
   "resources/js/app.js": {
-    "assets": [
-      "assets/bootstrap-icons-476adf42.woff2",
-      "assets/bootstrap-icons-bb1de989.woff"
+    "file": "assets/app-CKDYgbUF.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_bootstrap-DaCRpuqM.js",
+      "_vue-C2YfU8gs.js",
+      "_ol-sCC7-P1_.js",
+      "resources/js/helper.js",
+      "_lodash-DY2VrSz-.js",
+      "_plotly-CXwKH2De.js"
     ],
     "css": [
-      "assets/app-fc79cbf0.css"
+      "assets/app-D4h-2G7t.css"
     ],
-    "file": "assets/app-7b30b121.js",
-    "imports": [
-      "_bootstrap-15a4eddb.js",
-      "_vue-fcc69861.js",
-      "_ol-569c151f.js",
-      "_lodash-ebdeb6e1.js",
-      "_plotly-9306dbed.js"
-    ],
-    "isEntry": true,
-    "src": "resources/js/app.js"
+    "assets": [
+      "assets/bootstrap-icons-BtvjY1KL.woff2",
+      "assets/bootstrap-icons-BOrJxbIo.woff"
+    ]
   },
   "resources/js/helper.js": {
-    "file": "assets/helper-e0ac2d7d.js",
-    "isEntry": true,
-    "src": "resources/js/helper.js"
+    "file": "assets/helper-COFTH6Y6.js",
+    "name": "helper",
+    "src": "resources/js/helper.js",
+    "isEntry": true
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-e15132ce.css",
+    "file": "assets/app-DapHQlAA.css",
+    "src": "resources/scss/app.scss",
     "isEntry": true,
-    "src": "resources/scss/app.scss"
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
   }
 }
